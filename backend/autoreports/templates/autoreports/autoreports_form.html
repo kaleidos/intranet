@@ -1,0 +1,78 @@
+{% extends template_base %}
+{% load i18n intranet_helper %}
+
+{% block title %}
+    {% trans "Advanced Report" %} {{ block.super }}
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    {{ form_filter.media }}
+    {{ form_display.media }}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../">{% trans "Reports" %}</a> &rsaquo;
+     <a href=".">{{ api.verbose_name }}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+    {% if registry_key %}
+    <ul class="object-tools">
+        {% if report %}
+            <li>
+                <a href="../wizard/{{ report.id }}/">
+                {% trans "Edit" %} {{ report }}
+                </a>
+            </li>
+        {% endif %}
+        <li>
+            <a href="{% url reports_api_wizard registry_key %}">
+            {% trans "Create a report form" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url reports_api_list registry_key %}">
+            {% trans "Report list" %}
+            </a>
+        </li>
+    </ul>
+    {% endif %}
+    <h1>{% trans "Report Form" %}</h1>
+    {% if django_query %}
+        <pre>{{ django_query }}</pre>
+    {% endif %}
+    {% block contentmain %}
+        <div id="content-main">
+            <form action="." method="get" class="report">
+                {% block contentform %}
+                    {{ form_filter.as_p }}
+                    {{ form_display.as_p }}
+                {% endblock %}
+                <div class="submit-row">
+                {% if report %}
+                    <p class="deletelink-box"><a href="#" onclick="confirmDelete();" class="deletelink">{% trans "Delete report" %}</a></p>
+                {% endif %}
+                {% for format, format_data in export_formats.items %}
+                    <input type="submit" name="__report_{{ format }}" class="default" value="{{ format_data.label }}"/>
+                {% endfor %}
+                    <input type="submit" name="__filter{{ format }}" class="default" value="{% trans "Filter" %}"/>
+                </div>
+            </form>
+        </div>
+    {% endblock %}
+    {{ block.super }}
+
+    {% if cl.totals %}
+        {% for key,value in cl.totals.items %}
+        <p>
+            <b>{{key}}: </b>{{ value|currency }}
+        </p>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

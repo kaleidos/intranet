@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1 class="fancy">{% trans "Delete confirmation" %}</h1>
+
+<p>{% trans "Are you sure you want to delete this object?" %}</p>
+<form id="delete-form" method="post" action="{% url saludinnova.cmsutils.views.generic.delete_object %}">
+<input type="hidden" name="object_id" value="{{ object_id }}"/>
+<input type="hidden" name="content_type_id" value="{{ content_type_id }}"/>
+<input type="submit" value='{% trans "Yes, I am sure" %}'/>
+</form>
+
+{% endblock %}

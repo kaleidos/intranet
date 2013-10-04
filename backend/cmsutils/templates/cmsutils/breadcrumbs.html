@@ -1,0 +1,14 @@
+{% load i18n %}
+<div class="breadcrumbs">
+  <ul class="breadcrumbs">
+  {% for item in items %}
+    <li{% if forloop.first %} class="first-breadcrumbs previous"{% else %}{% if not forloop.last %} class="previous"{% endif %}{% endif %}>{{ item.name|capfirst }}
+    {% if item.max_words %}
+      <a href="{{ item.url }}">{{ item.title|truncatewords:item.max_words }}</a>{% if not forloop.last %} <span class="breadcrumbs-separator">|</span>{% endif %}
+    {% else %}
+      <a href="{{ item.url }}">{{ item.title }}</a>{% if not forloop.last %} <span class="breadcrumbs-separator">&nbsp;</span>{% endif %}
+    {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+</div>

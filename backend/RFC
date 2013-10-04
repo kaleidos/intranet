@@ -1,0 +1,206 @@
+Intranet Api - Parts
+====================
+
+All calls except login, require api token
+
+
+GET /login/
+-----------------------------------------------------------------------------------------
+params:
+    - username*
+    - password*
+
+desc:
+    login into intranet
+
+response example:
+    {
+        "errors": [], 
+        "expire": 18000, 
+        "token_auth": "f79e8ca576a54f368b0e8a869cb7893a", 
+        "valid": true
+    }
+
+
+
+GET /project/list/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+    - type = ['active', 'inactive', 'all'] / default = 'active'
+
+desc:
+    list all projects asociated with current user identified with token_auth
+
+example:
+    {"valid": true, "project_list":[
+        {"name": "Gemmed", "status": "Active", "id": 1},
+        {"name": "Iou", "status": "Active", "id": 2}
+    ]}
+
+
+GET /part/list/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+    - type = ['all','accepted', 'rejected', 'pending', 'sent'] / default = all
+
+desc:
+    list all parts.
+
+example:
+    {"valid": true, "part_list": [
+        {"id": 1, "status": "Accepted", 
+         "fulltime": "2011-07-01","year": 2011, "month": 7,          
+         "days": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+         "special_days": [25,30],
+         "info": "Information text",
+         "errors": [],     
+         "data":[
+            {"project_name": "Iou", "project_id": 2,
+                "hours": [6,6,6,6,6,0,0,6,6,6,6,6,0,0,6,6,6,6,6,0,0,6,6,6,6,6,0,0,6]},
+            {"project_name": "Gemmed", "project_id": 1,
+                "hours": [2,2,2,2,2,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,2]}
+        ]},
+
+        {"id": 2, "status": "Rejected", 
+         "fulltime": "2011-08-01","year": 2011, "month": 8,          
+         "days": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+         "special_days": [],
+         "info": "Information text",
+         "errors": [],     
+         "data":[
+            {"project_name": "Iou", "project_id": 2,
+                "hours": [6,6,6,6,6,0,0,6,6,6,6,6,0,0,6,6,6,6,6,0,0,6,6,6,6,6,0,0,6]},
+            {"project_name": "Gemmed", "project_id": 1,
+                "hours": [2,2,2,2,2,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,2]}
+        ]},
+
+    ]}
+
+
+GET /part/<PARTID>/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+
+desc:
+    show complete part status
+
+example:
+    {"valid": true, "id": 1, "status": "Accepted", 
+     "fulltime": "2011-07-01","year": 2011, "month": 7,          
+     "days": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+     "special_days": [25,30],
+     "info": "Information text",
+     "errors": [],     
+
+     "data":[
+        {"project_name": "Iou", "project_id": 2,
+            "hours": [6,6,6,6,6,0,0,6,6,6,6,6,0,0,6,6,6,6,6,0,0,6,6,6,6,6,0,0,6]},
+        {"project_name": "Gemmed", "project_id": 1,
+            "hours": [2,2,2,2,2,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,2,2,2,2,2,0,0,2]}
+    ]}
+
+
+POST /part/project/<PROJECTID>/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+    - day / integer range 1-31 (depends of month) / default: curruent day
+    - month / integer range 1-12 ... default: current month
+    - year / integer ... default: current year
+    - hours* / integer range 0-8
+
+desc:
+    Add hours on a part for the selected date.
+    If total ours exceeds the range of 8 hours for day. raises error.
+    If necesary a part will be created for the selected month
+
+    Paramer "day" can be "1", "1,2,3" "2,10,20"
+    Parameter "month" must be only an integer 
+    Parameter "year" must be only an integer 
+    
+    Parts are created in PENDING state
+
+example:
+    {"valid": true, "imputation":1, "part": 1, "project": 1}
+
+
+POST /part/<PROJECTID>/send/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+
+desc:
+    Change the part status to sent so it can be validated.
+	
+example:
+    >>> print requests.post(url, data).content
+    {
+        "errors": [], 
+        "part": 2, 
+        "status": 10, 
+        "valid": true
+    }
+    >>> print requests.post(url, data).content
+    {
+        "errors": [
+            "part not exist or is sended/accepted"
+        ], 
+        "valid": false
+    }
+
+
+POST /part/<PARTID>/clear/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+    - day* /all, 1-31
+    - project /project id, nothing
+ 
+desc:
+    set to 0 hours to all projects on specified day.
+    if project is set, set 0 hours only on specified project
+
+example:
+    {"valid": true}
+
+
+
+========================
+Intranet Api - Vacations
+STILL IN DEVELOPMENT!
+========================
+
+
+GET /vacation/list/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+    - upto filter list with up to year.
+
+desc:
+    Get vacation entries list.
+
+example:
+    {"valid": true, "vacations": [
+        {"id": 1, "year":"2010", "used_days": 23,"max_days":23, "status":"Closed"},
+        {"id": 2, "year":"2011", "used_days": 3,"max_days":23, "status":"Open"}
+    ]}
+
+
+
+GET /vacation/<VACATIONID>/
+-----------------------------------------------------------------------------------------
+params:
+    - token_auth*
+
+desc:
+    get vacation detail
+
+example:
+    {"valid": true, "id": 2, "entries": [
+        {"id": 1, "month": 4, "days":[15,16], "status": "Aproved"},
+        {"id": 2, "month": 6, "days":[15], "status": "Pending"}
+    ]}

@@ -1,0 +1,34 @@
+{% load i18n %}
+
+<div class="model">
+    <div style="display:none" class="config">
+        <span class="app_label" style="display:none">{{ app_label }}</span>
+        <span class="module_name" style="display:none">{{ module_name }}</span>
+    </div>
+    <h4 class="fieldTitle">{% trans "Fields" %}</h4>
+    <ul class="fields">
+        {% for field in fields %}
+            <li class="draggable{% if field.collapsible %} collapsible{% endif %}">
+                {% if field.collapsible %}
+                    <span class="collapsible"> + 
+                        <span class="app_label" style="display:none">{{ field.collapsible.app_label }}</span>
+                        <span class="module_name" style="display:none">{{ field.collapsible.module_name }}</span>
+                    </span>{% endif %}
+                <a href="#{{ field.name_prefix }}" class="{% if field.collapsible %}collapsible{% endif %}">
+                    {{ field.verbose_name }}
+                    ({{ field.name }}) 
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% if funcs %}
+    <h4 class="functionTitle">{% trans "Functions" %}</h4>
+    <ul class="functions">
+        {% for func in funcs %}
+            <li class="draggable {{ func.name }}">
+                <a href="#{{ func.name }}">{{ func.verbose_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>

@@ -1,0 +1,60 @@
+{% extends "admin/intranet/change_list.html" %}
+{% load admin_list i18n autoreports_tags intranet_helper %} {# add auto_reports_tags #}
+
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript">
+(function($) {
+    $(document).ready(function() {
+
+        $('#result_list tr:gt(0)').each(function() {
+
+            //highlighted!
+            if (($(this).children("td:nth-child(3)").html() == "1")){
+                if ($(this).text() != 'active') {
+                    $(this).css('background-color', '#FF9955');
+                }
+            }
+            else if (($(this).children("td:nth-child(3)").html() == "2")){
+                if ($(this).text() != 'active') {
+                    $(this).css('background-color', '#CD5555');
+                }
+            }
+        });
+
+        django.jQuery('#result_list td:nth-child(3)').remove();
+        django.jQuery('#result_list th:nth-child(3)').remove();
+
+    });
+})(django.jQuery);
+</script>
+{% endblock %}
+
+<!-- OBJECT-TOOLS -->
+{% block object-tools %}
+  {% if has_add_permission %}
+    <ul class="object-tools">
+      <li>
+        <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+          {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+        </a>
+      </li>
+      {% autoreports_admin_tools %}
+    </ul>
+  {% endif %}
+{% endblock %}
+
+
+{% block result_list %}
+  {% if action_form and actions_on_top and cl.full_result_count %}{% admin_actions %}{% endif %}
+  {% result_list cl %}
+  {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
+
+  {% if cl.totals %}
+      {% for key,value in cl.totals.items %}
+        <p>
+            <b>{{key}}: </b>{{ value|currency }}
+        </p>
+      {% endfor %}
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'autoreports/autoreports_wizard.html' %}
+{% load i18n staticfiles %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{% static 'admin/css/forms.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'autoreports/admin_autoreports.css' %}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block is_admin %}
+    var is_admin = true;
+{% endblock %}
+
+{% block contentformname %}
+    {{ form_top }}
+{% endblock %}
+
+{% block breadcrumbs %}{% if not is_popup %}
+<div class="breadcrumbs">
+     <a href="{% if report %}../{% endif %}../../../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="{% if report %}../{% endif %}../../../">{% trans opts.app_label.title %}</a> &rsaquo;
+     <a href="{% if report %}../{% endif %}../../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+     <a href="{% if report %}../{% endif %}../">{% trans "Reports" %}</a> &rsaquo;
+     {% if report %}
+        {{ report }}
+     {% else %}
+        {% trans "Wizard Report" %}
+     {% endif %}
+</div>
+{% endif %}{% endblock %}

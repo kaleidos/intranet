@@ -1,0 +1,18 @@
+<html>
+    <body>
+        <ul>
+            <li>
+                Project:
+                <a href="{{ base_url }}{% url('admin:intranet_project_change', invoice.project.id) %}">
+                    {{ base_url }}{% url('admin:intranet_project_change', invoice.project.id) %}
+                </a>
+            </li>
+            <li>
+                Invoice url:
+                <a href="{{ base_url }}{% url('admin:intranet_invoice_change', invoice.id %}">
+                    {{ base_url }}{% url('admin:intranet_invoice_change', invoice.id %}
+                </a>
+            </li>
+        </ul>
+    </body>
+</html>

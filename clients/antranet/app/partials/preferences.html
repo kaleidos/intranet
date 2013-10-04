@@ -1,0 +1,19 @@
+<div class="preferences">
+    <div class="change-password">
+        <flash-messages></flash-messages>
+        <form>
+            <h2>Change password</h2>
+            <div class="field">
+                <label for="password1">Password</label>
+                <input type="password" id="password1" ng-model="password1" />
+            </div>
+            <div class="field">
+                <label for="password2">Repeat password</label>
+                <input type="password" id="password2" ng-model="password2" />
+            </div>
+            <div class="field">
+                <input type="submit" value="change password" ng-click="changePassword()">
+            </div>
+        </form>
+    </div>
+</div>

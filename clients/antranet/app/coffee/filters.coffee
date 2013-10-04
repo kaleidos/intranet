@@ -1,0 +1,31 @@
+# Filters
+angular.module('antranet.filters', [])
+    .filter('interpolate', ['version', (version) ->
+        return (text) ->
+            return String(text).replace(/\%VERSION\%/mg, version)
+    ])
+    .filter('getTotals', ['version', (imputations) ->
+        return (imputations) ->
+            totals = {}
+
+            if (not imputations?)
+                return []
+
+            firstProjectId = _.keys(imputations)[0]
+            _.each _.keys(imputations[firstProjectId]), (id) ->
+                # Removing angular private attributes
+                if id[0] != '$'
+                    totals[id] = 0
+
+            for project in _.values(imputations)
+                _.each project, (hours, id) ->
+                    # Removing angular private attributes
+                    if id[0] != '$'
+                        totals[id] += parseInt(hours, 10)
+
+            return totals
+    ])
+    .filter('sumDict', ['version', (dict) ->
+        return (dict) ->
+            return _.reduce(_.values(dict), (sum, num) -> parseInt(sum, 10) + parseInt(num, 10))
+    ])

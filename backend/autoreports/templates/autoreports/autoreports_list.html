@@ -1,0 +1,29 @@
+{% extends template_base %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../">{% trans "Home" %}</a> &rsaquo;
+     <a href=".">{% trans "Reports" %}</a>
+</div>
+{% endblock %}
+
+{% block content %}
+{% for category, values in reports_registry.items %}
+    <table class="autoreports_list">
+        <tr>
+            <th>
+                <div>{% trans "Report of"%} {{ values.category_verbosename }}</div>
+            </th>
+        </tr>
+        {% for report_key, report_api in values.list.items %}
+            <tr class="{% cycle 'odd' 'even' %}">
+                <td>
+                    <a href="{% url reports_api report_key %}">{{ report_api.verbose_name }}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endfor %}
+{% endblock %}

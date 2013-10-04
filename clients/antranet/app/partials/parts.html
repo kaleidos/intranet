@@ -1,0 +1,26 @@
+<div id="part-list-block">
+    <table id="part-list" cellspacing="0" summary="Part list">
+        <tbody>
+            <tr>
+                <th scope="col" abbr="Id">Id</th>
+                <th scope="col" abbr="Date">Date</th>
+                <th scope="col" abbr="Status">Status</th>
+                <th scope="col" abbr="Options">Options</th>
+            </tr>
+            <tr ng-repeat="part in parts">
+                <th class="spec" scope="row">{{ part.id }}</th>
+                <td class="alt">{{ part.month }}.{{ part.year }}</td>
+                <td class="alt">{{ part.state_name }}</td>
+                <td class="alt">
+                    <a class="view" href="#/parts/{{part.id}}">View</a>
+                    <a ng-show="part.state != 10" ng-click="sendPart(part.id)" class="send-part send link">Send</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagination clearfix">
+        <a ng-click="prevPage()" class="link" ng-show="hasPrev">Prev Page</a>
+        <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link" ng-click="selectPage(page)">{{ page }}</a>
+        <a ng-click="nextPage()" class="link" ng-show="hasNext">Next Page</a>
+    </div>
+</div>

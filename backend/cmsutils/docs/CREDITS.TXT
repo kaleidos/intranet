@@ -1,0 +1,12 @@
+cmsutils was created at Yaco Sistemas.
+
+Primary authors (in alphabetical order) are:
+
+Lorenzo Gil (lgs@yaco.es)
+Emilio Jímenez (ejimenez@yaco.es)
+Javier Nievas (jnievas@yaco.es)
+Fidel Ramos (framos@yaco.es)
+Manuel Saelices (msaelices@yaco.es)
+Emilio Sánchez (esanchez@yaco.es)
+ 
+For any question or suggestion, please contact to msaelices@yaco.es

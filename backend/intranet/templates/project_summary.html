@@ -1,0 +1,220 @@
+{% load i18n %}
+{% load intranet_helper %}
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" >
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+</head>
+
+<body>
+    {% regroup parts by year as parts_by_year %}
+
+    <h2>{% trans "Invoices:" %}</h2>
+    <table width="90%" border="2">
+        <tr>
+            <td><b>{% trans "Estimated perception date" %}</b></td>
+            <td><b>{% trans "Quantity" %}</b></td>
+            <td><b>{% trans "Status" %}</b></td>
+        </tr>
+        {% for invoice in invoices%}
+        <tr>
+            <td>{{invoice.estimated_perception_date}}</td>
+            <td>{{invoice.quantity}}</td>
+            <td>{{invoice.get_unicode_perception_state}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>
+        {% trans "Work in progress" %}
+        {% if not work_in_progress_donde %}
+            ({% trans "estimated ending time:" %}
+            {% if unperceived_invoices %}
+                {{unperceived_invoices.0.estimated_perception_date}}
+            {% else %}
+                {% trans " who knows..." %}
+            {% endif %}
+            )
+        {% else %}
+            {% trans "(done)" %}
+        {% endif %}
+
+    </h2>
+
+    <table width="90%" border="2">
+        <tr>
+            <td><b>{% trans "Total work so far" %}</b></td>
+            <td><b>{% trans "Total perceived" %}</b></td>
+            <td><b>{% trans "Work in progress" %}</b></td>
+        </tr>
+        <tr>
+            {% with imputations|sum:project as totals %}
+                <td>
+                    {{project.total_income|currency }}
+                </td>
+
+                <td>{{total_perceived|currency}}</td>
+
+                <td>
+                    {% with total_perceived|negative as minus_total%}
+                        {{project.total_income|add:minus_total|currency}}</td>
+                    {% endwith%}
+            {% endwith%}
+        </tr>
+    </table>
+
+    <h2>
+        {% trans "Cost" %}
+    </h2>
+
+    <table width="90%" border="2">
+
+        <tr style="border:2px solid #000 !important;">
+            <td colspan="2"></td>
+            <td>
+                <b>{% trans "Employee" %}</b>
+            </td>
+            <td>
+                <b>{% trans "Time" %}</b>
+            </td>
+            <td>
+                <b>{% trans "Raw cost" %}</b>
+            </td>
+            <td>
+                <b>{% trans "Chargeability cost" %}</b>
+            </td>
+            <td>
+                <b>{% trans "Profit cost" %}</b>
+            </td>
+            <td>
+                <b>{% trans "Real cost" %}</b>
+            </td>
+        </tr>
+
+    {% for part_year_group in parts_by_year %}
+
+
+            {% with part_year_group.list as part_list %}
+
+                <tr style="border:2px solid #000 !important;">
+                    <td rowspan="{{ count_imputations_and_months|hash:part_year_group.grouper}}">
+                        <b>{{ part_year_group.grouper }}</b>
+                    </td>
+                </tr>
+
+                {% regroup part_list by month as parts_by_month %}
+
+                {% for part_month_group in parts_by_month %}
+                    <tr style="border:2px solid #000 !important;">
+                        <td rowspan="{{part_month_group.list|length|add:'2'}}">
+                                <b>
+                                    {{ part_month_group.grouper|month_name}}
+                                </b>
+                        </td>
+                    </tr>
+                    {% for part in part_month_group.list %}
+                        <tr>
+                            <td>
+                                {{ part.employee|pretty_name }}
+                            </td>
+                            <td>
+                                {{ part|total_hours:project }}
+                            </td>
+                            <td>
+                                {{ part|raw_cost:project|currency }}
+                            </td>
+                            <td>
+                                {{ part|chargeability_cost:project|currency }}
+                            </td>
+                            <td>
+                                {{ part|profit_cost:project|currency }}
+                            </td>
+                            <td>
+                                {{ part|real_cost:project|currency }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                    <tr style="border:2px solid #000 !important;">
+
+                        <td></td>
+
+                        {% with part_month_group.list|sum:project as totals %}
+                            <td>
+                                    <b>{{ totals.0 }}</b>
+                            </td>
+                            <td>
+                                    <b>{{ totals.1|currency }}</b>
+                            </td>
+                            <td>
+                                    <b>{{ totals.2|currency }}</b>
+                            </td>
+                            <td>
+                                    <b>{{ totals.3|currency }}</b>
+                            </td>
+                            <td>
+                                    <b>{{ totals.4|currency }}</b>
+                            </td>
+                        {% endwith%}
+                    </tr>
+
+                {% endfor %}
+
+             {% endwith %}
+
+            <tr style="border:2px solid #000 !important;">
+                {% with part_year_group.list|sum:project as totals %}
+                    <td colspan="2">
+                        <h3>{% trans "Anual totals" %}</h3>
+                    </td>
+                    <td>
+                            <h3>{{ totals.0 }}</h3>
+                    </td>
+                    <td>
+                            <h3>{{ totals.1|currency }}</h3>
+                    </td>
+                    <td>
+                            <h3>{{ totals.2|currency }}</h3>
+                    </td>
+                    <td>
+                            <h3>{{ totals.3|currency }}</h3>
+                    </td>
+                    <td>
+                            <h3>{{ totals.4|currency }}</h3>
+                    </td>
+                {% endwith%}
+            </tr>
+
+
+
+
+    {% endfor %}
+    <tr style="border:2px solid #000 !important;">
+
+        {% with imputations|sum:project as totals %}
+            <td colspan="3">
+                    <h3>{% trans "Absolute totals" %}</h3>
+            </td>
+            <td>
+                    <h3>{{ totals.0 }}</h3>
+            </td>
+            <td>
+                    <h3>{{ totals.1|currency }}</h3>
+            </td>
+            <td>
+                    <h3>{{ totals.2|currency }}</h3>
+            </td>
+            <td>
+                    <h3>{{ totals.3|currency }}</h3>
+            </td>
+            <td>
+                    <h3>{{ totals.4|currency }}</h3>
+            </td>
+        {% endwith%}
+
+    </tr>
+
+    </table>
+
+</body>

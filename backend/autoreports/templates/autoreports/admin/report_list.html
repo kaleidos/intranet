@@ -1,0 +1,26 @@
+{% extends "admin/change_list.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}{% if not is_popup %}
+<div class="breadcrumbs">
+     <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../../">{% trans opts.app_label.title %}</a> &rsaquo;
+     <a href="../">{{ opts.verbose_name_plural|capfirst }}</a> &rsaquo;
+     {% trans "Reports" %}
+</div>
+{% endif %}{% endblock %}
+
+{% block object-tools %}
+    {% if has_add_permission %}
+    <ul class="object-tools">
+        {% block object-tools-items %}
+        <li>
+            <a href="wizard/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+            {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+            </a>
+        </li>
+        {% endblock %}
+    </ul>
+    {% endif %}
+{% endblock %}

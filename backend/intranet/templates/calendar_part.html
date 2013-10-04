@@ -1,0 +1,53 @@
+{% load i18n intranet_helper %}
+<table border="1">
+    <tr>
+        <td>
+
+        </td>
+        {% for day_imputations in days_imputations %}
+            <td style="{% if forloop.counter in special_days %}background-color:#F5A9A9{% endif %}">
+                <b>
+                    {{forloop.counter}}
+                </b>
+            </td>
+        {% endfor %}
+    </tr>
+
+    {% for project_id,proyect_and_days in projects_imputations.items %}
+        <tr>
+            <td>
+                <b>{{proyect_and_days.project|project_name}}</b>
+            </td>
+
+            {% for day_imputations in proyect_and_days.days %}
+                <td style="{% if forloop.counter in special_days %}background-color:#F5A9A9{% endif %}">
+                        {{day_imputations|floatformat}}
+                </td>
+            {% endfor %}
+
+            <td>
+                <b>{{proyect_and_days.total}}</b>
+            </td>
+
+        </tr>
+    {% endfor %}
+
+    <tr>
+        <td>
+            <b>{% trans "Total:" %}</b>
+        </td>
+        {% for day_imputations in days_imputations %}
+            <td style="{% if forloop.counter in special_days %}background-color:#F5A9A9{% endif %}">
+                <b>
+                    <div style="{% if day_imputations < 8 %}{% if not forloop.counter in special_days %}color:red{% endif %}{% endif %}">
+                        {{day_imputations|floatformat}}
+                    </div>
+                </b>
+            </td>
+        {% endfor %}
+        <td>
+            <b>{{ total }}</b>
+        </td>
+    </tr>
+
+</table>

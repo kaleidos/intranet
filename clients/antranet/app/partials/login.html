@@ -1,0 +1,33 @@
+<div id="login-block">
+    <div class="login">
+        <flash-messages></flash-messages>
+        <form ng-show="status == 'login'">
+            <div class="field">
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="username" id="username" ng-model="username" autofocus>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" name="password" placeholder="password" id="password" ng-model="password">
+            </div>
+            <div class="field">
+                <input type="submit" value="login" ng-click="login()">
+            </div>
+        </form>
+        <form ng-show="status == 'recoverPassword'">
+            <div class="field">
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="username" id="username" ng-model="username">
+            </div>
+            <div class="field">
+                <input type="submit" value="recover" ng-click="recoverPassword()">
+            </div>
+        </form>
+        <div class="login-recover-link" ng-show="status == 'login'">
+            <a ng-click="status = 'recoverPassword'" class="link">Recover password</a>
+        </div>
+        <div class="login-recover-link" ng-show="status == 'recoverPassword' || status == 'recoveredPassword'">
+            <a ng-click="status = 'login'" class="link">Login</a>
+        </div>
+    </div>
+</div>

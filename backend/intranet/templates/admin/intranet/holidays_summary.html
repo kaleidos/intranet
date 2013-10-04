@@ -1,0 +1,47 @@
+{% extends "admin/app_index.html" %}
+{% load i18n %}
+{% load url from future %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="../../">
+        {% trans "Home" %}
+    </a> &rsaquo;
+
+    <a href="../../intranet/">
+        {% trans "Intranet" %}
+    </a> &rsaquo; {% trans "Holidays" %}
+
+
+
+</div>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
+
+
+{% block content %}
+<div id="content-main">
+
+    {% for year_holidays in holidays %}
+        <div class="module">
+        <table summary="Holidays">
+        <caption class="section">{{ year_holidays.0 }}</caption>
+        {% for key in year_holidays.1.items %}
+            <tr>
+                <th>
+                    {{key.0}}
+                </th>
+                <td>
+                    {{key.1}}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}

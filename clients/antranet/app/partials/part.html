@@ -1,0 +1,163 @@
+<div class="vimdings" vimdings>
+    <form method="post" ng-submit="savePart()">
+        <div id="part-one-block">
+            <div id="part" rel="191">
+                <div class="part-title">
+                    <strong>Part:</strong><span>{{ part.id }} /</span>
+                    <input readonly="readonly" value="{{ part.year }}" name="year" id="part-year">
+                    <input readonly="readonly" value="{{ part.month }}" name="month" id="part-month">
+                </div>
+
+                <div class="part-meta">
+                    <span class="meta-field">
+                        <span class="strong">Status:</span>
+                        <span class="normal">{{ part.state_name }}</span>
+                    </span>
+                </div>
+                <table id="part-content">
+                    <!--day of week-->
+
+                    <tbody>
+                        <tr id="day-header">
+                            <td>
+                                <a class="show-hide" ng-hide="showingAll" ng-click="showAll()">Show!</a>
+                                <a class="show-hide" ng-show="showingAll" ng-click="hideAll()">Hide!</a>
+                            </td>
+
+                            <td ng-repeat="day in days" ng-class="dayClass(day.number)">
+                                <div class="project-hours-day-header">
+                                    <input value="{{day.week}}" name="day-symbol" readonly="readonly">
+                                </div>
+                            </td>
+
+                            <td></td>
+                        </tr><!--number of -->
+
+                        <tr id="day-header">
+                            <td></td>
+
+                            <td ng-repeat="day in days" ng-class="dayClass(day.number)">
+                                <div class="project-hours-header">
+                                    <input value="{{day.number}}" name="day" readonly="readonly">
+                                </div>
+                            </td>
+
+                            <td></td>
+                        </tr>
+
+                        <tr class="day-field"
+                            ng-repeat="project in projects"
+                            ng-hide="isHidden(project.id) && !showingAll"
+                            ng-class="getZebraClass(project.id)"
+                            id="{{project.id}}">
+                            <td>
+                                <a class="show-hide" ng-hide="isHidden(project.id)" ng-click="hide(project.id)">Hide</a>
+                                <a class="show-hide" ng-show="isHidden(project.id)" ng-click="show(project.id)">Show</a>
+                                {{ project.name }}
+                            </td>
+
+                            <td ng-repeat="day in days" ng-class="{special: day.isSpecial}">
+                                <span class="day-imputation">
+                                    <input
+                                        ng-focus="onFocus($event)"
+                                        data-day="{{day.number}}"
+                                        ng-model="imputations[project.id][day.number]">
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="project-total">
+                                    <input value="{{ imputations[project.id]|sumDict }}" class="project-total">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="day-field">
+                            <td>
+                                Holidays
+                            </td>
+
+                            <td ng-repeat="day in days" ng-class="{special: day.isSpecial}">
+                                <span class="day-imputation">
+                                    <input
+                                        data-day="{{day.number}}"
+                                        ng-model="holidays[day.number]"
+                                        readonly="readonly">
+                                </span>
+                            </td>
+
+                            <td>
+                                <div class="project-total">
+                                    <input value="{{ imputations[project.id]|sumDict }}" class="project-total">
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td><b>Total</b></td>
+
+                            <td
+                                ng-repeat="day in days"
+                                ng-class='{special: day.isSpecial, "bad-total": badTotal(day)}'
+                                ng-model='holidays[day]'>
+                                <div class="day-total-imputation">
+                                    <input value="{{ getDayTotal(day) }}" readonly="readonly">
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="project-absolute-total">
+                                    <input class="project-total" value="{{ imputations|getTotals|sumDict }}">
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <strong>Comment:</strong>
+                <div class="part-meta">
+                    <textarea rows="5" cols="50" ng-model="part.info"></textarea>
+                </div>
+                <div class="part-submit" ng-hide="part.state == 10">
+                    <input type="submit" value="Save">
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="overlay" class="home-overlay"><!-- overlay --></div>
+    <div id="help-lightbox" style="display: none">
+        <div class="column">
+            <h2>Keyboard bindigs</h2>
+            <ul>
+                <li>? - Show this help</li>
+                <li>ESC - Exit from this help</li>
+                <li>h or ← - Move to the left</li>
+                <li>j or ↓ - Move up</li>
+                <li>k or ↑ - Move down</li>
+                <li>l or → - Move to the right</li>
+                <li>y - Copy to clipboard</li>
+                <li>x - Delete and copy to clipboard</li>
+                <li>p - Paste from clipboard</li>
+                <li>+ - Increment</li>
+                <li>- - Decrement</li>
+                <li>^ - Go to the first column</li>
+                <li>$ - Go to the last column</li>
+                <li>H - Hide the actual project</li>
+                <li>S - Show the actual project</li>
+                <li>dd - Delete all the line</li>
+            </ul>
+        </div>
+        <div class="column">
+            <h2>Commands</h2>
+            <ul>
+                <li>:wq - Save and quit</li>
+                <li>:q! - Quit without saving</li>
+                <li>:all - Put all laboral days to the actual proyect to 8</li>
+                <li>:clear - Clear the actual line</li>
+                <li>:clear_all - Clear all the part</li>
+                <li>:show - Show the hidden projects</li>
+                <li>:hide - Hide the hidden projects</li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

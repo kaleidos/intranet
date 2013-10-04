@@ -1,0 +1,49 @@
+{% extends "admin/change_list.html" %}
+{% load admin_list i18n autoreports_tags %} {# add auto_reports_tags #}
+
+<!-- OBJECT-TOOLS -->
+{% block object-tools %}
+  {% if has_add_permission %}
+    <ul class="object-tools">
+      <li>
+        <a href="add/{% if is_popup %}?_popup=1{% endif %}" class="addlink">
+          {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+        </a>
+      </li>
+      {% autoreports_admin_tools %}
+    </ul>
+  {% endif %}
+{% endblock %}
+
+
+{% block extrahead %}
+{{ block.super }}
+
+<script type="text/javascript">
+
+(function($) {
+    $(document).ready(function() {
+
+        $('#changelist-filter > h3').css("cursor","pointer");
+        $('#changelist-filter > h3').each(function(){
+            var $title = $(this);
+            $title.css("cursor","pointer");
+            $title.click(function(){
+                $title.next().slideToggle();
+            });
+        });
+
+        var toggle_flag = true;
+        $('#changelist-filter > h2').css("cursor","pointer");
+        $('#changelist-filter > h2').click(function () {
+            var $title = $(this);
+            toggle_flag = ! toggle_flag;
+            $('#changelist-filter').find('> ul, > h3').each(function(){
+                $(this).toggle(toggle_flag);
+            });
+        });
+
+    });
+})(django.jQuery);
+</script>
+{% endblock %}

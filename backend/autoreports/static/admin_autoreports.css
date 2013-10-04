@@ -1,0 +1,45 @@
+ul li {
+    list-style-type: none;
+}
+
+.hiddenElement {
+    display: none;
+}
+
+form.report ul li label {
+    float: none;
+    width: auto;
+}
+
+form.report table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+form.report table th,
+form.report table td {
+    width: 16%;
+}
+
+form.report table ul {
+    padding: 0;
+    margin: 0;
+}
+
+form.report table.fields {
+   margin-left: 25px;
+}
+
+form.report table th span {
+    margin-left: 25px;
+}
+
+form.report table td {
+    overflow: hidden;
+}
+
+
+div.submit-row{
+    z-index: 2 !important;
+}
+

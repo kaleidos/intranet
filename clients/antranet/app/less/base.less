@@ -1,0 +1,705 @@
+body {
+    margin: 0;
+    font: 12px arial,sans-serif;
+}
+
+a {
+    color: #00B7FF;
+}
+a {
+    color: #c75f3e;
+}
+
+div#top-menu, div#top-menu-2 {
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+    vertical-align: 30px;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(whiteSmoke),to(#F1F1F1));
+    background-image: -webkit-linear-gradient(top,whiteSmoke,#F1F1F1);
+    border-bottom: 1px solid #BBB;
+
+    ul {
+        list-style: none;
+        margin: 0px;
+        padding: 0px;
+        padding-left: 30px;
+        >li {
+            display: inline;
+            padding-left: 5px;
+            padding-right: 5px;
+            font-weight: bold;
+            color: #555;
+            &.selected {
+                border-bottom: 2px solid #aaa;
+            }
+            >a {
+                color: #555;
+                text-decoration: none;
+                :hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+div#footer {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    font-size: 11px;
+    color: #aaa;
+    padding-bottom: 2px;
+    padding-right: 2px;
+    font-style: italic;
+    text-align: right;
+}
+
+div#messages {
+    padding-bottom: 5px;
+    >ul {
+        margin: 0px;
+        padding: 0px;
+        &.error {
+            font-weight: bold;
+            font-style: italic;
+            color: #8A0808;
+            font-size: 11px;
+            list-style: none;
+        }
+    }
+}
+
+div#part-list-block,
+div#part-one-block,
+div#main-block {
+    padding: 20px;
+}
+
+/* Holidays */
+div#holidays-block {
+    padding: 20px;
+    table#holidays {
+        width: 900px;
+        padding: 0;
+        margin: 0;
+        caption {
+            padding: 0 0 5px 0;
+            width: 900px;	 
+            font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            text-align: right;
+        }
+        th {
+            font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            border-right: 1px solid #C1DAD7;
+            border-bottom: 1px solid #C1DAD7;
+            border-top: 1px solid #C1DAD7;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 6px 6px 6px 12px;
+            background: #CAE8EA url(../img/bg_header.jpg) no-repeat;
+            &.nobg {
+                border-top: 0;
+                border-left: 0;
+                border-right: 1px solid #C1DAD7;
+                background: none;
+            }
+            &.spec {
+                border-left: 1px solid #C1DAD7;
+                border-top: 0;
+                background: #fff url(../img/bullet1.gif) no-repeat;
+                font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            }
+            &.specalt {
+                border-left: 1px solid #C1DAD7;
+                border-top: 0;
+                background: #f5fafa url(../img/bullet2.gif) no-repeat;
+                font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+                color: #797268;
+            }
+        }
+        td {
+            border-right: 1px solid #C1DAD7;
+            border-bottom: 1px solid #C1DAD7;
+            background: #fff;
+            padding: 6px 6px 6px 12px;
+            color: #4f6b72;
+            &.alt {
+                background: #F5FAFA;
+                color: #797268;
+            }
+            span {
+                &.status-pending {
+                    color: blue;
+                }
+                &.status-sent {
+                    color: grey;
+                }
+                &.status-accepted {
+                    color: green;
+                }
+                &.status-rejected {
+                    color: red;
+                }
+            }
+        }
+    }
+}
+/* Parts */
+
+div#part-list-block {
+    padding: 20px;
+    table#part-list {
+        width: 900px;
+        padding: 0;
+        margin: 0;
+        caption {
+            padding: 0 0 5px 0;
+            width: 900px;
+            font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            text-align: right;
+        }
+        th {
+            font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            color: #4f6b72;
+            border-right: 1px solid #C1DAD7;
+            border-bottom: 1px solid #C1DAD7;
+            border-top: 1px solid #C1DAD7;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: left;
+            padding: 6px 6px 6px 12px;
+            background: #CAE8EA url(../img/bg_header.jpg) no-repeat;
+            &.nobg {
+                border-top: 0;
+                border-left: 0;
+                border-right: 1px solid #C1DAD7;
+                background: none;
+            }
+            &.spec {
+                border-left: 1px solid #C1DAD7;
+                border-top: 0;
+                background: #fff url(../img/bullet1.gif) no-repeat;
+                font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+            }
+            &.specalt {
+                border-left: 1px solid #C1DAD7;
+                border-top: 0;
+                background: #f5fafa url(../img/bullet2.gif) no-repeat;
+                font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+                color: #797268;
+            }
+        }
+        td {
+            border-right: 1px solid #C1DAD7;
+            border-bottom: 1px solid #C1DAD7;
+            background: #fff;
+            padding: 6px 6px 6px 12px;
+            color: #4f6b72;
+            &.alt {
+                background: #F5FAFA;
+                color: #797268;
+            }
+        }
+    }
+}
+
+/* Part One */
+
+#part-one-block {
+    padding: 20px;
+    #part {
+        padding: 20px;
+        div.part-title span {
+            padding-left: 10px;
+        }
+        div.part-meta span.strong {
+            font-weight: bold;
+        }
+        div.part-data {
+            padding-top: 10px;
+        }
+        div.part-project {
+            width: 900px;
+            padding: 5px;
+            background-color: #fafafa;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+            div.project-name {
+                padding-bottom: 5px;
+                font-weight: bold;
+                font-size: 14px;
+                font-style: italic;
+            }
+        }
+        div.project-hours {
+            div.project-hours-inputs span.input {
+                padding-left: 1px; padding-right: 1px;
+            }
+            div.project-hours-header span.header1 {
+                padding-left: 1px; padding-right: 1px;
+                input {
+                    width: 20px;
+                    border: 1px solid #fff;
+                    margin: 0px;
+                    padding: 0px;
+                    border-radius: 2px;
+                    text-align: center;
+                    vertical-align: middle;
+                    background-color: #ccc;
+                    font-weight: bold;
+                    font-size: 13px;
+                }
+            }
+            span.input input {
+                width: 20px;
+                border: 1px solid #fff;
+                margin: 0px;
+                padding: 0px;
+                font-size: 16px;
+                border-radius: 2px;
+                text-align: center;
+                vertical-align: middle;
+                &:focus {
+                    border: 1px solid #999;
+                }
+            }
+            div.project-total label {
+                padding-right: 5px;
+            }
+        }
+        div.project-total {
+            input {
+                width: 50px;
+                border: 0px;
+                text-align: center;
+                vertical-align: middle;
+            }
+        }
+        div.project-absolute-total {
+            input {
+                width: 50px;
+                border: 0px;
+                text-align: center;
+                vertical-align: middle;
+            }
+        }
+        div.part-submit input {
+            -webkit-appearance: push-button;
+            white-space: pre;
+            -webkit-border-radius: 2px;
+            -webkit-user-select: none;
+            border: 1px solid #BBB;
+            border-radius: 2px;
+            color: #111;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            height: 29px;
+            line-height: 27px;
+            margin: 11px 6px;
+            min-width: 54px;
+            padding: 0 18px;
+            text-align: center;
+            &:hover {
+                -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                background-color: #F8F8F8;
+                border: 1px solid #AAA;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                color: #333;
+            }
+        }
+    }
+}
+
+#part-content {
+    padding: 5px;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    margin-bottom: 5px;
+    tr.hidden-project {
+        color: grey;
+    }
+    input {
+        width: 20px;
+        border: 1px solid #fff;
+        margin: 0px;
+        padding: 0px;
+        font-size: 16px;
+        border-radius: 2px;
+        text-align: center;
+        vertical-align: middle;
+    }
+    #day-header {
+        input {
+            background-color: #ccc;
+            font-weight: bold;
+            font-size: 13px;
+        }
+        td.special>div>input {
+            background-color: rgb(245, 169, 169);
+        }
+    }
+    td.special input {
+        background-color: rgb(245, 169, 169);
+    }
+    td.bad-total input {
+        color: red;
+    }
+}
+
+.project-absolute-total input, .day-total-imputation input{
+    font-weight: bold;
+}
+
+tr.zebra input{
+    background-color: #ddd;
+}
+
+.day-field:hover { background-color:  #000; }
+.day-field:hover td{color: #FFF;}
+
+div#holidays-block {
+    width: 900px;
+    #available_days, #consumed_days, #requested_days {
+        display: none;
+    }
+    #pie-chart {
+        width: 440px;
+        height: 250px;
+        float: left;
+    }
+    div.holidays-form {
+        border: 1px solid #ccc;
+        width: 440px;
+        margin-bottom: 10px;
+        float: right;
+
+        background-image: -webkit-gradient(linear,left top,left bottom,from(whiteSmoke),to(#F1F1F1));
+        background-image: -webkit-linear-gradient(top,whiteSmoke,#F1F1F1);
+        -webkit-border-radius: 2px;
+        -webkit-user-select: none;
+        background-color: whiteSmoke;
+        background-image: linear-gradient(top,whiteSmoke,#F1F1F1);
+        background-image: -o-linear-gradient(top,whiteSmoke,#F1F1F1);
+        border: 1px solid gainsboro;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        form {
+            padding: 15px;
+        }
+        input, textarea {
+            display: block;
+            font: 17px arial,sans-serif;
+            background: white;
+            border-width: 0 0 0 1px;
+            border: 1px solid #D9D9D9;
+            color: black;
+            padding: 1px 1px;
+            line-height: 25px!important;
+            &[type='text'] {
+                width: 94%;
+            }
+            &[type='checkbox'] {
+                display: inline;
+            }
+            &#holidays-notes {
+                width: 94%;
+            }
+            &[type='submit'] {
+                -webkit-appearance: push-button;
+                white-space: pre;
+                -webkit-border-radius: 2px;
+                -webkit-user-select: none;
+                border: 1px solid #BBB;
+                border-radius: 2px;
+                color: #666;
+                cursor: pointer;
+                font-size: 11px;
+                font-weight: bold;
+                height: 29px;
+                line-height: 27px;
+                margin: 11px 6px;
+                min-width: 54px;
+                padding: 0 18px;
+                text-align: center;
+                &:hover {
+                    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                    background-color: #F8F8F8;
+                    border: 1px solid #AAA;
+                    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                    color: #333;
+                }
+            }
+        }
+        label {
+            color: #666;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            display: block;
+            &.checkbox {
+                display: inline;
+            }
+        }
+    }
+}
+#help-lightbox {
+    padding: 20px 20px;
+    display: none;
+    margin: auto;
+    width: 800px;
+    height: 400px;
+    background: #000000;
+    opacity: 0.8;
+    position: absolute;
+    border-radius: 5px;
+    top: 30px;
+    left: 30px;
+    color: yellow;
+    div.column {
+        width: 390px;
+        padding: 0px;
+        margin: 0px;
+        float: left;
+        li {
+            list-style-type: none;
+            font-family: monospace;
+            font-size: 16px;
+        }
+    }
+}
+#overlay{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 90;
+}
+
+text.year-menu {
+    font-size: 16px;
+    &.selected {
+        font-weight: bold;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+#years {
+    display: none;
+}
+
+.show-hide {
+    cursor: pointer;
+}
+
+span.day-imputation input {
+    color: #666666;
+}
+
+span.day-imputation.done input {
+    color: black;
+}
+
+ul#flash-messages {
+    padding: 0px;
+    list-style: none;
+}
+
+ul#flash-messages li {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.1);
+    &.warning {
+        background: rgb(245, 169, 169);
+    }
+    &.success {
+        background: rgb(169, 245, 169);
+    }
+}
+
+#vimdings-warning, #vimdings-command-prompt {
+    position: fixed;
+    bottom: 0%;
+    left: 0%;
+    width: 100%;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 1px 5px;
+}
+
+#vimdings-warning {
+    background: red;
+}
+
+#vimdings-command-prompt {
+    background: grey;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+.link {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.pagination {
+    position: relative;
+    top: 20px;
+    a {
+        text-decoration: none;
+        border: 1px solid #c1dad7;
+        padding: 10px;
+        background: #f5fafa;
+        margin-right: 5px;
+        &.active {
+            background: #ffffff;
+            text-decoration: underline;
+        }
+    }
+}
+
+div.preferences {
+    padding: 20px;
+}
+
+div.change-password {
+    border: 1px solid #ccc;
+    width: 400px;
+
+    background-image: -webkit-gradient(linear,left top,left bottom,from(whiteSmoke),to(#F1F1F1));
+    background-image: -webkit-linear-gradient(top,whiteSmoke,#F1F1F1);
+    -webkit-border-radius: 2px;
+    -webkit-user-select: none;
+    background-color: whiteSmoke;
+    background-image: linear-gradient(top,whiteSmoke,#F1F1F1);
+    background-image: -o-linear-gradient(top,whiteSmoke,#F1F1F1);
+    border: 1px solid gainsboro;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    form {
+        padding: 15px;
+    }
+    input {
+        display: block;
+        font: 17px arial,sans-serif;
+        background: white;
+        border-width: 0 0 0 1px;
+        border: 1px solid #D9D9D9;
+        color: black;
+        padding: 1px 7px;
+        line-height: 25px!important;
+        &[type='text'], &[type='password'] {
+            width: 94%;
+        }
+        &[type='submit'] {
+            -webkit-appearance: push-button;
+            white-space: pre;
+            -webkit-border-radius: 2px;
+            -webkit-user-select: none;
+            border: 1px solid #BBB;
+            border-radius: 2px;
+            color: #666;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: bold;
+            height: 29px;
+            line-height: 27px;
+            margin: 11px 6px;
+            min-width: 54px;
+            padding: 0 18px;
+            text-align: center;
+            &:hover {
+                -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                background-color: #F8F8F8;
+                border: 1px solid #AAA;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+                color: #333;
+            }
+        }
+    }
+    label {
+        display: block;
+        color: #666;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: bold;
+    }
+    .login-recover-link {
+        float: right;
+        padding: 10px;
+    }
+}
+
+.holidays-calendar {
+    table {
+        width: 900px;
+        th {
+            font: bold 11px "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
+            color: #4f6b72;
+            border-right: 1px solid #c1dad7;
+            border-bottom: 1px solid #c1dad7;
+            border-top: 1px solid #c1dad7;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: center;
+            padding: 6px 6px 6px 12px;
+            background: #cae8ea url(../img/bg_header.jpg) no-repeat;
+        }
+        td {
+            border: 1px solid #c1dad7;
+            background: #fff;
+            padding: 3px 3px 3px 3px;
+            text-align: center;
+            color: #4f6b72;
+            &.week-day {
+                background: #f5fafa;
+            }
+            &.ACCEPTED {
+                background: green;
+                color: white;
+                font-weight: bold;
+            }
+            &.PENDING {
+                background: blue;
+                color: white;
+                font-weight: bold;
+            }
+            &.REJECTED {
+                background: red;
+                color: white;
+                font-weight: bold;
+            }
+            &.special-day {
+                background-color: rgb(245, 169, 169);
+                color: #4f6b72;
+            }
+        }
+    }
+}
+

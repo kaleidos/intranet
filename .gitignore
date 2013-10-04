@@ -1,0 +1,12 @@
+*.pyc
+.*.swp
+clients/node-web-client/node_modules
+intranet_api/testdb
+backend/static*
+clients/node-web-client/public/stylesheets/base.css
+clients/node-web-client/public/stylesheets/login.css
+node_modules
+clients/antranet/app/dist/antranet.css
+clients/antranet/app/dist/app.js
+clients/antranet/app/dist/libs.js
+backend/settings/local.py

@@ -1,0 +1,270 @@
+{% extends template_base %}
+{% load i18n autoreports_tags staticfiles %}
+
+{% block title %}
+    {% trans "Wizard Report" %} {{ block.super }}
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link href="{% static 'autoreports/wizard.css' %}" type="text/css" rel="stylesheet">
+    {% include "autoreports/inc.medialibraries.html" %}
+    <script type="text/javascript">
+        {% if report %}
+            function confirmDelete(){
+                if (confirm('{% trans "Are you sure you want to delete this report?" %}'))
+                    document.location = '../../{{ report.id }}/delete/';
+            }
+        {% endif %}
+
+        var dragged = Array();
+        (function($){
+            $(document).ready(function () {
+                {% block is_admin %}
+                    var is_admin = false;
+                {% endblock %}
+
+                var dragging_title_top = 150;
+
+                var wizard = $('.wizard');
+                $(".droppable").css({width: wizard.css('width'),
+                                     height: wizard.height() + 20 + 'px'});
+                $(".droppable h2").css({top: $(document).scrollTop() + dragging_title_top + 'px'});
+
+                function initialWizard() {
+                    // enable just for those which haven't been explicitly disabled
+                    $(".draggable a:not(.ui-draggable-disabled)").draggable({
+                        revert: "invalid",
+                        start: function(event, ui){
+                            $(".droppable").addClass('dropping');
+                            var wizard = $('.wizard');
+                            wiz_height = wizard.height() + 20;
+                            new_height = Math.max(wiz_height, $(document).scrollTop() + 300);
+                            $(".droppable").css({width: wizard.css('width'),
+                                                 height: new_height + 'px'});
+                            $(".droppable h2").css({top: $(document).scrollTop() + dragging_title_top + 'px'});
+                        },
+                        stop: function(event, ui){
+                            $(".droppable").removeClass('dropping');
+                        }
+                    });
+
+                    $(".droppable").droppable({
+                        drop: requestFieldSet,
+                        hoverClass: 'dropping_hover'
+                    });
+                    $(".adaptors").sortable({revert: true,
+                                             stop: function() {
+                                                    $(".wizardOrder").map(function (i, elem) {
+                                                        $(elem).val(i);
+                                                    });
+                                            }});
+                    $(".adaptors").draggable({revert: "invalid",
+                                              connectToSortable:".adaptors",
+                                             });
+
+                }
+
+                $(".collapsable h2").live("click", function() {
+                    var fieldset = $(this).parent();
+                    if($(this).hasClass("hidden")) {
+                        fieldset.children().not("h2").fadeIn();
+                        fieldset.parent(".adaptor").find(".adaptorHelp").fadeIn();
+                        $(this).removeClass("hidden");
+                    } else {
+                        fieldset.children().not("h2").fadeOut();
+                        fieldset.parent(".adaptor").find(".adaptorHelp").fadeOut();
+                        $(this).addClass("hidden");
+                    }
+                    return false;
+                });
+                $(".removeAdaptor").live("click", function() {
+                    $(this).parent().remove();
+
+                    // enable dragging again
+                    var label_idx = $(this).attr('rel');
+                    if (label_idx) {
+                        dragged[label_idx].draggable.draggable("enable", 1);
+                        $(dragged[label_idx].draggable).removeClass("using");
+                        dragged[label_idx] = null;
+                    }
+                    return false;
+                });
+
+                initialWizard();
+
+                function requestFieldSet(event, ui) {
+                    $("fieldset.collapsable").find("h2").not("h2.hidden").click();
+                    var field = ui.draggable.parent();
+                    var field_label = $(field.find("a")[0]);
+                    field_label.css({top: "0px", left:"0px"});
+                    field_label.addClass('using');
+
+                    var field_name = field.find("a").attr("href").replace("#", "");
+                    var config = field.parents("div.model").children().first()
+                    var module_name = config.find(".module_name").html();
+                    var app_label = config.find(".app_label").html();
+                    var url = "{% url 'reports_ajax_fields_options' %}" + "?app_label=" + app_label + "&module_name=" + module_name;
+                    url+= "&field=" + field_name + "&is_admin=" + is_admin;
+                    $.ajax({
+                            url: url,
+                            type: "GET",
+                            async: true,
+                            dataType: 'html',
+                            success: function(response) {
+                                var wizard = $(".wizard");
+                                var prefix = $(response).find("input").attr("id").replace("id_", "").split("-")[0];
+                                var old_prefixes = $("#id_prefixes").val();
+                                if (!old_prefixes) {
+                                    $("#id_prefixes").val(prefix);
+                                } else {
+                                    $("#id_prefixes").val(old_prefixes + ", "  + prefix);
+                                }
+                                var lastOrder = wizard.find(".wizardOrder:last");
+                                var adaptor = $(response);
+                                if (lastOrder.length > 0) {
+                                    adaptor.find(".wizardOrder").val(parseInt(lastOrder.val()) + 1);
+                                }
+                                wizard.find(".adaptors").append(adaptor);
+
+                                // avoid dragging the same element again
+                                var idx = dragged.push(ui);
+                                ui.draggable.draggable("disable", 1);
+                                $(wizard.find('.removeAdaptor')[0]).attr({rel:idx-1});
+
+                                initialWizard();
+                                $('.droppable').removeClass('void');
+                            }
+                    });
+                }
+
+                $("li.collapsible span").live("click", function() {
+                    var field = $(this).parent();
+                    if(field.find("div.model").length == 0){
+                        var field_name = field.find("a").attr("href").replace("#", "");
+                        var module_name = $(this).find(".module_name").html();
+                        var app_label = $(this).find(".app_label").html();
+                        var ignore_app_label = "";
+                        var ignore_module_name = "";
+                        var separated = "";
+                        $.map($(this).parents().find(".config"), function (config, i) {
+                            if (i > 0) {
+                                separated = "/";
+                            }
+                            ignore_app_label += separated + $(config).find(".app_label").html();
+                            ignore_module_name += separated + $(config).find(".module_name").html();
+                        });
+
+                        var url = "{% url 'reports_ajax_fields' %}" + "?app_label=" + app_label + "&module_name=" + module_name;
+                        url += "&field=" + field_name + "&is_admin=" + is_admin;
+                        url += "&ignore_app_label=" + ignore_app_label + "&ignore_module_name=" + ignore_module_name;
+                        $.ajax({
+                                url: url,
+                                type: "GET",
+                                async: true,
+                                dataType: 'html',
+                                success: function(response){
+                                    var resp = $(response);
+                                    resp.css({display: 'none'});
+                                    field.append(resp);
+                                    resp.slideDown();
+                                    initialWizard();
+                                }
+                        });
+                    } else {
+                        var child = field.find("div.model");
+                        if (!child.hasClass("hidden")){
+                            field.find("div.model").slideUp();
+                            child.addClass("hidden");
+                        }else {
+                            field.find("div.model").slideDown();
+                            child.removeClass("hidden");
+                        }
+                    }
+                    return false;
+                });
+            });
+        })(jQuery);
+    </script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../">{% trans "Reports" %}</a> &rsaquo;
+     {% if report %}
+        {{ report }}
+     {% else %}
+        {% trans "Wizard Report" %}
+     {% endif %}
+</div>
+{% endblock %}
+
+
+{% block content %}
+    {% if registry_key %}
+    <ul class="object-tools">
+        <li>
+            <a href="{% url reports_api_wizard registry_key %}">
+            {% trans "Create a report form" %}
+            </a>
+        </li>
+        <li>
+            <a href="{% url reports_api_list registry_key %}">
+            {% trans "Report list" %}
+            </a>
+        </li>
+    </ul>
+    {% endif %}
+
+    {% block contenttitle %}
+        <h1>{% trans "Wizard Form" %}</h1>
+    {% endblock %}
+    <div class="leftsidebar">
+        {% include "autoreports/inc.render_model.html" %}
+    </div>
+    <div id="content-main" class="rightsidebar {% block contentextraclass %} {% endblock %}">
+        {% block object-tools %}
+            {% if report %}
+                <ul class="object-tools">
+                    <li><a id="see-report" href="../../{{ report.id }}">{% trans "See report" %}</a></li>
+                </ul>
+            {% endif %}
+        {% endblock %}
+        <form action="." method="post" class="report">
+            {% csrf_token %}
+            <div class="app_label" style="display:none">{{ app_label }}</div>
+            <div class="module_name" style="display:none">{{ module_name }}</div>
+            {% block contentform %}
+                {% block contentformname %}
+                    {{ form_top.as_p }}
+                {% endblock %}
+                {% block contentformmodel %}
+                    <div class="droppable {% if not adaptors %}dropping void{% endif %}">
+                        <h2>{% trans "Drop the fields here" %}</h2>
+                    </div>
+                    <div class="wizard">
+                        <h2>{% trans "Selected fields" %}</h2>
+                        <div class="adaptors">
+                            {% for adaptor in adaptors %}
+                                {% autoreports_render_instance adaptor is_admin %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endblock %}
+            {% endblock %}
+            {% block submitwrapper %}
+            <div class="submit-row">
+                {% block submit %}
+                    {% if report %}
+                        <p class="deletelink-box"><a href="#" onclick="confirmDelete();" class="deletelink">{% trans "Delete report" %}</a></p>
+                        <input type="submit" name="__report_wizard" class="default" value="{% trans "Save report" %}"/>
+                    {% else %}
+                        <input type="submit" name="__report_wizard" class="default" value="{% trans "Create report" %}"/>
+                    {% endif %}
+                {% endblock %}
+            </div>
+            {% endblock %}
+        </form>
+    </div>
+{% endblock %}

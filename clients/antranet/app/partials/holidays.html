@@ -1,0 +1,38 @@
+<div id="holidays-block">
+    <div id="pie-chart" holidays-chart></div>
+
+    <div class="holidays-form" ng-submit="sendRequest()">
+        <form>
+            <label for="holidays-begin">Begin</label>
+            <input ng-model="request.beginning" ui-date="dateOptions">
+            <label for="holidays-end">End</label>
+            <input ng-model="request.ending" ui-date="dateOptions">
+            <input type="checkbox" ng-model="request.flexibleDates">
+            <label for="holidays-flexible-dates" class="checkbox">Flexible dates</label>
+            <label for="holidays-notes">Notes</label>
+            <textarea ng-model="request.comments"></textarea>
+            <input type="submit" value="request">
+        </form>
+    </div>
+
+    <table id="holidays" cellspacing="0" summary="Part list">
+        <tbody>
+            <tr>
+                <th scope="col" abbr="Days">Days</th>
+                <th scope="col" abbr="BeginDate">Begin date</th>
+                <th scope="col" abbr="EndDate">End date</th>
+                <th scope="col" abbr="Status">Status</th>
+                <th scope="col"></th>
+            </tr>
+            <tr ng-repeat="holiday_request in holidays_requests">
+                <td>{{ holiday_request.count_working_days }}</td>
+                <td>{{ holiday_request.beginning }}</td>
+                <td>{{ holiday_request.ending }}</td>
+                <td><span ng-class="getStatusClass(holiday_request.status)">{{ getStatusName(holiday_request.status) }}</span></td>
+                <td><a ng-click="deleteRequest(holiday_request.id)" ng-show="holiday_request.status == 0" class="link">Delete<a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div holidays-calendar class="holidays-calendar"></div>
+</div>

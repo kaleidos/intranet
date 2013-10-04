@@ -1,0 +1,27 @@
+{% load i18n %}
+{% if object_id %}
+{% block extrahead %}
+{{ block.super }}
+<script type="text/javascript">
+// <![CDATA[
+(function ($) {
+$(document).ready( function (){
+    var props = {
+        'action': "{% url saludinnova.cmsutils.views.generic.delete_object %}",
+        'method': "post"
+    };
+    $('#delete-form').attr(props).submit(function () {
+        return confirm('{% trans "Are you sure you want to delete this object?" %}');
+    });
+});
+})(jQuery);
+// ]]>
+</script>
+{% endblock %}
+
+<form id="delete-form" method="get" action="{% url saludinnova.cmsutils.views.generic.confirm_delete_object %}">
+<input type="hidden" name="object_id" value="{{object_id}}"/>
+<input type="hidden" name="content_type_id" value="{{content_type_id}}"/>
+<input type="submit" value='{% trans "Delete" %}'/>
+</form>
+{% endif %}

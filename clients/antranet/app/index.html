@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" ng-app="antranet">
+<head>
+  <meta charset="utf-8">
+  <title>Intranet</title>
+  <link rel="stylesheet" href="dist/antranet.css"/>
+</head>
+<body>
+  <div id="top-menu" ng-show="token_auth">
+      <div class="current-section" rel="main">
+          <ul>
+              <li class="main" ng-class='{selected: selectedMenu == "home"}'><a href="#/home">Home</a></li>
+              <li class="parts" ng-class='{selected: selectedMenu == "parts"}'><a href="#/parts">Parts</a></li>
+              <li class="holidays" ng-class='{selected: selectedMenu == "holidays"}'><a href="#/holidays">Holidays</a></li>
+              <li class="preferences" ng-class='{selected: selectedMenu == "preferences"}'><a href="#/preferences">Preferences</a></li>
+              <li class="logout"><a href="#/logout">Logout</a></li>
+          </ul>
+      </div>
+  </div>
+  <div ng-view></div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+  -->
+  <script src="dist/libs.js"></script>
+  <script src="dist/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{% extends "admin/app_index.html" %}
+{% load i18n %}
+
+{% block sidebar %}
+<div id="content-related">
+    <div class="module" id="recent-actions-module">
+        <h2>{% trans 'Intranet actions' %}</h2>
+        <ul class="actionlist">
+        <li>
+            <a href="{% url 'admin-extra:holidays-summary' %}">
+                {% trans "holidays"%}
+            </a>
+            <br/>
+            {% trans "list holidays"%}
+        </li>
+
+    </div>
+</div>
+{% endblock %}
