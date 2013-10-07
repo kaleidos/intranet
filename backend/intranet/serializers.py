@@ -182,3 +182,7 @@ class SpecialDaySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SpecialDay
         fields = ('date', 'description')
+
+class TalkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Talk

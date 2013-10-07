@@ -26,6 +26,15 @@ class Command(BaseCommand):
             user.set_password(user.username)
             user.save()
 
+    def create_talks(self):
+        max_talks = 30
+        for t in range(0, max_talks):
+            talk = Talk()
+            talk.name = self.sd.words(1, 5)
+            talk.description = self.sd.long_sentence()
+            talk.obsolete = self.sd.boolean()
+            talk.save()
+
     def create_holidays_years(self):
         max_holidays_years = 3
         for x in range(max_holidays_years, -1, -1):
@@ -125,3 +134,6 @@ class Command(BaseCommand):
 
         print "Creating projects parts and imputations"
         self.create_projects_parts_and_imputations()
+
+        print "Creating talks"
+        self.create_talks()
