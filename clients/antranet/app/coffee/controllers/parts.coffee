@@ -102,8 +102,6 @@
             url: apiUrl('projects')
             headers:
                 "X-SESSION-TOKEN": $rootScope.token_auth,
-            params:
-                "page_size": 0
         ).success((data) ->
             $scope.projects = {}
             for project in data

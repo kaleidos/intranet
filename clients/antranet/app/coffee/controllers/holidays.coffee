@@ -13,8 +13,6 @@
             url: apiUrl('holidays-years')
             headers:
                 "X-SESSION-TOKEN": $rootScope.token_auth
-            params:
-                page_size: 0
         ).success((data) ->
             $scope.years = data
             if $scope.year?
@@ -30,7 +28,6 @@
             headers:
                 "X-SESSION-TOKEN": $rootScope.token_auth
             params:
-                page_size: 0
                 year: year.id
         ).success((data) ->
             $scope.holidays_requests = data

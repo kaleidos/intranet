@@ -1,10 +1,10 @@
 angular.module 'antranet.services.apiurl', ['antranet.config'], ($provide) ->
     apiUrlProvider = (config) ->
         urls =
-            "login": "/api/v1/login/"
-            "logout": "/api/v1/logout/"
-            "reset-password": "/api/v1/reset-password/"
-            "change-password": "/api/v1/change-password/"
+            "login": "/api/v1/auth/login/"
+            "logout": "/api/v1/auth/logout/"
+            "reset-password": "/api/v1/auth/reset-password/"
+            "change-password": "/api/v1/auth/change-password/"
             "parts": "/api/v1/parts/"
             "projects": "/api/v1/projects/"
             "holidays-years": "/api/v1/holidays-years/"

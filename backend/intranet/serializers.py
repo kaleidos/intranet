@@ -95,9 +95,12 @@ class PartSerializer(serializers.ModelSerializer):
         read_only_fields = ('employee',)
 
     def get_state_name(self, obj):
-        return obj.get_state_display()
+        return obj.get_state_display() if obj else None
 
     def get_special_days(self, obj):
+        if obj is None:
+            return None
+
         special_days = []
         initial_date = datetime.datetime(year=obj.year, month=obj.month, day=1)
         for day_counter in range(calendar.monthrange(obj.year,obj.month)[1]):
@@ -127,16 +130,16 @@ class HolidaysYearSerializer(serializers.ModelSerializer):
         model = models.HolidaysYear
 
     def get_consumed_days(self, obj):
-        return get_consumed_days_for_user(self.context['request'].user, obj)
+        return get_consumed_days_for_user(self.context['request'].user, obj) if obj else None
 
     def get_requested_days(self, obj):
-        return get_requested_days_for_user(self.context['request'].user, obj)
+        return get_requested_days_for_user(self.context['request'].user, obj) if obj else None
 
     def get_total_days(self, obj):
         return settings.HOLIDAYS_PER_YEAR
 
     def get_special_days(self, obj):
-        return models.SpecialDay.objects.filter(date__year=obj.year).order_by('date').values()
+        return models.SpecialDay.objects.filter(date__year=obj.year).order_by('date').values() if obj else None
 
 
 class HolidaysRequestSerializer(serializers.ModelSerializer):
@@ -148,10 +151,10 @@ class HolidaysRequestSerializer(serializers.ModelSerializer):
         read_only_fields = ('employee',)
 
     def get_status_name(self, obj):
-        return obj.get_status_display()
+        return obj.get_status_display() if obj else None
 
     def get_count_working_days(self, obj):
-        return obj.count_working_days()
+        return obj.count_working_days() if obj else None
 
 
 class DaySerializer(serializers.Serializer):

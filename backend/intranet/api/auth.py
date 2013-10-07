@@ -3,23 +3,18 @@
 from django.contrib import auth
 from django.conf import settings
 
-from rest_framework.views import APIView
+from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import list_route
 
-from intranet import decorators
 from intranet import services
 from intranet import serializers
 
 
-class Login(APIView):
-    """
-    The login api view class.
-    """
-    @decorators.invalid_password_intercept(u"Username or password incorrect")
-    @decorators.user_not_found_intercept(u"Username or password incorrect")
-    @decorators.inactive_user_intercept(u"The user is inactive")
-    def post(self, request, format=None):
+class AuthViewSet(ViewSet):
+    @list_route(methods=["post"])
+    def login(self, request, format=None):
         username = request.DATA.get("username", None)
         password = request.DATA.get("password", None)
         user_service = services.UserService()
@@ -41,24 +36,13 @@ class Login(APIView):
         }))
         return Response(serializer.data)
 
-
-class Logout(APIView):
-    """
-    The logout api view class.
-    """
-    def post(self, request, format=None):
+    @list_route(methods=["post"])
+    def logout(self, request, format=None):
         auth.logout(request)
         return Response({"detail": u"Logout successfully."})
 
-
-class ResetPassword(APIView):
-    """
-    The reset password api view class.
-    """
-    @decorators.invalid_password_intercept(u"Email or password incorrect")
-    @decorators.user_not_found_intercept(u"Email or password incorrect")
-    @decorators.inactive_user_intercept(u"The user is inactive")
-    def post(self, request, format=None):
+    @list_route(methods=["post"])
+    def reset_password(self, request, format=None):
         username = request.DATA.get("username", None)
         domain = request.DATA.get("client_domain", settings.CLIENT_DOMAIN)
         use_https = request.DATA.get("use_https", settings.CLIENT_USE_HTTPS)
@@ -68,14 +52,8 @@ class ResetPassword(APIView):
 
         return Response({"detail": u"The reset password email has been sent successfully."})
 
-
-class ChangePassword(APIView):
-    """
-    The reset password api view class.
-    """
-    @decorators.user_not_found_intercept(u"Incorrect token")
-    @decorators.inactive_user_intercept(u"The user is inactive")
-    def post(self, request, format=None):
+    @list_route(methods=["post"])
+    def change_password(self, request, format=None):
         user = request.user
         token = request.DATA.get("token", None)
         password1 = request.DATA.get("password1", None)

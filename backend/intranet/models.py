@@ -396,7 +396,7 @@ class HolidaysRequest(models.Model):
     status = models.IntegerField(choices=HOLIDAYS_REQUEST_CHOICES, default=STATE_CREATED)
     beginning = models.DateField()
     ending = models.DateField()
-    flexible_dates = models.BooleanField()
+    flexible_dates = models.BooleanField(default=False)
     comments = models.TextField(default=u'', blank=True)
 
     def get_working_days(self):
