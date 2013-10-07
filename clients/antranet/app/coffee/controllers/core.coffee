@@ -12,6 +12,7 @@
             if(data.token?)
                 $rootScope.token_auth = data.token
                 storage.set('token_auth', data.token)
+                storage.set('user_id', data.id)
                 $location.url('/home')
         ).error((data) ->
             flash([{ level: 'warning', text: 'Invalid username or password' }])

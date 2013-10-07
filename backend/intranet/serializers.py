@@ -184,5 +184,14 @@ class SpecialDaySerializer(serializers.ModelSerializer):
         fields = ('date', 'description')
 
 class TalkSerializer(serializers.ModelSerializer):
+    wanters_count = serializers.SerializerMethodField('count_wanters')
+    talkers_count = serializers.SerializerMethodField('count_talkers')
+
     class Meta:
         model = models.Talk
+
+    def count_wanters(self, obj):
+        return obj.wanters.count() if obj else None
+
+    def count_talkers(self, obj):
+        return obj.talkers.count() if obj else None

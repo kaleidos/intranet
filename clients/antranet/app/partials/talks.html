@@ -1,0 +1,29 @@
+<div id="talk-list-block">
+    <table id="talk-list" cellspacing="0" summary="Part list">
+        <tbody>
+            <tr>
+                <th scope="col" abbr="Id">Id</th>
+                <th scope="col" abbr="Date">Name</th>
+                <th scope="col" abbr="Status">Description</th>
+                <th scope="col" abbr="Status">Wanters count</th>
+                <th scope="col" abbr="Status">Talkers count</th>
+                <th scope="col" abbr="Status">I Want</th>
+                <th scope="col" abbr="Status">I Talk</th>
+            </tr>
+            <tr ng-repeat="talk in talks">
+                <th class="spec" scope="row">{{ talk.id }}</th>
+                <td class="alt">{{ talk.name }}</td>
+                <td class="alt">{{ talk.description }}</td>
+                <td class="alt">{{ talk.wanters_count }}</td>
+                <td class="alt">{{ talk.talkers_count }}</td>
+                <td class="alt">{{ talk.wanters.indexOf(user_id) !== -1 && "yes" || "no"}}</td>
+                <td class="alt">{{ talk.talkers.indexOf(user_id) !== -1 && "yes" || "no"}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="pagination clearfix">
+        <a ng-click="prevPage()" class="link" ng-show="hasPrev">Prev Page</a>
+        <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link" ng-click="selectPage(page)">{{ page }}</a>
+        <a ng-click="nextPage()" class="link" ng-show="hasNext">Next Page</a>
+    </div>
+</div>
