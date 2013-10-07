@@ -21,15 +21,15 @@
 
     $scope.nextPage = () ->
         $scope.currentPage = $scope.currentPage + 1
-        loadParts()
+        loadTalks()
 
     $scope.prevPage = () ->
         $scope.currentPage = $scope.currentPage - 1
-        loadParts()
+        loadTalks()
 
     $scope.selectPage = (page) ->
         $scope.currentPage = page
-        loadParts()
+        loadTalks()
 
     loadTalks()
 @TalksCtrl.$inject = ['$scope', '$rootScope', '$http', 'apiUrl']
