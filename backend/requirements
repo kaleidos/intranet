@@ -1,5 +1,5 @@
 https://www.djangoproject.com/download/1.6b1/tarball/
-djangorestframework==2.3.6
+git+https://github.com/tomchristie/django-rest-framework.git@2.4.0
 markdown==2.3.1
 django-filter==0.6
 south
