@@ -19,6 +19,26 @@
             $scope.pages = [1..((data['count']/15)+1)]
         )
 
+    $scope.iWant = (id) ->
+        $http(
+            method: "POST"
+            url: "#{apiUrl('talks')}#{id}/i_want/"
+            headers:
+                "X-SESSION-TOKEN": $rootScope.token_auth
+        ).success((data) ->
+            loadTalks()
+        )
+
+    $scope.iTalk = (id) ->
+        $http(
+            method: "POST"
+            url: "#{apiUrl('talks')}#{id}/i_talk/"
+            headers:
+                "X-SESSION-TOKEN": $rootScope.token_auth
+        ).success((data) ->
+            loadTalks()
+        )
+
     $scope.nextPage = () ->
         $scope.currentPage = $scope.currentPage + 1
         loadTalks()

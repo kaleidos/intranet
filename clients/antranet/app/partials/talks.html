@@ -9,6 +9,7 @@
                 <th scope="col" abbr="Status">Talkers count</th>
                 <th scope="col" abbr="Status">I Want</th>
                 <th scope="col" abbr="Status">I Talk</th>
+                <th scope="col" abbr="Status">Actions</th>
             </tr>
             <tr ng-repeat="talk in talks">
                 <th class="spec" scope="row">{{ talk.id }}</th>
@@ -18,6 +19,8 @@
                 <td class="alt">{{ talk.talkers_count }}</td>
                 <td class="alt">{{ talk.wanters.indexOf(user_id) !== -1 && "yes" || "no"}}</td>
                 <td class="alt">{{ talk.talkers.indexOf(user_id) !== -1 && "yes" || "no"}}</td>
+                <td class="alt" ng-click="iWant(talk.id)">I want</td>
+                <td class="alt" ng-click="iTalk(talk.id)">I talk</td>
             </tr>
         </tbody>
     </table>
