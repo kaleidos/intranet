@@ -428,6 +428,9 @@ class Talk(models.Model):
     description = models.CharField(max_length=500)
     obsolete = models.BooleanField(default=False)
     wanters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_wanted',
-                                       null=True, default=None)
+                                       null=True, blank=True, default=None)
     talkers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_offers',
-                                       null=True, default=None)
+                                       null=True, blank=True, default=None)
+
+    def __unicode__(self):
+        return u"%s" % (self.name,)

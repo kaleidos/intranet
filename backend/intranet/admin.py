@@ -26,7 +26,7 @@ from dateutil.relativedelta import relativedelta
 
 from intranet.models import (Assignation, Invoice, Project,
                              Part, SpecialDay, Client, Sector, HolidaysRequest,
-                             HolidaysYear, User)
+                             HolidaysYear, User, Talk)
 from intranet.forms import (UserCreationForm, UserChangeForm)
 
 
@@ -340,3 +340,17 @@ class HolidaysRequestAdmin(admin.ModelAdmin):
 admin.site.register(HolidaysRequest, HolidaysRequestAdmin)
 
 admin.site.register(HolidaysYear)
+
+class TalkAdmin(admin.ModelAdmin):
+    list_display = ('name', 'obsolete', 'count_wanters', 'count_talkers')
+    list_filter = ('obsolete', 'talkers', 'wanters',)
+
+    def count_wanters(self, obj):
+        return obj.wanters.count()
+    count_wanters.short_description = "Count wanters"
+
+    def count_talkers(self, obj):
+        return obj.talkers.count()
+    count_talkers.short_description = "Count talkers"
+
+admin.site.register(Talk, TalkAdmin)
