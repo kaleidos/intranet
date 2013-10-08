@@ -7,6 +7,7 @@ backend/static*
 clients/node-web-client/public/stylesheets/base.css
 clients/node-web-client/public/stylesheets/login.css
 node_modules
+clients/antranet/app/dist/
 clients/antranet/app/dist/antranet.css
 clients/antranet/app/dist/app.js
 clients/antranet/app/dist/libs.js

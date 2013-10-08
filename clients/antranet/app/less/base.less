@@ -10,6 +10,11 @@ a {
     color: #c75f3e;
 }
 
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
 div#top-menu, div#top-menu-2 {
     height: 30px;
     width: 100%;
@@ -87,7 +92,7 @@ div#holidays-block {
         margin: 0;
         caption {
             padding: 0 0 5px 0;
-            width: 900px;	 
+            width: 900px;
             font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
             text-align: right;
         }
@@ -703,3 +708,71 @@ div.change-password {
     }
 }
 
+.talk-container {
+    background: whiteSmoke;
+    border: 1px solid #CCC;
+    margin-bottom: 15px;
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .wanters-num{
+        float: left;
+        width: 10%;
+        text-align: center;
+        padding-top: 10px;
+        position: relative;
+        .wanters-num-count{
+            font-size: 64px;
+            font-weight:bold;
+            position: relative;
+            margin-left: 5px;
+            color: #c1dad7;
+            display: block;
+            margin-bottom: -10px
+        }
+        .wanters-num-title{
+            color: darken(#c1dad7, 30%);
+        }
+    }
+    .talk-data {
+        padding: 20px 15px;
+        width: 60%;
+        float: left;
+        h3 {
+            font-size: 20px;
+            font-weight:bold;
+            color: darken(#ccc, 50%);
+            margin: 0;
+            line-height: 20px;
+        }
+        .talk-owners {
+            color: darken(#ccc, 20%);
+            background: url('/img/microphone.png') no-repeat center left;
+            padding: 5px 0 5px 20px ;
+        }
+        .talk-owners-empty {
+            color: #FF0000;
+            &:before{
+                content: 'What?...';
+            }
+            &:after{
+                content: '!';
+            }
+        }
+        .description {
+            color: darken(#ccc, 30%);
+        }
+    }
+    .wanters-count {
+        float: left;
+        padding: 15px;
+        width: 10%;
+    }
+    .actions {
+        float: left;
+        padding: 15px;
+        width: 10%;
+    }
+}
