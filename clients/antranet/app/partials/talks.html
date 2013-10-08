@@ -1,5 +1,5 @@
 <section class="talks-wrapper wrapper">
-    <h2>Hmm...so you want a kaleidos talk?</h2>
+    <h2>So you want a kaleidos talk..hmm?</h2>
     <article class="talk-container clearfix" ng-repeat="talk in talks">
         <div class="wanters-num">
             <span class="wanters-num-count">{{ talk.wanters_count }}</span>
@@ -19,16 +19,20 @@
         </div>
         <div class="wanters-count">
             <ul class="wanters-name">
+
+                <!-- IF wanters
+                <li class="wanters-title">Wanters</li>
+                endif -->
+
                 <!-- TODO: foreach wanter_name as wanter -->
                 <!-- <li>{{ wanter }}</li> -->
                 <!-- IF wanter == 0 -->
-                <li class="talk-owners-empty">No wanters yet</li>
+                <li class="talk-wanters-empty">No wanters yet</li>
             </ul>
         </div>
         <div class="actions">
-            <!-- IF !talkers -->
-            <a href="#" class="talker-action" title="I will talk">I talk</a>
-            <a href="#" class="wanter-action" title="I want this talk">I want</a>
+            <a href="#" class="wanter-action" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
+            <a href="#" class="talker-action" data-hover="Yeah!" title="I will talk"><span>I talk</span></a>
         </div>
     </article>
 
