@@ -8,10 +8,8 @@
         <div class="talk-data">
             <h3>{{ talk.name }}</h3>
             <ul class="talk-owners">
-                <!-- TODO: foreach talker_name as talker -->
-                <!-- <li>{{ talker }}</li> -->
-                <!-- IF talker == 0 -->
-                <li class="talk-owners-empty">No talkers yet</li>
+                <li class="talk-owners-empty" ng-hide="talk.talkers">No talkers yet</li>
+                <li ng-repeat="talker in talk.talkers">{{ talker.name }}</li>
             </ul>
             <div class="description">
                 <p>{{ talk.description }}</p>
@@ -19,57 +17,21 @@
         </div>
         <div class="wanters-count">
             <ul class="wanters-name">
-
-                <!-- IF wanters
-                <li class="wanters-title">Wanters</li>
-                endif -->
-
-                <!-- TODO: foreach wanter_name as wanter -->
-                <!-- <li>{{ wanter }}</li> -->
-                <!-- IF wanter == 0 -->
-                <li class="talk-wanters-empty">No wanters yet</li>
+                <li class="wanters-title" ng-show="talk.wanters">Wanters</li>
+                <li class="talk-wanters-empty" ng-hide="talk.wanters">No wanters yet</li>
+                <li ng-repeat="wanter in talk.wanters">{{ wanter.name }}</li>
             </ul>
         </div>
         <div class="actions">
-            <a href="#" class="wanter-action" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
-            <a href="#" class="talker-action" data-hover="Yeah!" title="I will talk"><span>I talk</span></a>
+            <a href="" class="wanter-action" ng-click="iWant(talk.id)" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
+            <a href="" class="talker-action" ng-click="iTalk(talk.id)" data-hover="Yeah!" title="I will talk"><span>I talk</span></a>
         </div>
     </article>
 
-        <div class="pagination clearfix">
-            <a ng-click="prevPage()" class="link" ng-show="hasPrev">Prev Page</a>
-            <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link" ng-click="selectPage(page)">{{ page }}</a>
-            <a ng-click="nextPage()" class="link" ng-show="hasNext">Next Page</a>
-        </div>
+    <div class="pagination clearfix">
+        <a ng-click="prevPage()" class="link" ng-show="hasPrev">Prev Page</a>
+        <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link" ng-click="selectPage(page)">{{ page }}</a>
+        <a ng-click="nextPage()" class="link" ng-show="hasNext">Next Page</a>
     </div>
 
-</section><!-- /wrapper -->
-
-<!--
-    <div id="talk-list-block">
-        <table id="talk-list" cellspacing="0" summary="Part list">
-            <tbody>
-                <tr>
-                    <th scope="col" abbr="Id">Id</th>
-                    <th scope="col" abbr="Date">Name</th>
-                    <th scope="col" abbr="Status">Description</th>
-                    <th scope="col" abbr="Status">Wanters count</th>
-                    <th scope="col" abbr="Status">Talkers count</th>
-                    <th scope="col" abbr="Status">I Want</th>
-                    <th scope="col" abbr="Status">I Talk</th>
-                    <th scope="col" abbr="Status">Actions</th>
-                </tr>
-                <tr ng-repeat="talk in talks">
-                    <th class="spec" scope="row">{{ talk.id }}</th>
-                    <td class="alt">{{ talk.name }}</td>
-                    <td class="alt">{{ talk.description }}</td>
-                    <td class="alt">{{ talk.wanters_count }}</td>
-                    <td class="alt">{{ talk.talkers_count }}</td>
-                    <td class="alt">{{ talk.wanters.indexOf(user_id) !== -1 && "yes" || "no"}}</td>
-                    <td class="alt">{{ talk.talkers.indexOf(user_id) !== -1 && "yes" || "no"}}</td>
-                    <td class="alt" ng-click="iWant(talk.id)">I want</td>
-                    <td class="alt" ng-click="iTalk(talk.id)">I talk</td>
-                </tr>
-            </tbody>
-        </table>
--->
+</section>

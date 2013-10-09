@@ -186,6 +186,8 @@ class SpecialDaySerializer(serializers.ModelSerializer):
 class TalkSerializer(serializers.ModelSerializer):
     wanters_count = serializers.SerializerMethodField('count_wanters')
     talkers_count = serializers.SerializerMethodField('count_talkers')
+    wanters = serializers.SerializerMethodField('get_wanters')
+    talkers = serializers.SerializerMethodField('get_talkers')
 
     class Meta:
         model = models.Talk
@@ -195,3 +197,9 @@ class TalkSerializer(serializers.ModelSerializer):
 
     def count_talkers(self, obj):
         return obj.talkers.count() if obj else None
+
+    def get_wanters(self, obj):
+        return [{'name': wanter.get_full_name() or wanter.username, 'id': wanter.id} for wanter in obj.wanters.all()] if obj else []
+
+    def get_talkers(self, obj):
+        return [{'name': talker.get_full_name() or talker.username, 'id': talker.id} for talker in obj.talkers.all()] if obj else []
