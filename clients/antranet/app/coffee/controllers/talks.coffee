@@ -1,5 +1,7 @@
 @TalksCtrl = ($scope, $rootScope, $http, apiUrl) ->
     $scope.currentPage = 1
+    $scope.ordering = "-id"
+    $scope.newTalk = {}
 
     $rootScope.selectedMenu = "talks"
 
@@ -12,11 +14,23 @@
             params:
                 "page": $scope.currentPage
                 "page_size": 15
+                "ordering": $scope.ordering
         ).success((data) ->
             $scope.talks = data['results']
             $scope.hasNext = data['next'] != null
             $scope.hasPrev = data['previous'] != null
             $scope.pages = [1..((data['count']/15)+1)]
+        )
+
+    $scope.addTalk = () ->
+        $http(
+            method: "POST"
+            url: "#{apiUrl('talks')}"
+            headers:
+                "X-SESSION-TOKEN": $rootScope.token_auth
+            data: $scope.newTalk
+        ).success((data) ->
+            loadTalks()
         )
 
     $scope.iWant = (id) ->
@@ -38,6 +52,11 @@
         ).success((data) ->
             loadTalks()
         )
+
+    $scope.setOrder = (order) ->
+        $scope.currentPage = 1
+        $scope.ordering = order
+        loadTalks()
 
     $scope.nextPage = () ->
         $scope.currentPage = $scope.currentPage + 1

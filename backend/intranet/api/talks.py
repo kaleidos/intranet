@@ -10,11 +10,14 @@ from rest_framework.decorators import detail_route
 from intranet import models
 from intranet import serializers
 
+from intranet.api.filters import OrderingTalksFilterBackend
+
 
 class TalkViewSet(ModelViewSet):
     queryset = models.Talk.objects.filter(obsolete=False)
     serializer_class = serializers.TalkSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    filter_backends = (OrderingTalksFilterBackend,)
     paginate_by = settings.API_DEFAULT_PAGE_SIZE
     paginate_by_param = "page_size"
 
