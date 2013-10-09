@@ -735,6 +735,78 @@ div.change-password {
     }
 }
 
+fieldset {
+    outline: 0;
+    border: 0;
+    margin:0;
+    padding: 0;
+}
+
+.new-talk {
+    margin: 10px 0 20px;
+    background: red;
+    padding: 15px;
+    background: whiteSmoke;
+    border: 1px solid #CCC;
+    font-family: 'Roboto',sans-serif;
+    transition: all .3s ease-in;
+    position: relative;
+    display: block;
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #4d4d4d;
+    }
+    fieldset {
+        margin-bottom: 10px;
+        &:last-child {
+            margin: 0;
+        }
+    }
+    input[type="text"], textarea {
+        padding: 10px 15px;
+        border: none;
+        font-family: 'Roboto',sans-serif;
+        box-shadow:inset 0 0 10px #cdcdcd;
+        background: #FFF;
+        font-size: 13px;
+    }
+    input[type="text"] {
+        width: 96%;
+    }
+    textarea {
+        width: 96%;
+        max-width: 96%;
+        min-width: 96%;
+        min-height: 140px;
+    }
+    input[type="button"] {
+        display: block;
+        text-transform: uppercase;
+        background: #247dd6;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 12px;
+        color: #FFF;
+        font-size: 14px;
+        transition: all .3s ease-in;
+        float: right;
+        border: none;
+        &:hover {
+            background: #669933;
+        }
+    }
+    .cocoroco {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: url('/img/chicken.png') no-repeat center left;
+    }
+}
+
 .talk-order {
     margin:0;
     padding: 0;

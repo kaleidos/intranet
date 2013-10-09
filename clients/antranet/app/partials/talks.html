@@ -2,15 +2,18 @@
 
     <h2>So you want a Kaleidos talk..hmm?</h2>
 
-    <a href="" class="my-talk" title="I want to talk" ng-click="newTalk=!newTalk">No! I want my own talk</a>
+    <a href="" class="my-talk" title="I want to talk" ng-click="newTalkForm=true">No! I want my own talk</a>
 
-    <form ng-submit="addTalk()" ng-hide="newTalk">
-        <h2>New talk</h2>
-        <label for="talk-name">Name</label>
-        <input id="talk-name" type="text" ng-model="newTalk.name">
-        <label for="talk-description">Description</label>
-        <textarea id="talk-description" ng-model="newTalk.description"></textarea>
-        <input type="submit" value="Add" />
+    <form class="new-talk clearfix" ng-submit="addTalk()" ng-show="newTalkForm">
+        <h3>What you want to talk about?</h3>
+        <fieldset>
+            <input id="talk-name" type="text" ng-model="newTalk.name" placeholder="Title for the talk">
+        </fieldset>
+        <fieldset>
+            <textarea id="talk-description" ng-model="newTalk.description" placeholder="Description"></textarea>
+        </fieldset>
+        <input type="button" value="Add New Talk" />
+        <a href="" class="cocoroco" title="Cocorococo" ng-click="newTalkForm=false"></a>
     </form>
 
     <ul class="talk-order clearfix">
