@@ -31,6 +31,8 @@
             data: $scope.newTalk
         ).success((data) ->
             loadTalks()
+            $scope.newTalk = {}
+            $scope.newTalkForm = false
         )
 
     $scope.iWant = (id) ->
