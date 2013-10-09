@@ -709,10 +709,66 @@ div.change-password {
 }
 
 .talks-wrapper {
+    position: relative;
     h2 {
         font-size: 34px;
         color: #666;
         font-family: 'Roboto', sans-serif;
+    }
+    .my-talk {
+        display: block;
+        text-transform: uppercase;
+        background: #247DD6;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 12px;
+        color: #FFF;
+        font-size: 14px;
+        transition: all 0.3s ease-in;
+        position: absolute;
+        top: 10px;
+        right: 0;
+        &:hover {
+            background: #669933;
+        }
+    }
+}
+
+.talk-order {
+    margin:0;
+    padding: 0;
+    list-style: none;
+    background: darken(#FCFCFC,50%);
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    display: block;
+    margin-bottom: 10px;
+    li {
+        float: left;
+        display: block;
+        padding: 5px 15px;
+        border-right: 1px solid darken(#FCFCFC,70%);
+        border-left: 1px solid darken(#FCFCFC,40%);
+        transition: all .3s ease-in;
+        font-size: 13px;
+        &:first-child {
+            border-left: none;
+            font-weight: bold;
+            color: darken(#FCFCFC,70%);
+        }
+        &:last-child {
+            border-right: none;
+        }
+        &:not(:first-child) {
+            cursor: pointer;
+            &:hover {
+                background: darken(#FCFCFC,40%);
+            }
+        }
+        &.active {
+            background: darken(#FCFCFC,40%);
+        }
     }
 }
 
@@ -723,6 +779,7 @@ div.change-password {
     margin-bottom: 15px;
     font-family: 'Roboto', sans-serif;
     transition: all 0.3s ease-in;
+    position: relative;
     &:hover {
         background: darken(#FCFCFC,7%);
     }
@@ -752,8 +809,8 @@ div.change-password {
         }
     }
     .talk-data {
-        padding: 20px 15px;
-        width: 60%;
+        padding: 20px 15px 10px;
+        width: 70%;
         float: left;
         h3 {
             font-size: 20px;
@@ -763,17 +820,30 @@ div.change-password {
             line-height: 20px;
         }
         .talk-owners {
-            color: darken(#ccc, 20%);
             background: url('/img/microphone.png') no-repeat center left;
             padding: 5px 0 5px 20px ;
-        }
-        .talk-owners-empty {
-            color: #FF0000;
-            &:before{
-                content: 'What?...';
+            li {
+                color: darken(#ccc, 20%);
+                float: left;
+                display: block;
+                border-right: 1px solid darken(#eaeaea, 5%);
+                padding: 0 10px;
             }
-            &:after{
-                content: '!';
+            .talk-owners-title {
+                font-weight: bold;
+                color: darken(#ccc, 50%);
+                border-right: 1px solid darken(#eaeaea, 5%);
+            }
+            .talk-owners-empty {
+                color: #c00;
+                font-weight: bold;
+                border: none;
+                &:before{
+                    content: 'What?...';
+                }
+                &:after{
+                    content: '!';
+                }
             }
         }
         .description {
@@ -781,32 +851,42 @@ div.change-password {
         }
     }
     .wanters-count {
-        float: left;
-        padding: 15px;
-        width: 10%;
+        padding: 10px 20px 0;
+        background: darken(#eaeaea, 1%);
+        border-top: 1px solid darken(#eaeaea, 10%);
         .wanters-title{
             font-weight: bold;
             color: darken(#ccc, 50%);
             font-size: 14px;
+            border-right: 1px solid darken(#eaeaea, 5%);
+            padding: 0 10px;
         }
         li {
             color: darken(#ccc, 20%);
+            float: left;
+            display: block;
+            border-right: 1px solid darken(#eaeaea, 5%);
+            padding: 0 10px;
         }
         .talk-wanters-empty{
-            color: #FF0000;
+            color: #c00;
+            font-weight: bold;
+            border: none;
             &:after{
                 content: '!';
             }
         }
     }
     .actions {
-        float: left;
-        padding: 15px;
-        padding-top: 25px;
+        float: right;
+        padding: 0 15px;
         width: 10%;
+        position: absolute;
+        top: 15%;
+        right: 0;
         a{
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             background: white;
             text-align: center;
@@ -824,7 +904,7 @@ div.change-password {
                 transition: all 0.3s ease-in;
             }
             &:hover {
-                background: #333;
+                background: #669933;
                 span {
                     opacity: 0;
                 }
@@ -846,6 +926,9 @@ div.change-password {
         }
         .talker-action {
             background: darken(#FF0000, 10%);
+            &:before {
+                right: 24%;
+            }
         }
         .wanter-action {
             background: #3f4c6b;

@@ -1,6 +1,10 @@
 <section class="talks-wrapper wrapper">
-    <h2>So you want a kaleidos talk..hmm?</h2>
-    <form ng-submit="addTalk()">
+
+    <h2>So you want a Kaleidos talk..hmm?</h2>
+
+    <a href="" class="my-talk" title="I want to talk" ng-click="newTalk=!newTalk">No! I want my own talk</a>
+
+    <form ng-submit="addTalk()" ng-hide="newTalk">
         <h2>New talk</h2>
         <label for="talk-name">Name</label>
         <input id="talk-name" type="text" ng-model="newTalk.name">
@@ -8,38 +12,46 @@
         <textarea id="talk-description" ng-model="newTalk.description"></textarea>
         <input type="submit" value="Add" />
     </form>
-    <div>
-        Order by:
-        <span ng-click="setOrder('name')">Name</span> |
-        <span ng-click="setOrder('-id')">Creation</span> |
-        <span ng-click="setOrder('-wanters_count')">Wanters</span>
-    </div>
-    <article class="talk-container clearfix" ng-repeat="talk in talks">
-        <div class="wanters-num">
-            <span class="wanters-num-count">{{ talk.wanters_count }}</span>
-            <span class="wanters-num-title">wanters</span>
-        </div>
-        <div class="talk-data">
-            <h3>{{ talk.name }}</h3>
-            <ul class="talk-owners">
-                <li class="talk-owners-empty" ng-hide="talk.talkers">No talkers yet</li>
-                <li ng-repeat="talker in talk.talkers">{{ talker.name }}</li>
-            </ul>
-            <div class="description">
-                <p>{{ talk.description }}</p>
+
+    <ul class="talk-order clearfix">
+        <li><span class="title">Order</span></li>
+        <li><span ng-click="setOrder('name')">Name</span></li>
+        <li><span ng-click="setOrder('-id')">Creation</span></li>
+        <li><span ng-click="setOrder('-wanters_count')">Wanters</span></li>
+    </ul>
+
+    <article class="talk-container" ng-repeat="talk in talks">
+        <div class="top clearfix">
+            <div class="wanters-num">
+                <span class="wanters-num-count">{{ talk.wanters_count }}</span>
+                <span class="wanters-num-title">wanters</span>
+            </div>
+
+            <div class="talk-data">
+                <h3>{{ talk.name }}</h3>
+                <ul class="talk-owners clearfix">
+                    <li class="talk-owners-title" ng-show="talk.talkers">Talker</li>
+                    <li class="talk-owners-empty" ng-hide="talk.talkers">No talkers yet</li>
+                    <li ng-repeat="talker in talk.talkers">{{ talker.name }}</li>
+                </ul>
+                <div class="description">
+                    <p>{{ talk.description }}</p>
+                </div>
+            </div>
+            <div class="actions">
+                <a href="" class="wanter-action" ng-click="iWant(talk.id)" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
+                <a href="" class="talker-action" ng-click="iTalk(talk.id)" data-hover="Sure?" title="I will talk"><span>I talk</span></a>
             </div>
         </div>
-        <div class="wanters-count">
-            <ul class="wanters-name">
+
+        <div class="bottom wanters-count">
+            <ul class="wanters-name clearfix">
                 <li class="wanters-title" ng-show="talk.wanters">Wanters</li>
                 <li class="talk-wanters-empty" ng-hide="talk.wanters">No wanters yet</li>
                 <li ng-repeat="wanter in talk.wanters">{{ wanter.name }}</li>
             </ul>
         </div>
-        <div class="actions">
-            <a href="" class="wanter-action" ng-click="iWant(talk.id)" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
-            <a href="" class="talker-action" ng-click="iTalk(talk.id)" data-hover="Yeah!" title="I will talk"><span>I talk</span></a>
-        </div>
+
     </article>
 
     <div class="pagination clearfix">
