@@ -6,6 +6,7 @@ angular.module 'antranet.services.apiurl', ['antranet.config'], ($provide) ->
             "reset-password": "/api/v1/auth/reset-password/"
             "change-password": "/api/v1/auth/change-password/"
             "parts": "/api/v1/parts/"
+            "talks": "/api/v1/talks/"
             "projects": "/api/v1/projects/"
             "holidays-years": "/api/v1/holidays-years/"
             "holidays-requests": "/api/v1/holidays-requests/"

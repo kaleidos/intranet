@@ -8,7 +8,8 @@ from intranet.api import (
     auth,
     projects,
     parts,
-    holidays
+    holidays,
+    talks,
 )
 
 router = DefaultRouter()
@@ -17,6 +18,7 @@ router.register("holidays-years", holidays.HolidaysYearsViewSet, base_name="holi
 router.register("holidays", holidays.HolidaysViewSet, base_name="holidays")
 router.register("parts", parts.PartViewSet, base_name="parts")
 router.register("projects", projects.ProjectViewSet, base_name="projects")
+router.register("talks", talks.TalkViewSet, base_name="talks")
 
 auth_router = SimpleRouter()
 auth_router.register("auth", auth.AuthViewSet, base_name="auth")

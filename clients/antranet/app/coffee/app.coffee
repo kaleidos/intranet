@@ -8,6 +8,7 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: HomeCtrl})
     $routeProvider.when('/parts', {templateUrl: 'partials/parts.html', controller: PartsCtrl})
     $routeProvider.when('/parts/:id', {templateUrl: 'partials/part.html', controller: PartCtrl})
+    $routeProvider.when('/talks', {templateUrl: 'partials/talks.html', controller: TalksCtrl})
     $routeProvider.when('/holidays', {templateUrl: 'partials/holidays.html', controller: HolidaysCtrl})
     $routeProvider.otherwise({redirectTo: '/login'})
 
@@ -38,6 +39,7 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
 
 init = ($rootScope, $location, storage) ->
     $rootScope.token_auth = storage.get('token_auth')
+    $rootScope.user_id = storage.get('user_id')
 
 modules = [
     'antranet.filters'

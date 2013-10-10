@@ -10,6 +10,11 @@ a {
     color: #c75f3e;
 }
 
+.wrapper {
+    width: 960px;
+    margin: 0 auto;
+}
+
 div#top-menu, div#top-menu-2 {
     height: 30px;
     width: 100%;
@@ -87,7 +92,7 @@ div#holidays-block {
         margin: 0;
         caption {
             padding: 0 0 5px 0;
-            width: 900px;	 
+            width: 900px;
             font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
             text-align: right;
         }
@@ -703,3 +708,305 @@ div.change-password {
     }
 }
 
+.talks-wrapper {
+    position: relative;
+    h2 {
+        font-size: 34px;
+        color: #666;
+        font-family: 'Roboto', sans-serif;
+    }
+    .my-talk {
+        display: block;
+        text-transform: uppercase;
+        background: #247DD6;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 12px;
+        color: #FFF;
+        font-size: 14px;
+        transition: all 0.3s ease-in;
+        position: absolute;
+        top: 10px;
+        right: 0;
+        &:hover {
+            background: #669933;
+        }
+    }
+}
+
+fieldset {
+    outline: 0;
+    border: 0;
+    margin:0;
+    padding: 0;
+}
+
+.new-talk {
+    margin: 10px 0 20px;
+    background: red;
+    padding: 15px;
+    background: whiteSmoke;
+    border: 1px solid #CCC;
+    font-family: 'Roboto',sans-serif;
+    transition: all .3s ease-in;
+    position: relative;
+    display: block;
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #4d4d4d;
+    }
+    fieldset {
+        margin-bottom: 10px;
+        &:last-child {
+            margin: 0;
+        }
+    }
+    input[type="text"], textarea {
+        padding: 10px 15px;
+        border: none;
+        font-family: 'Roboto',sans-serif;
+        box-shadow:inset 0 0 10px #cdcdcd;
+        background: #FFF;
+        font-size: 13px;
+    }
+    input[type="text"] {
+        width: 96%;
+    }
+    textarea {
+        width: 96%;
+        max-width: 96%;
+        min-width: 96%;
+        min-height: 140px;
+    }
+    input[type="button"] {
+        display: block;
+        text-transform: uppercase;
+        background: #247dd6;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 12px;
+        color: #FFF;
+        font-size: 14px;
+        transition: all .3s ease-in;
+        float: right;
+        border: none;
+        &:hover {
+            background: #669933;
+        }
+    }
+    .cocoroco {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: url('/img/chicken.png') no-repeat center left;
+    }
+}
+
+.talk-order {
+    margin:0;
+    padding: 0;
+    list-style: none;
+    background: darken(#FCFCFC,50%);
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    display: block;
+    margin-bottom: 10px;
+    li {
+        float: left;
+        display: block;
+        padding: 5px 15px;
+        border-right: 1px solid darken(#FCFCFC,70%);
+        border-left: 1px solid darken(#FCFCFC,40%);
+        transition: all .3s ease-in;
+        font-size: 13px;
+        &:first-child {
+            border-left: none;
+            font-weight: bold;
+            color: darken(#FCFCFC,70%);
+        }
+        &:last-child {
+            border-right: none;
+        }
+        &:not(:first-child) {
+            cursor: pointer;
+            &:hover {
+                background: darken(#FCFCFC,40%);
+            }
+        }
+        &.active {
+            background: darken(#FCFCFC,40%);
+        }
+    }
+}
+
+.talk-container {
+    width: 960px;
+    background: whiteSmoke;
+    border: 1px solid #CCC;
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease-in;
+    position: relative;
+    &:hover {
+        background: darken(#FCFCFC,7%);
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .top {
+        display: block;
+    }
+    .wanters-num{
+        float: left;
+        width: 10%;
+        text-align: center;
+        padding-top: 10px;
+        position: relative;
+        .wanters-num-count{
+            font-size: 64px;
+            font-weight:bold;
+            position: relative;
+            margin-left: 5px;
+            color: #c1dad7;
+            display: block;
+            margin-bottom: -10px;
+            transition: all 0.3s ease-in;
+        }
+        .wanters-num-title{
+            color: darken(#c1dad7, 30%);
+        }
+    }
+    .talk-data {
+        padding: 20px 15px 10px;
+        width: 70%;
+        float: left;
+        h3 {
+            font-size: 20px;
+            font-weight:bold;
+            color: darken(#ccc, 50%);
+            margin: 0;
+            line-height: 20px;
+        }
+        .talk-owners {
+            background: url('/img/microphone.png') no-repeat center left;
+            padding: 5px 0 5px 20px ;
+            li {
+                color: darken(#ccc, 20%);
+                float: left;
+                display: block;
+                border-right: 1px solid darken(#eaeaea, 5%);
+                padding: 0 10px;
+            }
+            .talk-owners-title {
+                font-weight: bold;
+                color: darken(#ccc, 50%);
+                border-right: 1px solid darken(#eaeaea, 5%);
+            }
+            .talk-owners-empty {
+                color: #c00;
+                font-weight: bold;
+                border: none;
+                &:before{
+                    content: 'What?...';
+                }
+                &:after{
+                    content: '!';
+                }
+            }
+        }
+        .description {
+            color: darken(#ccc, 30%);
+        }
+    }
+    .wanters-count {
+        padding: 10px 20px 0;
+        background: darken(#eaeaea, 1%);
+        border-top: 1px solid darken(#eaeaea, 10%);
+        .wanters-title{
+            font-weight: bold;
+            color: darken(#ccc, 50%);
+            font-size: 14px;
+            border-right: 1px solid darken(#eaeaea, 5%);
+            padding: 0 10px;
+        }
+        li {
+            color: darken(#ccc, 20%);
+            float: left;
+            display: block;
+            border-right: 1px solid darken(#eaeaea, 5%);
+            padding: 0 10px;
+        }
+        .talk-wanters-empty{
+            color: #c00;
+            font-weight: bold;
+            border: none;
+            &:after{
+                content: '!';
+            }
+        }
+    }
+    .actions {
+        float: right;
+        padding: 0 15px;
+        width: 10%;
+        position: absolute;
+        top: 15%;
+        right: 0;
+        a{
+            display: block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            background: white;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            overflow: hidden;
+            padding: 8px 0 12px;
+            height: 1em;
+            text-align: center;
+            position: relative;
+            color: #FFF;
+            font-size: 14px;
+            transition: all 0.3s ease-in;
+            span {
+                transition: all 0.3s ease-in;
+            }
+            &:hover {
+                background: #669933;
+                span {
+                    opacity: 0;
+                }
+                &:before {
+                     top: 6px;
+                     opacity: 1;
+                }
+            }
+            &:before {
+                opacity: 0;
+                content: attr(data-hover);
+                transition: all 0.3s ease-in;
+                position: absolute;
+                color: rgba(255,255,255, 1);
+                font-size: 16px;
+                top: -100%;
+                right: 28%;
+            }
+        }
+        .talker-action {
+            background: darken(#FF0000, 10%);
+            &:before {
+                right: 24%;
+            }
+        }
+        .wanter-action {
+            background: #3f4c6b;
+        }
+    }
+}

@@ -422,3 +422,15 @@ class HolidaysRequest(models.Model):
             "admin:%s_%s_change" % (content_type.app_label, content_type.model),
             args=(self.id,)
         )
+
+class Talk(models.Model):
+    name = models.CharField(max_length=250)
+    description = models.CharField(max_length=500)
+    obsolete = models.BooleanField(default=False)
+    wanters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_wanted',
+                                       null=True, blank=True, default=None)
+    talkers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_offers',
+                                       null=True, blank=True, default=None)
+
+    def __unicode__(self):
+        return u"%s" % (self.name,)

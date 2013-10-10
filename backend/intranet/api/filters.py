@@ -2,6 +2,8 @@ from rest_framework import filters
 
 from intranet import models, exceptions
 
+from django.db.models import Count
+
 
 class IsEmployeeFilterBackend(filters.BaseFilterBackend):
     """
@@ -63,4 +65,21 @@ class ProjectTypeFilterBackend(filters.BaseFilterBackend):
             return queryset.filter(active=True)
         elif project_type == "inactive":
             return queryset.filter(active=False)
+        return queryset
+
+class OrderingTalksFilterBackend(filters.OrderingFilter):
+    """
+    Filter that only allows users to see their own objects.
+    """
+    def filter_queryset(self, request, queryset, view):
+        queryset = super(OrderingTalksFilterBackend, self).filter_queryset(request, queryset, view)
+        ordering = request.QUERY_PARAMS.get("ordering")
+        if ordering == "wanters_count":
+            return queryset.annotate(agg_wanters_count=Count("wanters")).order_by("agg_wanters_count")
+        elif ordering == "-wanters_count":
+            return queryset.annotate(agg_wanters_count=Count("wanters")).order_by("-agg_wanters_count")
+        elif ordering == "talkers_count":
+            return queryset.annotate(agg_talkers_count=Count("talkers")).order_by("agg_talkers_count")
+        elif ordering == "-talkers_count":
+            return queryset.annotate(agg_talkers_count=Count("talkers")).order_by("-agg_talkers_count")
         return queryset
