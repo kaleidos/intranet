@@ -10,7 +10,7 @@ from intranet.feeds import HolidaysRequestFeed
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^api/v1/', include('intranet.urls.api')),
+    url(r'^api/v1/', include('intranet.urls')),
 
     url(r'^%s/extra/'%(settings.BASE_ADMIN), include('intranet.urls.admin', namespace='admin-extra')),
     url(r'^%s/'%(settings.BASE_ADMIN), include(admin.site.urls)),
