@@ -11,7 +11,7 @@ from rest_framework import permissions
 
 from intranet import models
 from intranet import services
-from intranet.api import api_permissions
+from intranet.api import permissions as api_permissions
 from intranet.api import serializers
 from intranet.api import filters
 
