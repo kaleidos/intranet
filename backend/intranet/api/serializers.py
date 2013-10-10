@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from rest_framework import serializers
-
-from . import models
-from utils import get_consumed_days_for_user, get_requested_days_for_user
 from django.core.exceptions import ValidationError
 
-import datetime, calendar
+from rest_framework import serializers
+
+from intranet import models
+from intranet.utils import get_consumed_days_for_user, get_requested_days_for_user
+
+import datetime
+import calendar
 
 
 class PickleField(serializers.WritableField):
@@ -103,7 +105,7 @@ class PartSerializer(serializers.ModelSerializer):
 
         special_days = []
         initial_date = datetime.datetime(year=obj.year, month=obj.month, day=1)
-        for day_counter in range(calendar.monthrange(obj.year,obj.month)[1]):
+        for day_counter in range(calendar.monthrange(obj.year, obj.month)[1]):
             requested_day = initial_date + datetime.timedelta(day_counter)
             special_day = models.SpecialDay.objects.filter(date=requested_day)
             special_day = special_day and special_day[0] or None
@@ -113,8 +115,8 @@ class PartSerializer(serializers.ModelSerializer):
                 special_days.append(special_day)
             elif is_weekend:
                 special_days.append(models.SpecialDay(
-                    date = requested_day,
-                    description = 'weekend',
+                    date=requested_day,
+                    description='weekend',
                 ))
 
         return [SpecialDaySerializer(d).data for d in special_days]
@@ -179,9 +181,11 @@ class DaySerializer(serializers.Serializer):
 
 class SpecialDaySerializer(serializers.ModelSerializer):
     date = DaySerializer(source='date')
+
     class Meta:
         model = models.SpecialDay
         fields = ('date', 'description')
+
 
 class TalkSerializer(serializers.ModelSerializer):
     wanters_count = serializers.SerializerMethodField('count_wanters')
