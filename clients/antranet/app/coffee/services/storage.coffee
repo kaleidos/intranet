@@ -4,7 +4,7 @@ angular.module('antranet.services.storage', ['antranet.config'], ($provide) ->
         helpers = {}
 
         service.get = (key) ->
-            serializedValue = sessionStorage.getItem(key)
+            serializedValue = localStorage.getItem(key)
             if (serializedValue == null)
                 return serializedValue
 
@@ -15,13 +15,13 @@ angular.module('antranet.services.storage', ['antranet.config'], ($provide) ->
                 _.each key, (val, key) ->
                     service.set(key, val)
             else
-                sessionStorage.setItem(key, JSON.stringify(val))
+                localStorage.setItem(key, JSON.stringify(val))
 
         service.remove = (key) ->
-            sessionStorage.removeItem(key)
+            localStorage.removeItem(key)
 
         service.clear = ->
-            sessionStorage.clear()
+            localStorage.clear()
 
         return service
     ])
