@@ -13,6 +13,7 @@ urlpatterns = patterns('',
 
     url(r'^%s/extra/' % (settings.BASE_ADMIN,), include('intranet.urls', namespace='admin-extra')),
     url(r'^%s/autoreports/' % (settings.BASE_ADMIN,), include('autoreports.urls')),
+    url(r'^%s/' % (settings.BASE_ADMIN,), include(admin.site.urls)),
 
     url(r'^passwd/password_reset/$', 'django.contrib.auth.views.password_reset'),
     url(r'^passwd/password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
