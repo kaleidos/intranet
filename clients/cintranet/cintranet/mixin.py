@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import getpass
-import settings
-from kdecorators import intercept_error
+from cintranet import settings
+from cintranet.decorators import intercept_error
 
 class AuthenticationMixin(object):
     @intercept_error

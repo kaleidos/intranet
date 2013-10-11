@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import requests
 
-class KSession(requests.Session):
+class Session(requests.Session):
 
     def parse_response(self, response):
         status_code = response.status_code

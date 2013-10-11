@@ -3,12 +3,12 @@
 
 import cmd
 
-from kclient import KClient
-from kmixin import AuthenticationMixin, PartsMixin, HolidaysMixin
-import settings
+from cintranet.client import Client
+from cintranet.mixin import AuthenticationMixin, PartsMixin, HolidaysMixin
+from cintranet import settings
 
 
-class KIntranet(AuthenticationMixin,
+class CIntranet(AuthenticationMixin,
                 PartsMixin,
                 HolidaysMixin,
                 cmd.Cmd):
@@ -18,7 +18,7 @@ class KIntranet(AuthenticationMixin,
         super().__init__()
         self.prompt = settings.RED + '[kintranet]>> ' + settings.WHITE
         self.intro  = 'Welcome to kaleidos intranet!'
-        self.client = KClient()
+        self.client = Client()
 
     def emptyline(self):
         pass
@@ -26,7 +26,3 @@ class KIntranet(AuthenticationMixin,
     def do_EOF(self, args=None):
         self.stdout.write('\n')
         return True
-
-
-if __name__ == '__main__':
-    KIntranet().cmdloop()
