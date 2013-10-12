@@ -1,3 +1,5 @@
 [api]
-base_url = 'https://example.com/api/v1/'
-http_token = 'HTTP_X_SESSION_TOKEN'
+base_url = https://example.com/api/v1/
+http_token = HTTP_X_SESSION_TOKEN
+username = my.user.name
+password = my.password

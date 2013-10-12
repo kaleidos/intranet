@@ -12,10 +12,12 @@ class AuthenticationMixin(object):
         """
         Login method. Expecting username and password
         """
-        if not args:
-            username = input('Username: ')
-        else:
+        if args:
             username = args.split()[0]
+        elif 'username' in self.config['api']:
+            username = self.config['api']['username']
+        else:
+            username = input('Username: ')
         password = getpass.getpass('Password: ')
         self.client.authenticate(username, password)
         self.prompt = colored('[' + username + ']>> ', 'green')

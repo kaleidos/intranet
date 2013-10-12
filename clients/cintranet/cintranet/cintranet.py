@@ -26,11 +26,21 @@ class CIntranet(AuthenticationMixin,
 
     def __init__(self):
         super().__init__()
-        config = self.read_config()
-
+        self.config = self.read_config()
         self.prompt = colored('[kintranet]>> ', 'red')
         self.intro  = 'Welcome to kaleidos intranet!'
-        self.client = Client(config['api'])
+        self.client = Client(self.config['api'])
+
+    def cmdloop(self):
+        if 'username' in self.config['api'] and 'password' in self.config['api']:
+            username = self.config['api']['username']
+            password = self.config['api']['password']
+            try:
+                self.client.authenticate(username, password)
+                self.prompt = colored('[' + username + ']>> ', 'green')
+            except Exception as e:
+                print(e)
+        super().cmdloop()
 
     def read_config(self):
         config = configparser.ConfigParser()
