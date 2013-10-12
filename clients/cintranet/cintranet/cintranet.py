@@ -14,12 +14,13 @@ import os
 from termcolor import colored
 
 from cintranet.client import Client
-from cintranet.mixin import AuthenticationMixin, PartsMixin, HolidaysMixin
+from cintranet.mixin import AuthenticationMixin, PartsMixin, HolidaysMixin, TalksMixin
 
 
 class CIntranet(AuthenticationMixin,
                 PartsMixin,
                 HolidaysMixin,
+                TalksMixin,
                 cmd.Cmd):
     """Connecting to the Kaleidos Intranet"""
 

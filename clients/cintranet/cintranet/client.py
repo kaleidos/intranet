@@ -162,9 +162,37 @@ class UtilsHolidaysMixin():
                 data=json.dumps({"data": data})).json()
 
 
+class UtilsTalksMixin():
+    def view_talks(self):
+        head = ['Id', 'Talkers', 'Wanters', 'Talk']
+        print("{:10} {:10} {:10} {:10}".format(*head))
+        talks = self.session.get(self.BASE_URL + 'talks/', params={'page_size':1000}).json()
+        for talk in talks['results']:
+            print("{:10} {:10} {:10} {:10}".format(
+                talk['id'],
+                talk['talkers_count'],
+                talk['wanters_count'],
+                talk['name']
+            ))
+
+    def view_talk(self, talk_id):
+        talk = self.session.get(self.BASE_URL + 'talks/' + str(talk_id) + "/").json()
+        print("Name: ", talk['name'])
+        print("Description: ", talk['description'])
+        print("Talkers: ", ", ".join([talker['name'] for talker in talk['talkers']]))
+        print("Wanters: ", ", ".join([wanter['name'] for wanter in talk['wanters']]))
+
+    def mark_talk_as_i_want(self, talk_id):
+        self.session.post(self.BASE_URL + 'talks/' + str(talk_id) + "/i_want/").json()
+
+    def mark_talk_as_i_talk(self, talk_id):
+        self.session.post(self.BASE_URL + 'talks/' + str(talk_id) + "/i_talk/").json()
+
+
 class Client(UtilsAuthenticationMixin,
              UtilsPartsMixin,
-             UtilsHolidaysMixin):
+             UtilsHolidaysMixin,
+             UtilsTalksMixin):
     def __init__(self, config):
         self.BASE_URL = config.get('base_url', '')
         self.HTTP_TOKEN = config.get('http_token', 'HTTP_X_SESSION_TOKEN')

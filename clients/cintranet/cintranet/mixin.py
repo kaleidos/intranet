@@ -104,3 +104,31 @@ class HolidaysMixin():
                 "flexible_dates": flexible_dates,
                 "comments": comments}
         self.client.request_holidays(data)
+
+class TalksMixin():
+
+    @intercept_error
+    def do_talks(self, args=None):
+        """
+        View list of talks
+        """
+        self.client.view_talks()
+
+    @intercept_error
+    def do_talk(self, args):
+        """
+        View a talk or mark as i want or i talk
+        """
+        args = args.split()
+
+        try:
+            talk_id = int(args[0])
+        except ValueError:
+            raise Exception('Not valid talk_id')
+
+        if len(args) > 1 and args[1] == 'iWant':
+            self.client.mark_talk_as_i_want(talk_id)
+        elif len(args) > 1 and args[1] == 'iTalk':
+            self.client.mark_talk_as_i_talk(talk_id)
+        else:
+            self.client.view_talk(talk_id)
