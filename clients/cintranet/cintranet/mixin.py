@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
+
 import getpass
-from cintranet import settings
+from termcolor import colored
+
 from cintranet.decorators import intercept_error
 
 class AuthenticationMixin(object):
@@ -12,14 +15,14 @@ class AuthenticationMixin(object):
         username = input('Username: ')
         password = getpass.getpass('Password: ')
         self.client.authenticate(username, password)
-        self.prompt = settings.GREEN + '[' + username + ']>> ' + settings.WHITE
+        self.prompt = colored('[' + username + ']>> ', 'green')
 
     def do_logout(self, args=None):
         """
         Logout method. Deletes the HTTP_TOKEN key from session
         """
         self.client.logout()
-        self.prompt = settings.RED + '[kintranet]>> ' + settings.WHITE
+        self.prompt = colored('[kintranet]>> ', 'red')
         print('Ok, now you can exit or login again')
 
 

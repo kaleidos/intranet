@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
-import datetime
+
+from __future__ import print_function
 
 from cintranet.session import Session
-from cintranet import settings
 
 import json
-
-from datetime import date
+import datetime
 
 
 class UtilsAuthenticationMixin():
 
     def authenticate(self, username, password):
         r = self.session.post(
-            settings.BASE_URL + 'auth/login/',
+            self.BASE_URL + 'auth/login/',
             data=json.dumps({"username": username, "password": password})
         ).json()
 
@@ -22,12 +21,12 @@ class UtilsAuthenticationMixin():
         self.save_token(r)
 
     def save_token(self, user):
-        self.session.headers.update({settings.HTTP_TOKEN: user['token']})
+        self.session.headers.update({self.HTTP_TOKEN: user['token']})
 
     def logout(self):
-        self.session.post(settings.BASE_URL + 'auth/logout/')
-        if settings.HTTP_TOKEN in self.session.headers:
-            del self.session.headers[settings.HTTP_TOKEN]
+        self.session.post(self.BASE_URL + 'auth/logout/')
+        if self.HTTP_TOKEN in self.session.headers:
+            del self.session.headers[self.HTTP_TOKEN]
 
 
 class UtilsPartsMixin():
@@ -43,7 +42,7 @@ class UtilsPartsMixin():
 
     def get_pending_parts(self):
         return self.session.get(
-            settings.BASE_URL + 'parts/',
+            self.BASE_URL + 'parts/',
             params={'type': 'pending', 'page_size': 3}
         ).json()
 
@@ -57,16 +56,16 @@ class UtilsPartsMixin():
 
     def get_projects(self):
         return self.session.get(
-            settings.BASE_URL + 'projects/',
+            self.BASE_URL + 'projects/',
             params={'active': True}
         ).json()
 
     def get_part(self, part_id):
-        return self.session.get(settings.BASE_URL + 'parts/' + part_id).json()
+        return self.session.get(self.BASE_URL + 'parts/' + part_id).json()
 
     def single_imputation(self, part_id, imputations):
         return self.session.patch(
-            settings.BASE_URL + 'parts/' + part_id + '/',
+            self.BASE_URL + 'parts/' + part_id + '/',
             data=json.dumps({"data": imputations})
         )
 
@@ -96,7 +95,7 @@ class UtilsHolidaysMixin():
         print('You have {0} days left'.format(total_pending_days))
 
     def get_holidays(self):
-        return self.session.get(settings.BASE_URL + 'holidays-years/').json()
+        return self.session.get(self.BASE_URL + 'holidays-years/').json()
 
     def is_special(self, day, year):
         for special_day in year['special_days']:
@@ -111,7 +110,7 @@ class UtilsHolidaysMixin():
         for day in range(int((end - beg).days) + 1):
             req_day = beg + datetime.timedelta(day)
             is_special = self.is_special(req_day, years[req_day.year])
-            is_weekend = date.weekday(req_day) in [5, 6]
+            is_weekend = datetime.date.weekday(req_day) in [5, 6]
             if not is_special and not is_weekend:
                 requested_working_days.append(req_day)
         return requested_working_days
@@ -159,13 +158,15 @@ class UtilsHolidaysMixin():
             data['beginning'] = reqs[req].pop(0)
             data['ending'] = reqs[req].pop()
             self.session.post(
-                settings.BASE_URL + 'holidays-requests/',
+                self.BASE_URL + 'holidays-requests/',
                 data=json.dumps({"data": data})).json()
 
 
 class Client(UtilsAuthenticationMixin,
-              UtilsPartsMixin,
-              UtilsHolidaysMixin):
-    def __init__(self):
+             UtilsPartsMixin,
+             UtilsHolidaysMixin):
+    def __init__(self, config):
+        self.BASE_URL = config.get('base_url', '')
+        self.HTTP_TOKEN = config.get('http_token', 'HTTP_X_SESSION_TOKEN')
         self.session = Session()
         self.session.headers.update({'content-type': 'application/json'})
