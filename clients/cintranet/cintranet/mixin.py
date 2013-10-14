@@ -134,3 +134,15 @@ class TalksMixin():
             self.client.mark_talk_as_i_talk(talk_id)
         else:
             self.client.view_talk(talk_id)
+
+    @intercept_error
+    def do_new_talk(self, args):
+        """
+        Add a new talk
+        """
+        args = args.split('|')
+
+        if len(args) != 2:
+            raise Exception("Not valid new talk format.\nUsage: new_talk <title>|<description")
+
+        self.client.add_talk(args[0], args[1])

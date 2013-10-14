@@ -5,7 +5,7 @@ class Session(requests.Session):
 
     def parse_response(self, response):
         status_code = response.status_code
-        if status_code == 200:
+        if status_code in [200, 201]:
             return response
         elif status_code in [403, 400]:
             raise requests.exceptions.HTTPError(response.json()['detail'])

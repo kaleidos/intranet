@@ -182,6 +182,14 @@ class UtilsTalksMixin():
         print("Talkers: ", ", ".join([talker['name'] for talker in talk['talkers']]))
         print("Wanters: ", ", ".join([wanter['name'] for wanter in talk['wanters']]))
 
+    def add_talk(self, title, description):
+        data = {
+            "name": title,
+            "description": description,
+            "obsolete": False,
+        }
+        self.session.post(self.BASE_URL + 'talks/', json.dumps(data))
+
     def mark_talk_as_i_want(self, talk_id):
         self.session.post(self.BASE_URL + 'talks/' + str(talk_id) + "/i_want/").json()
 
