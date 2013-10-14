@@ -126,14 +126,16 @@ class TalksMixin():
         try:
             talk_id = int(args[0])
         except ValueError:
-            raise Exception('Not valid talk_id')
+            raise Exception('Not valid talk_id.\nUsage: talk <id> [iWant|iTalk]')
 
-        if len(args) > 1 and args[1] == 'iWant':
+        if len(args) == 1:
+            self.client.view_talk(talk_id)
+        elif len(args) == 2 and args[1] == 'iWant':
             self.client.mark_talk_as_i_want(talk_id)
-        elif len(args) > 1 and args[1] == 'iTalk':
+        elif len(args) == 2 and args[1] == 'iTalk':
             self.client.mark_talk_as_i_talk(talk_id)
         else:
-            self.client.view_talk(talk_id)
+            raise Exception('Not valid parameters.\nUsage: talk <id> [iWant|iTalk]')
 
     @intercept_error
     def do_new_talk(self, args):
