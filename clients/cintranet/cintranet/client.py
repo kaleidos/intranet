@@ -165,8 +165,10 @@ class UtilsHolidaysMixin():
 class UtilsTalksMixin():
     def view_talks(self):
         head = ['Id', 'Talkers', 'Wanters', 'Talk']
-        print("{:10} {:10} {:10} {:10}".format(*head))
         talks = self.session.get(self.BASE_URL + 'talks/', params={'page_size':1000}).json()
+        if talks:
+            print("{:10} {:10} {:10} {:10}".format(*head))
+
         for talk in talks['results']:
             print("{:10} {:10} {:10} {:10}".format(
                 talk['id'],

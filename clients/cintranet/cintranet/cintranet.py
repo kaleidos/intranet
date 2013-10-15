@@ -64,11 +64,41 @@ class CIntranet(AuthenticationMixin,
     def emptyline(self):
         pass
 
-    def do_EOF(self, args=None):
+    def do_help(self, args):
+        "Show this help"
+        print("General commands:")
+        print("  {:16}  {}".format("quit", "Quit the cintranet client"))
+        print("  {:16}  {}".format("help", "Show this help"))
+        print()
+
+        print("Auth commands:")
+        print("  {:16}  {}".format("login [<username>]", "Login"))
+        print("  {:16}  {}".format("logout", "Logout"))
+        print()
+
+        print("Parts commands:")
+        print("  {:16}  {}".format("projects", "List my projects"))
+        print("  {:16}  {}".format("pending_parts", "List the 3 latest pending parts"))
+        print("  {:16}  {}".format("impute", "Impute hours to a project"))
+        print()
+
+        print("Holidays commands:")
+        print("  {:16}  {}".format("view_my_holidays", "View my holidays status"))
+        print("  {:16}  {}".format("request_holidays", "Add a new request of holidays"))
+        print()
+
+        print("Talks commands:")
+        print("  {:16}  {}".format("talks", "List the talks"))
+        print("  {:16}  {}".format("talk <id> [iWant|iTalk]", "View a talk, or mark as i want or i talk"))
+        print("  {:16}  {}".format("new_talk <id>#<description>", "Add a new talk"))
+        print()
+
+    def do_quit(self, args=None):
+        "Exit"
         self.stdout.write('\n')
         return True
 
-    do_quit = do_EOF
+    do_EOF = do_quit
 
 def main_loop():
     CIntranet().cmdloop()

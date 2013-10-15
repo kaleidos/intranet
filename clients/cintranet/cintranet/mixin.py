@@ -142,7 +142,7 @@ class TalksMixin():
         """
         Add a new talk
         """
-        args = args.split('|')
+        args = args.split('#')
 
         if len(args) != 2:
             raise Exception("Not valid new talk format.\nUsage: new_talk <title>|<description")
