@@ -40,6 +40,7 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
 init = ($rootScope, $location, storage) ->
     $rootScope.token_auth = storage.get('token_auth')
     $rootScope.user_id = storage.get('user_id')
+    $rootScope._ = _
 
 modules = [
     'antranet.filters'

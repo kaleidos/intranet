@@ -978,7 +978,7 @@ fieldset {
             span {
                 transition: all 0.3s ease-in;
             }
-            &:hover {
+            &.talker-action:hover, &.wanter-action:hover {
                 background: #669933;
                 span {
                     opacity: 0;
@@ -988,7 +988,7 @@ fieldset {
                      opacity: 1;
                 }
             }
-            &:before {
+            &.talker-action:before, &.wanter-action:before {
                 opacity: 0;
                 content: attr(data-hover);
                 transition: all 0.3s ease-in;
@@ -1007,6 +1007,9 @@ fieldset {
         }
         .wanter-action {
             background: #3f4c6b;
+        }
+        .yes-i-want, .yes-i-talk {
+            background: #669933;
         }
     }
 }
