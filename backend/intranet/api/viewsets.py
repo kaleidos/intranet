@@ -146,14 +146,24 @@ class TalkViewSet(ModelViewSet):
     paginate_by = settings.API_DEFAULT_PAGE_SIZE
     paginate_by_param = "page_size"
 
-    @detail_route(methods=["post"])
+    @detail_route(methods=["post", "delete"])
     def i_want(self, request, pk=None, format=None):
-        talk = self.get_object()
-        talk.wanters.add(request.user)
-        return Response({"detail": u"Talk marked as wanted."})
+        if request.method == "POST":
+            talk = self.get_object()
+            talk.wanters.add(request.user)
+            return Response({"detail": u"Talk marked as wanted."})
+        else:
+            talk = self.get_object()
+            talk.wanters.remove(request.user)
+            return Response({"detail": u"Talk unmarked as wanted."})
 
-    @detail_route(methods=["post"])
+    @detail_route(methods=["post", "delete"])
     def i_talk(self, request, pk=None, format=None):
-        talk = self.get_object()
-        talk.talkers.add(request.user)
-        return Response({"detail": u"Talk marked me as talker."})
+        if request.method == "POST":
+            talk = self.get_object()
+            talk.talkers.add(request.user)
+            return Response({"detail": u"Talk marked me as talker."})
+        else:
+            talk = self.get_object()
+            talk.talkers.remove(request.user)
+            return Response({"detail": u"Talk unmarked me as talker."})

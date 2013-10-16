@@ -11,4 +11,5 @@ urlpatterns = patterns('',
     url(r'^%s/holidays_summary/$' % (settings.BASE_ADMIN,), HolidaysSummary.as_view(), name="holidays-summary"),
     url(r'^api/v1/', include(router.urls)),
     url(r'^api/v1/', include(auth_router.urls)),
+    url(r'^api/v1/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 )

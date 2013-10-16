@@ -978,7 +978,7 @@ fieldset {
             span {
                 transition: all 0.3s ease-in;
             }
-            &.talker-action:hover, &.wanter-action:hover {
+            &:hover {
                 background: #669933;
                 span {
                     opacity: 0;
@@ -988,7 +988,7 @@ fieldset {
                      opacity: 1;
                 }
             }
-            &.talker-action:before, &.wanter-action:before {
+            &:before {
                 opacity: 0;
                 content: attr(data-hover);
                 transition: all 0.3s ease-in;

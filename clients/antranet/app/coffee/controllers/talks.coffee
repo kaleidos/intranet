@@ -45,6 +45,26 @@
             loadTalks()
         )
 
+    $scope.iNotWant = (id) ->
+        $http(
+            method: "DELETE"
+            url: "#{apiUrl('talks')}#{id}/i_want/"
+            headers:
+                "X-SESSION-TOKEN": $rootScope.token_auth
+        ).success((data) ->
+            loadTalks()
+        )
+
+    $scope.iNotTalk = (id) ->
+        $http(
+            method: "DELETE"
+            url: "#{apiUrl('talks')}#{id}/i_talk/"
+            headers:
+                "X-SESSION-TOKEN": $rootScope.token_auth
+        ).success((data) ->
+            loadTalks()
+        )
+
     $scope.iTalk = (id) ->
         $http(
             method: "POST"
