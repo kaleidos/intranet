@@ -431,6 +431,8 @@ class Talk(models.Model):
                                        null=True, blank=True, default=None)
     talkers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_offers',
                                        null=True, blank=True, default=None)
+    duration = models.IntegerField(null=True, blank=True, default=None)
+    datetime = models.DateTimeField(null=True, blank=True, default=None)
 
     def __unicode__(self):
         return u"%s" % (self.name,)
