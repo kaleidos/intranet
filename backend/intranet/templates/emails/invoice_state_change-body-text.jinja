@@ -1,2 +1,2 @@
-Project: {{ base_url }}{% url('admin:intranet_project_change', invoice.project.id) %}
-Invoice url: {{ base_url }}{% url('admin:intranet_invoice_change', invoice.id) %}
+Project: {{ base_url }}{{ url('admin:intranet_project_change', invoice.project.id) }}
+Invoice url: {{ base_url }}{{ url('admin:intranet_invoice_change', invoice.id) }}
