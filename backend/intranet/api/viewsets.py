@@ -11,9 +11,11 @@ from rest_framework import permissions
 
 from intranet import models
 from intranet import services
+from intranet import exceptions
 from intranet.api import permissions as api_permissions
 from intranet.api import serializers
 from intranet.api import filters
+from intranet.api import exceptions as api_exceptions
 
 
 class AuthViewSet(ViewSet):
@@ -23,7 +25,10 @@ class AuthViewSet(ViewSet):
         password = request.DATA.get("password", None)
         user_service = services.UserService()
 
-        user = user_service.authenticate(username=username, password=password)
+        try:
+            user = user_service.authenticate(username=username, password=password)
+        except exceptions.NotFound, exceptions.InvalidPassword:
+            raise api_exceptions.InvalidUsernameOrPassword()
         auth.login(request, user)
 
         serializer = serializers.LoginSerializer(serializers.UserLogged(**{
@@ -52,7 +57,10 @@ class AuthViewSet(ViewSet):
         use_https = request.DATA.get("use_https", settings.CLIENT_USE_HTTPS)
 
         user_service = services.UserService()
-        user_service.reset_password(username=username, domain=domain, use_https=use_https)
+        try:
+            user_service.reset_password(username=username, domain=domain, use_https=use_https)
+        except exceptions.NotFound:
+            raise api_exceptions.InvalidUsername()
 
         return Response({"detail": u"The reset password email has been sent successfully."})
 
@@ -69,12 +77,18 @@ class AuthViewSet(ViewSet):
 
         user_service = services.UserService()
         if token:
-            user_service.change_password(token, password1)
+            try:
+                user_service.change_password(token, password1)
+            except exceptions.NotFound:
+                raise api_exceptions.InvalidToken()
+            except exceptions.InactiveUser:
+                raise api_exceptions.InactiveUser()
         elif user and not user.is_anonymous():
             user_service.change_password_to_user(user, password1)
         else:
             return Response({"detail": u"You don\'t have permission to do that."},
                             status.HTTP_401_UNAUTHORIZED)
+
         return Response({"detail": "The password has beeen changed successfully."})
 
 

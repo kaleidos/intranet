@@ -20,7 +20,7 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
     $httpProvider.defaults.headers.post = defaultHeaders
     $httpProvider.defaults.headers.put = defaultHeaders
 
-    $provide.factory("authHttpIntercept", ["$q", "$location", ($q, $location) ->
+    $provide.factory("authHttpIntercept", ["$q", "$location", "$rootScope", "storage", ($q, $location, $rootScope, storage) ->
         return (promise) ->
             return promise.then null, (response) ->
                 if (response.status == 401)

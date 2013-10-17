@@ -1,6 +1,10 @@
 @LoginCtrl = ($scope, $http, $location, $rootScope, flash, config, apiUrl, storage) ->
+    if $rootScope.token_auth
+        $location.url('/home')
+
     $rootScope.selectedMenu = ""
     $scope.status = "login"
+
     $scope.login = () ->
         $http(
             method: "POST"
@@ -15,7 +19,7 @@
                 storage.set('user_id', data.id)
                 $location.url('/home')
         ).error((data) ->
-            flash([{ level: 'warning', text: 'Invalid username or password' }])
+            flash([{ level: 'warning', text: data.detail }])
         )
 
     $scope.recoverPassword = () ->
@@ -28,9 +32,9 @@
                 use_https: config.client_scheme == 'https'
         ).success((data) ->
             $scope.status = "recoveredPassword"
-            flash([{ level: 'success', text: 'Password recover email sent' }])
+            flash([{ level: 'success', text: data.detail }])
         ).error((data) ->
-            flash([{ level: 'warning', text: 'Invalid username' }])
+            flash([{ level: 'warning', text: data.detail }])
         )
 @LoginCtrl.$inject = ['$scope', '$http', '$location', '$rootScope', 'flash', 'antranet.config', 'apiUrl', 'storage']
 
@@ -62,9 +66,9 @@
                     password2: $scope.password2
             ).success((data) ->
                 $location.path('/login')
-                flash([{ level: 'success', text: 'Password changed' }])
+                flash([{ level: 'success', text: data.detail }])
             ).error((data) ->
-                flash([{ level: 'warning', text: 'Invalid password change' }])
+                flash([{ level: 'warning', text: data.detail }])
             )
 
 @ResetCtrl.$inject = ['$rootScope', '$scope', '$location', '$routeParams', '$http', 'flash', 'apiUrl']

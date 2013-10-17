@@ -14,9 +14,9 @@
                     password1: $scope.password1
                     password2: $scope.password2
             ).success((data) ->
-                flash([{ level: 'success', text: 'Password changed' }])
+                flash([{ level: 'success', text: data.detail }])
             ).error((data) ->
-                flash([{ level: 'warning', text: 'Invalid password change' }])
+                flash([{ level: 'warning', text: data.detail }])
             )
 
 @PreferencesCtrl.$inject = ['$rootScope', '$scope', '$location', '$http', 'flash', 'apiUrl']

@@ -15,14 +15,14 @@ class InactiveUser(Exception):
     pass
 
 
-class InvalidPassword(Exception):
-    """
-    Exception used for invalid password.
-    """
-    pass
-
 class InvalidParamError(Exception):
     """
     Exception used for invalid parameters.
     """
     pass
+
+
+class InvalidPassword(Exception):
+    """
+    Exception used for invalid password.
+    """
