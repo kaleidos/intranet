@@ -29,3 +29,7 @@ angular.module('antranet.filters', [])
         return (dict) ->
             return _.reduce(_.values(dict), (sum, num) -> parseInt(sum, 10) + parseInt(num, 10))
     ])
+    .filter('mdate', ['version', (date, format) ->
+        return (date, format) ->
+            return moment(date).format(format)
+    ])

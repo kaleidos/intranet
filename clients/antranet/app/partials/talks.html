@@ -60,7 +60,7 @@
         <div class="date-duration" ng-show="talk.datetime || talk.duration">
             <ul class="date-duration-name clearfix">
                 <li class="date-duration-title" ng-show="talk.datetime">Date</li>
-                <li ng-show="talk.datetime">{{ talk.datetime|date:'d/M/yyyy h:mm a' }}</li>
+                <li ng-show="talk.datetime">{{ talk.datetime|mdate:'DD, MMMM, YYYY hh:mm a' }}</li>
                 <li class="date-duration-title" ng-show="talk.duration">Duration</li>
                 <li ng-show="talk.duration">{{ talk.duration }} min.</li>
                 <li class="date-duration-title" ng-show="talk.place">Place</li>
