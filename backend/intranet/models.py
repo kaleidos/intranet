@@ -433,6 +433,7 @@ class Talk(models.Model):
                                        null=True, blank=True, default=None)
     duration = models.IntegerField(null=True, blank=True, default=None)
     datetime = models.DateTimeField(null=True, blank=True, default=None)
+    place = models.CharField(max_length=150, null=True, blank=True, default=None)
 
     def __unicode__(self):
         return u"%s" % (self.name,)
