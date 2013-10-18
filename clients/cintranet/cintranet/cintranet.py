@@ -89,7 +89,7 @@ class CIntranet(AuthenticationMixin,
 
         print("Talks commands:")
         print("  {:16}  {}".format("talks", "List the talks"))
-        print("  {:16}  {}".format("talk <id> [iWant|iTalk]", "View a talk, or mark as i want or i talk"))
+        print("  {:16}  {}".format("talk <id> [iWant|iTalk|iDontWant|iDontTalk]", "View a talk, or mark as i want or i talk"))
         print("  {:16}  {}".format("new_talk <id>#<description>", "Add a new talk"))
         print()
 

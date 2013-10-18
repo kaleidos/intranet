@@ -220,8 +220,14 @@ class UtilsTalksMixin():
     def mark_talk_as_i_want(self, talk_id):
         self.session.post(self.BASE_URL + 'talks/' + str(talk_id) + "/i_want/").json()
 
-    def mark_talk_as_i_talk(self, talk_id):
-        self.session.post(self.BASE_URL + 'talks/' + str(talk_id) + "/i_talk/").json()
+    def mark_talk_as_i_want(self, talk_id):
+        self.session.post(self.BASE_URL + 'talks/' + str(talk_id) + "/i_want/").json()
+
+    def mark_talk_as_i_dont_talk(self, talk_id):
+        self.session.delete(self.BASE_URL + 'talks/' + str(talk_id) + "/i_talk/").json()
+
+    def mark_talk_as_i_dont_want(self, talk_id):
+        self.session.delete(self.BASE_URL + 'talks/' + str(talk_id) + "/i_want/").json()
 
 
 class Client(UtilsAuthenticationMixin,
