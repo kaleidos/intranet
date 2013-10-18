@@ -41,6 +41,19 @@ class PartsMixin():
         self.client.show_pending_parts()
 
     @intercept_error
+    def do_show_part(self, args=None):
+        """
+        Show the 3 latest pending parts.
+        """
+        args = args.split()
+
+        try:
+            part_id = int(args[0])
+        except ValueError:
+            raise Exception('Not valid part_id.\nUsage: show_part <id>')
+        self.client.show_part(part_id)
+
+    @intercept_error
     def do_projects(self, args=None):
         """
         Show projects for the user

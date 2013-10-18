@@ -6,6 +6,7 @@ from cintranet.session import Session
 
 import json
 import datetime
+from termcolor import colored
 
 
 class UtilsAuthenticationMixin():
@@ -40,6 +41,30 @@ class UtilsPartsMixin():
             print('[id: {0}] {1}-{2}'.format(p['id'], p['month'], p['year']))
         return pending_parts_ids
 
+    def show_part(self, id):
+        part = self.get_part(id)
+        projects_json = self.get_projects()
+        projects = {}
+        for project in projects_json:
+            projects[int(project['id'])] = project['name']
+
+        for key, values in part['data'].items():
+            print(colored("{:15}".format(projects.get(int(key), "")), "white", "on_magenta"), end='')
+            even = True
+            for x in sorted(map(lambda x: (int(x[0]), x[1]), values.items())):
+                if even:
+                    colored_value = colored("{0:02}".format(x[1]), "red", "on_white")
+                else:
+                    colored_value = colored("{0:02}".format(x[1]), "white", "on_red")
+                print(colored_value, end='')
+                even = not even
+            print()
+
+    def get_part(self, id):
+        return self.session.get(
+            self.BASE_URL + 'parts/' + str(id) + "/",
+        ).json()
+
     def get_pending_parts(self):
         return self.session.get(
             self.BASE_URL + 'parts/',
@@ -61,7 +86,7 @@ class UtilsPartsMixin():
         ).json()
 
     def get_part(self, part_id):
-        return self.session.get(self.BASE_URL + 'parts/' + part_id).json()
+        return self.session.get(self.BASE_URL + 'parts/' + str(part_id)).json()
 
     def single_imputation(self, part_id, imputations):
         return self.session.patch(
