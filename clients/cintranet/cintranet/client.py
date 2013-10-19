@@ -41,28 +41,88 @@ class UtilsPartsMixin():
             print('[id: {0}] {1}-{2}'.format(p['id'], p['month'], p['year']))
         return pending_parts_ids
 
+    def _print_day_hours(self, hours, year, month, day):
+        d = datetime.date(year=year, month=month, day=day)
+        weekday = d.weekday()
+        if weekday in [5, 6]:
+            if day % 2:
+                colored_value = colored("{0:02}".format(hours), "red", "on_white")
+            else:
+                colored_value = colored("{0:02}".format(hours), "white", "on_red")
+        else:
+            if day % 2:
+                colored_value = colored("{0:02}".format(hours), "blue", "on_white")
+            else:
+                colored_value = colored("{0:02}".format(hours), "white", "on_cyan")
+        print(colored_value, end='')
+
     def show_part(self, id):
         part = self.get_part(id)
         projects_json = self.get_projects()
         projects = {}
+        year = part['year']
+        month = part['month']
         for project in projects_json:
             projects[int(project['id'])] = project['name']
 
+        total_per_day = {}
+        total_days = -1
+        # Need refactor
         for key, values in part['data'].items():
-            print(colored("{:15}".format(projects.get(int(key), "")), "white", "on_magenta"), end='')
-            even = True
+            if total_days == -1:
+                total_days = len(values)
+                break
+        total_hours = 0
+
+        print(colored("{:20}".format(""), "white"), end='')
+        first_weekday = datetime.date(year=year, month=month, day=1).weekday()
+        weekdays_letters = ['M','T','W','T','F','S','S']
+        for x in range(total_days):
+            print("{:2}".format(weekdays_letters[(x + first_weekday) % 7]), end='')
+        print(colored("{:4}".format(''), "white"))
+
+        for key, values in part['data'].items():
+            print(colored("{:20}".format(projects.get(int(key), "")[:20]), "white", "on_magenta"), end='')
+            total_project_hours = 0
             for x in sorted(map(lambda x: (int(x[0]), x[1]), values.items())):
-                if even:
-                    colored_value = colored("{0:02}".format(x[1]), "red", "on_white")
+                total_project_hours += int(x[1])
+                total_hours += int(x[1])
+                if x[0] in total_per_day:
+                    total_per_day[x[0]] += int(x[1])
                 else:
-                    colored_value = colored("{0:02}".format(x[1]), "white", "on_red")
-                print(colored_value, end='')
-                even = not even
-            print()
+                    total_per_day[x[0]] = int(x[1])
+                self._print_day_hours(int(x[1]), year, month, x[0])
+            print(colored("{:4}".format(total_project_hours), "white", "on_blue"))
+
+        holidays = self.get_holidays(year, month)
+        print(colored("{:20}".format("Holidays"), "white", "on_magenta"), end='')
+        total_holidays_hours = 0
+        for x in range(1, total_days + 1):
+            holiday = list(filter(lambda x: x['day'] == x, holidays))
+            hours = 0
+            if holiday:
+                total_per_day[x] += 8
+                total_hours += 8
+                total_holidays_hours += 8
+                hours = 8
+
+            self._print_day_hours(hours, year, month, x)
+        print(colored("{:4}".format(total_holidays_hours), "white", "on_blue"))
+
+        print(colored("{:20}".format("Total"), "white", "on_magenta"), end='')
+        for x in range(1, total_days + 1):
+            self._print_day_hours(total_per_day[x], year, month, x)
+        print(colored("{:4}".format(total_hours), "white", "on_blue"))
 
     def get_part(self, id):
         return self.session.get(
             self.BASE_URL + 'parts/' + str(id) + "/",
+        ).json()
+
+    def get_holidays(self, year, month):
+        return self.session.get(
+            self.BASE_URL + 'holidays/',
+            params={"page_size": 0, "year": year, "month": month}
         ).json()
 
     def get_pending_parts(self):
@@ -208,6 +268,12 @@ class UtilsTalksMixin():
         print("Description: ", talk['description'])
         print("Talkers: ", ", ".join([talker['name'] for talker in talk['talkers']]))
         print("Wanters: ", ", ".join([wanter['name'] for wanter in talk['wanters']]))
+        if talk['datetime']:
+            print("Date:", talk['datetime'])
+        if talk['duration']:
+            print("Duration:", talk['duration'], 'min.')
+        if talk['place']:
+            print("Place:", talk['place'])
 
     def add_talk(self, title, description):
         data = {
