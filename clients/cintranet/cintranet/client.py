@@ -97,16 +97,16 @@ class UtilsPartsMixin():
         holidays = self.get_holidays(year, month)
         print(colored("{:20}".format("Holidays"), "white", "on_magenta"), end='')
         total_holidays_hours = 0
-        for x in range(1, total_days + 1):
-            holiday = list(filter(lambda x: x['day'] == x, holidays))
+        for day in range(1, total_days + 1):
+            holidays_days = list(map(lambda x: x['day'], holidays))
             hours = 0
-            if holiday:
-                total_per_day[x] += 8
+            if day in holidays_days:
+                total_per_day[day] += 8
                 total_hours += 8
                 total_holidays_hours += 8
                 hours = 8
 
-            self._print_day_hours(hours, year, month, x)
+            self._print_day_hours(hours, year, month, day)
         print(colored("{:4}".format(total_holidays_hours), "white", "on_blue"))
 
         print(colored("{:20}".format("Total"), "white", "on_magenta"), end='')
