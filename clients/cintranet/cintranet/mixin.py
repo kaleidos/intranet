@@ -34,6 +34,13 @@ class AuthenticationMixin(object):
 class PartsMixin():
 
     @intercept_error
+    def do_parts(self, args=None):
+        """
+        Show the 3 latest pending parts.
+        """
+        self.client.show_parts()
+
+    @intercept_error
     def do_pending_parts(self, args=None):
         """
         Show the 3 latest pending parts.

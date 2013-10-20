@@ -32,6 +32,15 @@ class UtilsAuthenticationMixin():
 
 class UtilsPartsMixin():
 
+    def show_parts(self):
+        r = self.get_parts()
+        json_parts = r['results']
+        pending_parts_ids = []
+        for p in json_parts:
+            pending_parts_ids.append(str(p['id']))
+            print('[id: {0}] {1}-{2}'.format(p['id'], p['month'], p['year']))
+        return pending_parts_ids
+
     def show_pending_parts(self):
         r = self.get_pending_parts()
         json_parts = r['results']
@@ -129,6 +138,12 @@ class UtilsPartsMixin():
         return self.session.get(
             self.BASE_URL + 'parts/',
             params={'type': 'pending', 'page_size': 3}
+        ).json()
+
+    def get_parts(self):
+        return self.session.get(
+            self.BASE_URL + 'parts/',
+            params={'page_size': 10000}
         ).json()
 
     def show_projects(self):
