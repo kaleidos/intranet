@@ -31,5 +31,8 @@ angular.module('antranet.filters', [])
     ])
     .filter('mdate', ['version', (date, format) ->
         return (date, format) ->
-            return moment(date).format(format)
+            if date
+                return moment(date).format(format)
+            else
+                return ""
     ])
