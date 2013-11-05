@@ -36,3 +36,10 @@ angular.module('antranet.filters', [])
             else
                 return ""
     ])
+    .filter('mfromNow', ['version', (date, without_suffix) ->
+        return (date, without_suffix) ->
+            if date
+                return moment(date).fromNow(without_suffix or false)
+            else
+               return ""
+    ])

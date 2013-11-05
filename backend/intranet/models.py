@@ -425,6 +425,7 @@ class HolidaysRequest(models.Model):
 
 class Talk(models.Model):
     name = models.CharField(max_length=250)
+    created_date = models.DateTimeField(null=False, blank=False, auto_now_add=True)
     description = models.CharField(max_length=500)
     obsolete = models.BooleanField(default=False)
     wanters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_wanted',

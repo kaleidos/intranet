@@ -342,8 +342,9 @@ admin.site.register(HolidaysRequest, HolidaysRequestAdmin)
 admin.site.register(HolidaysYear)
 
 class TalkAdmin(admin.ModelAdmin):
-    list_display = ('name', 'obsolete', 'count_wanters', 'count_talkers')
-    list_filter = ('obsolete', 'talkers', 'wanters',)
+    list_display = ('name', 'obsolete', 'count_wanters', 'count_talkers', 'created_date')
+    list_filter = ('obsolete', 'talkers', 'wanters', 'created_date')
+    date_hierarchy = 'created_date'
 
     def count_wanters(self, obj):
         return obj.wanters.count()
