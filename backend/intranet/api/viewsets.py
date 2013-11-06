@@ -27,7 +27,7 @@ class AuthViewSet(ViewSet):
 
         try:
             user = user_service.authenticate(username=username, password=password)
-        except exceptions.NotFound, exceptions.InvalidPassword:
+        except (exceptions.NotFound, exceptions.InvalidPassword):
             raise api_exceptions.InvalidUsernameOrPassword()
         auth.login(request, user)
 
