@@ -1,6 +1,6 @@
 @TalksCtrl = ($scope, $rootScope, $http, apiUrl) ->
     $scope.currentPage = 1
-    $scope.ordering = "-id"
+    $scope.ordering = "-created_date"
     $scope.newTalk = {}
 
     $rootScope.selectedMenu = "talks"

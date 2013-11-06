@@ -18,10 +18,9 @@
 
     <ul class="talk-order clearfix">
         <li><span class="title">Order</span></li>
-        <li ng-class="{'active': ordering=='-id'}" ng-click="setOrder('-id')"><span>Creation</span></li>
+        <li ng-class="{'active': ordering=='-created_date'}" ng-click="setOrder('-created_date')"><span>Creation</span></li>
         <li ng-class="{'active': ordering=='name'}" ng-click="setOrder('name')"><span>Name</span></li>
         <li ng-class="{'active': ordering=='-wanters_count'}" ng-click="setOrder('-wanters_count')"><span>Wanters</span></li>
-        <li ng-class="{'active': ordering=='-created_date'}" ng-click="setOrder('-created_date')"><span>Creation date</span></li>
     </ul>
 
     <article class="talk-container" ng-repeat="talk in talks">
