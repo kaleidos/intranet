@@ -21,6 +21,7 @@
         <li ng-class="{'active': ordering=='-created_date'}" ng-click="setOrder('-created_date')"><span>Creation</span></li>
         <li ng-class="{'active': ordering=='name'}" ng-click="setOrder('name')"><span>Name</span></li>
         <li ng-class="{'active': ordering=='-wanters_count'}" ng-click="setOrder('-wanters_count')"><span>Wanters</span></li>
+        <li ng-class="{'active': ordering=='-wanters_count_talkers_ready'}" ng-click="setOrder('-wanters_count_talkers_ready')"><span>Wanters & Talkers ready</span></li>
     </ul>
 
     <article class="talk-container" ng-repeat="talk in talks">
@@ -31,6 +32,18 @@
             </div>
 
             <div class="talk-data">
+                <div class="talk-status" ng-switch="talkStatus(talk)">
+                    <a ng-switch-when="green" href="" ng-click="iTalkersAreNotReady(talk)">
+                        <img class="green" alt="Talkers are ready!!!"></img>
+                    </a>
+                    <a ng-switch-when="yellow" href="" ng-click="iTalkersAreReady(talk)">
+                        <img class="yellow" alt="Talkers are not ready"></img>
+                    </a>
+                    <a ng-switch-default href="">
+                        <img class="red" alt="No talkers yet"></img>
+                    </a>
+                </div>
+
                 <h3>{{ talk.name }}</h3>
                 <div class="talk-created-date">
                     Created {{ talk.created_date|mfromNow }}

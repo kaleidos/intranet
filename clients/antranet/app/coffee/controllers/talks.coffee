@@ -75,6 +75,38 @@
             loadTalks()
         )
 
+    $scope.iTalkersAreReady = (talk) ->
+        if _.any(talk.talkers, {'id': $rootScope.user_id})
+            $http(
+                method: "POST"
+                url: "#{apiUrl('talks')}#{talk.id}/i_talkers_are_ready/"
+                headers:
+                    "X-SESSION-TOKEN": $rootScope.token_auth
+            ).success((data) ->
+                loadTalks()
+            )
+
+    $scope.iTalkersAreNotReady = (talk) ->
+        if _.any(talk.talkers, {'id': $rootScope.user_id})
+            $http(
+                method: "POST"
+                url: "#{apiUrl('talks')}#{talk.id}/i_talkers_are_not_ready/"
+                headers:
+                    "X-SESSION-TOKEN": $rootScope.token_auth
+            ).success((data) ->
+                loadTalks()
+            )
+
+    $scope.talkStatus = (talk) ->
+        # red    - There are no talkers yet
+        # yellow - There are talkers but they are not ready
+        # green  - The talkers are ready
+        if talk.talkers.length > 0
+            if talk.talkers_are_ready
+                return "green"
+            return "yellow"
+        return "red"
+
     $scope.setOrder = (order) ->
         $scope.currentPage = 1
         $scope.ordering = order

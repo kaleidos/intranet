@@ -32,3 +32,13 @@ class InactiveUser(APIException):
     """
     detail = "Inactive user"
     status_code = "400"
+
+
+class YouAreNotATalker(APIException):
+    """
+    Exception used when you need to be a talker to do something.
+    """
+    detail = "You are not a talker"
+    status_code = "400"
+
+

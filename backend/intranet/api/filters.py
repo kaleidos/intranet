@@ -84,4 +84,9 @@ class OrderingTalksFilterBackend(filters.OrderingFilter):
             return queryset.annotate(agg_talkers_count=Count("talkers")).order_by("-agg_talkers_count")
         elif ordering == "-created_date":
             return queryset.order_by("-created_date", "-id")
+        if ordering == "-wanters_count_talkers_ready":
+            return queryset.annotate(agg_wanters_count=Count("wanters"),
+                                     agg_talkers_count=Count("talkers")).order_by("-agg_wanters_count",
+                                                                                  "-agg_talkers_count",
+                                                                                  "-talkers_are_ready")
         return queryset

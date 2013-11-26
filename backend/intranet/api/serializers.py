@@ -195,6 +195,7 @@ class TalkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Talk
+        read_only_fields = ('talkers_are_ready',)
 
     def count_wanters(self, obj):
         return obj.wanters.count() if obj else None

@@ -181,3 +181,21 @@ class TalkViewSet(ModelViewSet):
             talk = self.get_object()
             talk.talkers.remove(request.user)
             return Response({"detail": u"Talk unmarked me as talker."})
+
+    @detail_route(methods=["post"])
+    def i_talkers_are_ready(self, request, pk=None, format=None):
+        talk = self.get_object()
+        if talk.talkers.filter(pk=request.user.pk).exists():
+            talk.talkers_are_ready = True
+            talk.save(update_fields=["talkers_are_ready"])
+            return Response({"detail": u"Talkers are ready."})
+        raise api_exceptions.YouAreNotATalker()
+
+    @detail_route(methods=["post"])
+    def i_talkers_are_not_ready(self, request, pk=None, format=None):
+        talk = self.get_object()
+        if talk.talkers.filter(pk=request.user.pk).exists():
+            talk.talkers_are_ready = False
+            talk.save(update_fields=["talkers_are_ready"])
+            return Response({"detail": u"Talkers aren't ready."})
+        raise api_exceptions.YouAreNotATalker()
