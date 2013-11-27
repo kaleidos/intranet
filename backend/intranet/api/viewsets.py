@@ -180,6 +180,11 @@ class TalkViewSet(ModelViewSet):
         else:
             talk = self.get_object()
             talk.talkers.remove(request.user)
+
+            if talk.talkers.all().count() == 0 and talk.talkers_are_ready:
+                talk.talkers_are_ready = False
+                talk.save(update_fields=["talkers_are_ready"])
+
             return Response({"detail": u"Talk unmarked me as talker."})
 
     @detail_route(methods=["post"])
