@@ -5,11 +5,13 @@ from django.core.urlresolvers import reverse
 
 import json
 
-from intranet.models import User, Project, Part, Imputation, STATE_CREATED
+from intranet.models import User, Project, Part, STATE_CREATED
 
 class Test(TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.c = Client()
+        User.objects.all().delete()
 
         #Create users
         user = User(
@@ -23,11 +25,11 @@ class Test(TestCase):
         self.user = user
 
         #LOGIN
-        response = self.c.post(reverse('api:login'), {'username': self.user.username, 'password':'dummy'})
-        self.assertEqual(response.status_code,200)
-        json_response = json.loads(response.content)
-        self.assertEqual(json_response['valid'], True)
-        self.token_auth = json_response['token_auth']
+        #response = self.c.post(reverse('auth-login'), {'username': self.user.username, 'password':'dummy'})
+        #self.assertEqual(response.status_code,200)
+        #json_response = json.loads(response.content)
+        #self.assertEqual(json_response['valid'], True)
+        #self.token_auth = json_response['token_auth']
 
         self.project = Project(
             name = 'project 1',
@@ -43,24 +45,24 @@ class Test(TestCase):
         )
         self.part.save()
 
-        self.imputation = Imputation(
-            part = self.part,
-            day = 13,
-            hours = 5,
-            project = self.project,
-        )
-        self.imputation.save()
+        #self.imputation = Imputation(
+        #    part = self.part,
+        #    day = 13,
+        #    hours = 5,
+        #    project = self.project,
+        #)
+        #self.imputation.save()
 
     def test_login_logout_ok(self):
         self.c = Client()
-        response = self.c.post(reverse('api:login'), {'username': self.user.username, 'password':'dummy'})
+        response = self.c.post(reverse('auth-login'), {'username': self.user.username, 'password':'dummy'})
         self.assertEqual(response.status_code,200)
         json_response = json.loads(response.content)
         self.assertEqual(json_response['valid'], True)
         token_auth = json_response['token_auth']
 
         self.c = Client()
-        response = self.c.get(reverse('api:logout'), {'token_auth': token_auth})
+        response = self.c.get(reverse('auth-logout'), {'token_auth': token_auth})
         self.assertEqual(response.status_code,200)
         json_response = json.loads(response.content)
         self.assertEqual(json_response['valid'], True)

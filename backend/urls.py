@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^%s/autoreports/' % (settings.BASE_ADMIN,), include('autoreports.urls')),
     url(r'^%s/' % (settings.BASE_ADMIN,), include(admin.site.urls)),
 
-    url(r'^passwd/password_reset/$', 'django.contrib.auth.views.password_reset'),
+    url(r'^passwd/password_reset/$', 'django.contrib.auth.views.password_reset', name="password-reset"),
     url(r'^passwd/password_reset/done/$', 'django.contrib.auth.views.password_reset_done'),
     url(r'^passwd/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     url(r'^passwd/reset/done/$', 'django.contrib.auth.views.password_reset_complete'),

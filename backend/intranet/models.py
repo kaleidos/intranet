@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.db.models.signals import post_save, pre_save
 from django.utils.translation import ugettext as _
 from django.utils.dates import MONTHS
 from django.utils.safestring import mark_safe
@@ -10,12 +11,15 @@ from django.core import urlresolvers
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.dispatch import receiver
 
 from picklefield.fields import PickledObjectField
 from datetime import datetime, timedelta
 from datetime import date
 
 from djmail import template_mail
+
+from .emails import send_holidays_approved_email
 
 
 STATE_CREATED = 0
@@ -439,3 +443,17 @@ class Talk(models.Model):
 
     def __unicode__(self):
         return u"%s" % (self.name,)
+
+@receiver(pre_save, sender=HolidaysRequest)
+def on_holidays_store_previous_status(sender, instance, **kwargs):
+    if instance.pk:
+        instance.previous_status = HolidaysRequest.objects.get(pk=instance.pk).status
+
+@receiver(post_save, sender=HolidaysRequest)
+def on_holidays_request_notification(sender, instance, **kwargs):
+    if not hasattr(instance, 'previous_status'):
+        return
+    if instance.status == instance.previous_status:
+        return
+    if instance.status in [STATE_ACCEPTED, STATE_REJECTED]:
+        send_holidays_approved_email(instance, STATE_ACCEPTED, STATE_REJECTED)
