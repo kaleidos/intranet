@@ -1,19 +1,19 @@
 module.exports = (grunt) ->
     librariesSources = [
-        "app/lib/jquery-1.9.1.min.js"
-        "app/lib/jquery-ui/jquery.ui.core.js"
-        "app/lib/jquery-ui/jquery.ui.widget.js"
-        "app/lib/jquery-ui/jquery.ui.datepicker.js"
-        "app/lib/lodash.js"
-        "app/lib/underscore.string.js"
-        "app/lib/backbone-min.js"
-        "app/lib/d3.v2.min.js"
+        "app/components/jquery/jquery.js"
+        "app/components/jquery-ui/ui/jquery.ui.core.js"
+        "app/components/jquery-ui/ui/jquery.ui.widget.js"
+        "app/components/jquery-ui/ui/jquery.ui.datepicker.js"
+        "app/components/lodash/lodash.js"
+        "app/components/underscore.string/lib/underscore.string.js"
+        "app/components/backbone/backbone.js"
+        "app/components/d3js/d3.v3.js"
         "app/lib/lightbox.js"
-        "app/lib/moment.js"
-        "app/lib/angular/angular.js"
-        "app/lib/angular-flash.js"
-        "app/lib/angular-ui.min.js"
-        "app/lib/angular-ui-ieshiv.min.js"
+        "app/components/momentjs/moment.js"
+        "app/components/angular/angular.js"
+        "app/components/angular-flash/angular-flash.js"
+        "app/components/angular-ui/build/angular-ui.js"
+        "app/components/angular-ui/build/angular-ui-ieshiv.js"
     ]
 
     applicationSources = [
