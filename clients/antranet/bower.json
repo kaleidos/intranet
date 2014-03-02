@@ -27,7 +27,8 @@
     "underscore.string": "2.3.0",
     "backbone": "~1.1.2",
     "angular": "1.0.6",
-    "angular-flash": "~0.1.12",
-    "angular-ui": "~0.4.0"
+    "angular-ui": "~0.4.0",
+    "jquery-ui": "1.10.2",
+    "d3": "2.10.3"
   }
 }

@@ -7,11 +7,11 @@ module.exports = (grunt) ->
         "app/components/lodash/lodash.js"
         "app/components/underscore.string/lib/underscore.string.js"
         "app/components/backbone/backbone.js"
-        "app/components/d3js/d3.v3.js"
+        "app/components/d3/d3.v2.js"
         "app/lib/lightbox.js"
         "app/components/momentjs/moment.js"
         "app/components/angular/angular.js"
-        "app/components/angular-flash/angular-flash.js"
+        "app/lib/angular-flash.js"
         "app/components/angular-ui/build/angular-ui.js"
         "app/components/angular-ui/build/angular-ui-ieshiv.js"
     ]
