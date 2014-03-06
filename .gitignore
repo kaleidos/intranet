@@ -11,4 +11,5 @@ clients/antranet/app/dist/
 clients/antranet/app/dist/antranet.css
 clients/antranet/app/dist/app.js
 clients/antranet/app/dist/libs.js
+clients/antranet/app/components
 backend/settings/local.py
