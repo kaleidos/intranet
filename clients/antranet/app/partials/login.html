@@ -4,11 +4,11 @@
         <form ng-show="status == 'login'">
             <div class="field">
                 <label for="username">Username</label>
-                <input type="text" name="username" placeholder="username" id="username" ng-model="username" autofocus>
+                <input type="text" name="username" placeholder="username" id="username" ng-model="username" autofocus autofill>
             </div>
             <div class="field">
                 <label for="password">Password</label>
-                <input type="password" name="password" placeholder="password" id="password" ng-model="password">
+                <input type="password" name="password" placeholder="password" id="password" ng-model="password" autofill>
             </div>
             <div class="field">
                 <input type="submit" value="login" ng-click="login()">
