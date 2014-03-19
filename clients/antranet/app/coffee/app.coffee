@@ -49,6 +49,7 @@ modules = [
     'antranet.services.apiurl'
     'antranet.directives.holidays'
     'antranet.directives.vimdings'
+    'antranet.directives.autofill'
     'flash'
     'ui'
 ]
