@@ -47,6 +47,8 @@ modules = [
     'antranet.services.common'
     'antranet.services.storage'
     'antranet.services.apiurl'
+    'antranet.services.model'
+    'antranet.services.resource'
     'antranet.directives.holidays'
     'antranet.directives.vimdings'
     'antranet.directives.autofill'
