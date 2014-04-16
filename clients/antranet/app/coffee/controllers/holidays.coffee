@@ -1,4 +1,4 @@
-@HolidaysCtrl = ($scope, $rootScope, $http, apiUrl) ->
+@HolidaysCtrl = ($scope, $rootScope, rs, $model) ->
     $rootScope.selectedMenu = "holidays"
     $scope.dateOptions = {
         changeYear: true
@@ -7,70 +7,40 @@
     }
     $scope.request = {}
 
-    getHolidaysYears = () ->
-        $http(
-            method: "GET"
-            url: apiUrl('holidays-years')
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+    _setHolidayYear = (year) ->
+        $scope.year = year
+        getHolidaysRequests(year)
+
+    _getHolidaysYears = () ->
+        rs.listHolidaysYears().then (data) ->
             $scope.years = data
             if $scope.year?
                 $scope.setHolidayYearById($scope.year.id)
             else
-                setHolidayYear(data[data.length - 1])
-        )
+                _setHolidayYear(data[data.length - 1])
 
     getHolidaysRequests = (year) ->
-        $http(
-            method: "GET"
-            url: apiUrl('holidays-requests')
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-            params:
-                year: year.id
-        ).success((data) ->
+        rs.listHolidaysRequests({year: year.id}).then (data) ->
             $scope.holidays_requests = data
             $rootScope.$broadcast "holidaysReload", $scope
-        )
-
-    setHolidayYear = (year) ->
-        $scope.year = year
-        getHolidaysRequests(year)
 
     $scope.setHolidayYearById = (yearId) ->
         years = _.filter($scope.years, {id: yearId})
         if years.length == 1
-            setHolidayYear(years[0])
+            _setHolidayYear(years[0])
 
     $scope.sendRequest = ->
-        holidayRequest =
-            'beginning': moment($scope.request.beginning).format("YYYY-MM-DD")
-            'ending': moment($scope.request.ending).format("YYYY-MM-DD")
-            'flexible_dates': $scope.request.flexibleDates
-            'comments': $scope.request.comments
-            'year': $scope.year.id
+        $scope.request.year = $scope.year.id
+        $scope.request.beginning = moment($scope.request.beginning).format("YYYY-MM-DD")
+        $scope.request.ending = moment($scope.request.ending).format("YYYY-MM-DD")
 
-        $http(
-            method: "POST"
-            url: apiUrl('holidays-requests')
-            data: holidayRequest
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
-            getHolidaysYears()
+        $model.create("holidays-requests", $scope.request).then ->
+            _getHolidaysYears()
             $scope.request = {}
-        )
 
-    $scope.deleteRequest = (requestId) ->
-        $http(
-            method: "DELETE"
-            url: "#{apiUrl('holidays-requests')}#{requestId}/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
-            getHolidaysYears()
-        )
+    $scope.deleteRequest = (request) ->
+        request.delete().then ->
+            _getHolidaysYears()
 
     $scope.getStatusClass = (status_id) ->
         if (status_id == 0)
@@ -92,6 +62,7 @@
         else if (status_id == 30)
             return "REJECTED"
 
-    getHolidaysYears()
+    _getHolidaysYears()
 
-@HolidaysCtrl.$inject = ['$scope', '$rootScope', '$http', 'apiUrl']
+
+@HolidaysCtrl.$inject = ['$scope', '$rootScope', 'resource', '$model']

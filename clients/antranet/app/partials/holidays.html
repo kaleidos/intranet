@@ -28,8 +28,15 @@
                 <td>{{ holiday_request.count_working_days }}</td>
                 <td>{{ holiday_request.beginning }}</td>
                 <td>{{ holiday_request.ending }}</td>
-                <td><span ng-class="getStatusClass(holiday_request.status)">{{ getStatusName(holiday_request.status) }}</span></td>
-                <td><a ng-click="deleteRequest(holiday_request.id)" ng-show="holiday_request.status == 0" class="link">Delete<a></td>
+                <td>
+                    <span ng-class="getStatusClass(holiday_request.status)">
+                        {{ getStatusName(holiday_request.status) }}
+                    </span>
+                </td>
+                <td>
+                    <a class="link" href="" ng-click="deleteRequest(holiday_request)"
+                       ng-show="holiday_request.status == 0">Delete<a>
+                </td>
             </tr>
         </tbody>
     </table>
