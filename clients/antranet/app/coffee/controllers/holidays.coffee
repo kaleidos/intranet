@@ -3,7 +3,7 @@
     $scope.dateOptions = {
         changeYear: true
         changeMonth: true
-        dateFormat: 'dd/mm/yy'
+        dateFormat: "dd/mm/yy"
     }
     $scope.request = {}
 
@@ -65,4 +65,4 @@
     _getHolidaysYears()
 
 
-@HolidaysCtrl.$inject = ['$scope', '$rootScope', 'resource', '$model']
+@HolidaysCtrl.$inject = ["$scope", "$rootScope", "resource", "$model"]
