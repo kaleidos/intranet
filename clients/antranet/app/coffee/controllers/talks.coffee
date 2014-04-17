@@ -1,4 +1,4 @@
-@TalksCtrl = ($scope, $rootScope, $http, apiUrl) ->
+@TalksCtrl = ($scope, $rootScope, rs, $model) ->
     $scope.currentPage = 1
     $scope.ordering = "-created_date"
     $scope.newTalk = {}
@@ -6,96 +6,48 @@
     $rootScope.selectedMenu = "talks"
 
     loadTalks = () ->
-        $http(
-            method: "GET"
-            url: apiUrl('talks')
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-            params:
-                "page": $scope.currentPage
-                "page_size": 15
-                "ordering": $scope.ordering
-        ).success((data) ->
-            $scope.talks = data['results']
-            $scope.hasNext = data['next'] != null
-            $scope.hasPrev = data['previous'] != null
-            $scope.pages = [1..((data['count']/15)+1)]
-        )
+        params = {
+            page: $scope.currentPage
+            page_size: 15
+            ordering: $scope.ordering
+        }
+        rs.listPaginatedTalks(params).then (data) ->
+            $scope.talks = data.models
+            $scope.hasNext = data.next != null
+            $scope.hasPrev = data.prev != null
+            $scope.pages = [1.. ((data.count/15) + 1)]
 
     $scope.addTalk = () ->
-        $http(
-            method: "POST"
-            url: "#{apiUrl('talks')}"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-            data: $scope.newTalk
-        ).success((data) ->
+        $model.create("talks", $scope.newTalk).then ->
             loadTalks()
             $scope.newTalk = {}
             $scope.newTalkForm = false
-        )
 
-    $scope.iWant = (id) ->
-        $http(
-            method: "POST"
-            url: "#{apiUrl('talks')}#{id}/i_want/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+    $scope.iWant = (talk) ->
+        rs.setTalkIWant(talk.id).then ->
             loadTalks()
-        )
 
-    $scope.iNotWant = (id) ->
-        $http(
-            method: "DELETE"
-            url: "#{apiUrl('talks')}#{id}/i_want/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+    $scope.iNotWant = (talk) ->
+        rs.setTalkINotWant(talk.id).then ->
             loadTalks()
-        )
 
-    $scope.iNotTalk = (id) ->
-        $http(
-            method: "DELETE"
-            url: "#{apiUrl('talks')}#{id}/i_talk/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+    $scope.iTalk = (talk) ->
+        rs.setTalkITalk(talk.id).then ->
             loadTalks()
-        )
 
-    $scope.iTalk = (id) ->
-        $http(
-            method: "POST"
-            url: "#{apiUrl('talks')}#{id}/i_talk/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+    $scope.iNotTalk = (talk) ->
+        rs.setTalkINotTalk(talk.id).then ->
             loadTalks()
-        )
 
     $scope.iTalkersAreReady = (talk) ->
-        if _.any(talk.talkers, {'id': $rootScope.user_id})
-            $http(
-                method: "POST"
-                url: "#{apiUrl('talks')}#{talk.id}/i_talkers_are_ready/"
-                headers:
-                    "X-SESSION-TOKEN": $rootScope.token_auth
-            ).success((data) ->
+        if _.any(talk.talkers, {"id": $rootScope.user_id})
+            rs.setTalkersAreReady(talk.id).then ->
                 loadTalks()
-            )
 
     $scope.iTalkersAreNotReady = (talk) ->
-        if _.any(talk.talkers, {'id': $rootScope.user_id})
-            $http(
-                method: "POST"
-                url: "#{apiUrl('talks')}#{talk.id}/i_talkers_are_not_ready/"
-                headers:
-                    "X-SESSION-TOKEN": $rootScope.token_auth
-            ).success((data) ->
+        if _.any(talk.talkers, {"id": $rootScope.user_id})
+            rs.setTalkersAreNotReady(talk.id).then ->
                 loadTalks()
-            )
 
     $scope.talkStatus = (talk) ->
         # red    - There are no talkers yet
@@ -125,4 +77,5 @@
         loadTalks()
 
     loadTalks()
-@TalksCtrl.$inject = ['$scope', '$rootScope', '$http', 'apiUrl']
+
+@TalksCtrl.$inject = ["$scope", "$rootScope", "resource", "$model"]

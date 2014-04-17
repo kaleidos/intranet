@@ -58,11 +58,11 @@
                 </div>
             </div>
             <div class="actions">
-                <a ng-show="!_.any(talk.wanters, {'id': user_id})" href="" class="wanter-action" ng-click="iWant(talk.id)" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
-                <a ng-show="_.any(talk.wanters, {'id': user_id})" href="" class="yes-i-want" ng-click="iNotWant(talk.id)" data-hover="Nooo!"><span>Yes, I Want</span></a>
+                <a ng-show="!_.any(talk.wanters, {'id': user_id})" href="" class="wanter-action" ng-click="iWant(talk)" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
+                <a ng-show="_.any(talk.wanters, {'id': user_id})" href="" class="yes-i-want" ng-click="iNotWant(talk)" data-hover="Nooo!"><span>Yes, I Want</span></a>
 
-                <a ng-show="!_.any(talk.talkers, {'id': user_id})" href="" class="talker-action" ng-click="iTalk(talk.id)" data-hover="Sure?" title="I will talk"><span>I talk</span></a>
-                <a ng-show="_.any(talk.talkers, {'id': user_id})" href="" class="yes-i-talk" ng-click="iNotTalk(talk.id)" data-hover="Nooo!"><span>Yes, I Talk</span></a>
+                <a ng-show="!_.any(talk.talkers, {'id': user_id})" href="" class="talker-action" ng-click="iTalk(talk)" data-hover="Sure?" title="I will talk"><span>I talk</span></a>
+                <a ng-show="_.any(talk.talkers, {'id': user_id})" href="" class="yes-i-talk" ng-click="iNotTalk(talk)" data-hover="Nooo!"><span>Yes, I Talk</span></a>
             </div>
         </div>
 
