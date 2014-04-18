@@ -1,22 +1,18 @@
-@PreferencesCtrl = ($rootScope, $scope, $location, $http, flash, apiUrl) ->
+@PreferencesCtrl = ($rootScope, $scope, rs, flash) ->
     $rootScope.selectedMenu = "preferences"
 
     $scope.changePassword = () ->
-        if $scope.password1 != $scope.password2
-            flash([{ level: 'warning', text: 'Passwords not mach' }])
-        else
-            $http(
-                method: "POST"
-                url: apiUrl("change-password")
-                headers:
-                    "X-SESSION-TOKEN": $rootScope.token_auth
-                data:
-                    password1: $scope.password1
-                    password2: $scope.password2
-            ).success((data) ->
-                flash([{ level: 'success', text: data.detail }])
-            ).error((data) ->
-                flash([{ level: 'warning', text: data.detail }])
-            )
+        data =
+            password1: $scope.password1
+            password2: $scope.password2
 
-@PreferencesCtrl.$inject = ['$rootScope', '$scope', '$location', '$http', 'flash', 'apiUrl']
+        success = (result) ->
+            flash([{ level: 'success', text: result.detail }])
+
+        error = (result) ->
+            flash([{ level: 'warning', text: result.detail }])
+
+        rs.setUserPassword(data).then(success, error)
+
+
+@PreferencesCtrl.$inject = ['$rootScope', '$scope', 'resource', 'flash']

@@ -103,7 +103,7 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
 
         return defered.promise
 
-    makeAction = (name, action, type, id, params, options, cls) ->
+    makeAction = (name, action, type, id, data, params, options, cls) ->
         defaultHttpParams = {method: type, headers: headers()}
 
         if id
@@ -114,6 +114,9 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
             url = "#{url}/#{action}/"
 
         defaultHttpParams.url = url
+
+        if not _.isEmpty(data)
+            defaultHttpParams.data = data
 
         if not _.isEmpty(params)
             defaultHttpParams.params = params
@@ -127,13 +130,17 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
             defered.resolve(data)
 
         promise.error (data, status) ->
-            defered.reject()
+            defered.reject(data)
 
         return defered.promise
 
 
     ## Custom services
     #################
+
+    # Auth
+    service.setUserPassword = (data) ->
+        return makeAction("change-password", null, "POST", null, data)
 
     # Holidays
 
