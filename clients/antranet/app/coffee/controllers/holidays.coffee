@@ -12,17 +12,21 @@
         getHolidaysRequests(year)
 
     _getHolidaysYears = () ->
-        rs.listHolidaysYears().then (data) ->
+        success = (data) ->
             $scope.years = data
             if $scope.year?
                 $scope.setHolidayYearById($scope.year.id)
             else
                 _setHolidayYear(data[data.length - 1])
 
+        rs.listHolidaysYears().then(success)
+
     getHolidaysRequests = (year) ->
-        rs.listHolidaysRequests({year: year.id}).then (data) ->
+        success = (data) ->
             $scope.holidays_requests = data
             $rootScope.$broadcast "holidaysReload", $scope
+
+        rs.listHolidaysRequests({year: year.id}).then(success)
 
     $scope.setHolidayYearById = (yearId) ->
         years = _.filter($scope.years, {id: yearId})
@@ -34,9 +38,11 @@
         $scope.request.beginning = moment($scope.request.beginning).format("YYYY-MM-DD")
         $scope.request.ending = moment($scope.request.ending).format("YYYY-MM-DD")
 
-        $model.create("holidays-requests", $scope.request).then ->
+        success =  ->
             _getHolidaysYears()
             $scope.request = {}
+
+        $model.create("holidays-requests", $scope.request).then(success)
 
     $scope.deleteRequest = (request) ->
         request.delete().then ->
@@ -63,6 +69,5 @@
             return "REJECTED"
 
     _getHolidaysYears()
-
 
 @HolidaysCtrl.$inject = ["$scope", "$rootScope", "resource", "$model"]

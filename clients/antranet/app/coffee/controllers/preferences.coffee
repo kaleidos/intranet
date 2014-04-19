@@ -14,5 +14,4 @@
 
         rs.setUserPassword(data).then(success, error)
 
-
 @PreferencesCtrl.$inject = ['$rootScope', '$scope', 'resource', 'flash']

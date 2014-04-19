@@ -11,17 +11,22 @@
             page_size: 15
             ordering: $scope.ordering
         }
-        rs.listPaginatedTalks(params).then (data) ->
+
+        success = (data) ->
             $scope.talks = data.models
             $scope.hasNext = data.next != null
             $scope.hasPrev = data.prev != null
             $scope.pages = [1.. ((data.count/15) + 1)]
 
+        rs.listPaginatedTalks(params).then(success)
+
     $scope.addTalk = () ->
-        $model.create("talks", $scope.newTalk).then ->
+        success = ->
             loadTalks()
             $scope.newTalk = {}
             $scope.newTalkForm = false
+
+        $model.create("talks", $scope.newTalk).then(success)
 
     $scope.iWant = (talk) ->
         rs.setTalkIWant(talk.id).then ->
