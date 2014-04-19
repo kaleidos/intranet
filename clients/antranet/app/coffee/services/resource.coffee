@@ -136,9 +136,18 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
 
 
     ## Custom services
-    #################
+    ##################
 
     # Auth
+    service.login = (data) ->
+        return makeAction("login", null, "POST", null, data)
+
+    service.logout = ->
+        return makeAction("logout", null, "POST")
+
+    service.resetPassword = (data) ->
+        return makeAction("reset-password", null, "POST", null, data)
+
     service.setUserPassword = (data) ->
         return makeAction("change-password", null, "POST", null, data)
 
