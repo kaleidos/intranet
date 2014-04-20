@@ -21,8 +21,8 @@ class Command(BaseCommand):
         max_users = 5
         for u in range(0, max_users):
             user = User()
-            user.email = self.sd.email()
-            user.username = self.sd.word()
+            user.email = u"user{}@antranet.com".format(u)
+            user.username = u"user{}".format(u)
             user.set_password(user.username)
             user.save()
 
