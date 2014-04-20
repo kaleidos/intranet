@@ -1,4 +1,3 @@
-
 ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
     service = {}
 
@@ -13,7 +12,7 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
         defaultHttpParams = {method: "GET", headers:  headers()}
 
         if id
-            defaultHttpParams.url = "#{apiUrl(name)}#{id}"
+            defaultHttpParams.url = "#{apiUrl(name)}#{id}/"
         else
             defaultHttpParams.url = "#{apiUrl(name)}"
 
@@ -151,10 +150,32 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
     service.setUserPassword = (data) ->
         return makeAction("change-password", null, "POST", null, data)
 
+
+    # Parts
+
+    service.listPaginatedParts = (params={}) ->
+        return queryPaginatedMany("parts", params)
+
+    service.getPart = (id) ->
+        return queryOne("parts", id)
+
+    service.setPartSend = (id) ->
+        return makeAction("parts", "send", "POST", id)
+
+
+    # Projects
+
+    service.listProjects = () ->
+        return queryMany("projects")
+
+
     # Holidays
 
-    service.listHolidaysYears = (params={}) ->
-        return queryMany("holidays-years", params)
+    service.listHolidays = (params={}) ->
+        return queryMany("holidays", params)
+
+    service.listHolidaysYears = () ->
+        return queryMany("holidays-years")
 
     service.listHolidaysRequests = (params={}) ->
         return queryMany("holidays-requests", params)

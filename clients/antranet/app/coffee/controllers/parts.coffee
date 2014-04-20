@@ -1,33 +1,25 @@
-@PartsCtrl = ($scope, $rootScope, $http, apiUrl) ->
+@PartsCtrl = ($scope, $rootScope, rs) ->
     $scope.currentPage = 1
 
     $rootScope.selectedMenu = "parts"
 
     loadParts = () ->
-        $http(
-            method: "GET"
-            url: apiUrl('parts')
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-            params:
-                "page": $scope.currentPage
-                "page_size": 15
-        ).success((data) ->
-            $scope.parts = data['results']
-            $scope.hasNext = data['next'] != null
-            $scope.hasPrev = data['previous'] != null
-            $scope.pages = [1..((data['count']/15)+1)]
-        )
+        params = {
+            page: $scope.currentPage
+            page_size: 15
+        }
 
-    $scope.sendPart = (partId) ->
-        $http(
-            method: "POST"
-            url: "#{apiUrl('parts')}#{partId}/send/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+        success = (data) ->
+            $scope.parts = data.models
+            $scope.hasNext = data.next != null
+            $scope.hasPrev = data.previous != null
+            $scope.pages = [1.. ((data.count / 15) + 1)]
+
+        rs.listPaginatedParts(params).then(success)
+
+    $scope.sendPart = (part) ->
+        rs.setPartSend(part.id).then (data) ->
             loadParts()
-        )
 
     $scope.nextPage = () ->
         $scope.currentPage = $scope.currentPage + 1
@@ -42,9 +34,11 @@
         loadParts()
 
     loadParts()
-@PartsCtrl.$inject = ['$scope', '$rootScope', '$http', 'apiUrl']
 
-@PartCtrl = ($scope, $rootScope, $http, $routeParams, $location, apiUrl, storage) ->
+@PartsCtrl.$inject = ['$scope', '$rootScope', 'resource']
+
+
+@PartCtrl = ($scope, $rootScope, $routeParams, $location, rs, storage) ->
     $rootScope.selectedMenu = "parts"
     $scope.imputations = {}
     $scope.holidays = {}
@@ -62,21 +56,16 @@
 
         while day < month_end
             isSpecial = $.inArray(day.date(), just_spacial_days) != -1
-            days.push {
+            days.push({
                 number: day.date()
                 week: week_days[day.day()]
                 isSpecial: isSpecial
-            }
+            })
             day.add('days', 1)
         return days
 
     loadPart = (partId) ->
-        $http(
-            method: "GET"
-            url: "#{apiUrl('parts')}#{partId}/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth
-        ).success((data) ->
+        success = (data) ->
             $scope.part = data
 
             $scope.special_days = data.special_days
@@ -94,56 +83,42 @@
             setTimeout(() ->
                 $('span.day-imputation input')[0].focus()
             , 100)
-        )
+
+        rs.getPart(partId).then(success)
 
     loadProjects = () ->
-        $http(
-            method: "GET"
-            url: apiUrl('projects')
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth,
-        ).success((data) ->
+        success = (data) ->
             $scope.projects = {}
             for project in data
                 $scope.projects[project.id] = project
             loadPart($routeParams.id)
-        )
+
+        rs.listProjects().then(success)
 
     loadHolidays = () ->
-        $http(
-            method: "GET"
-            url: apiUrl('holidays')
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth,
-            params:
-                "page_size": 0
-                "year": $scope.part.year
-                "month": $scope.part.month
-        ).success((data) ->
+        params = {
+            year: $scope.part.year
+            month: $scope.part.month
+        }
+
+        success = (data) ->
             $scope.holidays = {}
             for day in $scope.days
                 $scope.holidays[day.number] = 0
             for date in data
                 $scope.holidays[date.day] = 8
                 $scope.days[date.day-1].isSpecial = true
-        )
+
+        rs.listHolidays(params).then(success)
 
     $scope.savePart = () ->
         if $scope.part.state == 10
             return null
 
-        data = $scope.part
-        data.data = $scope.imputations
+        $scope.part.setAttr("data", $scope.imputations)
 
-        $http(
-            method: "PUT"
-            url: "#{apiUrl('parts')}#{data.id}/"
-            headers:
-                "X-SESSION-TOKEN": $rootScope.token_auth,
-            data: data
-        ).success((data) ->
+        $scope.part.save().then (data) ->
             $location.url('/parts')
-        )
 
     $scope.sum = (obj) ->
         if (!$.isArray(obj) or obj.length == 0)
@@ -204,4 +179,5 @@
         $(event.target).select()
 
     loadProjects()
-@PartCtrl.$inject = ['$scope', '$rootScope', '$http', '$routeParams', '$location', 'apiUrl', 'storage']
+
+@PartCtrl.$inject = ['$scope', '$rootScope', '$routeParams', '$location', 'resource', 'storage']
