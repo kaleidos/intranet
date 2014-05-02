@@ -427,6 +427,24 @@ class HolidaysRequest(models.Model):
             args=(self.id,)
         )
 
+@receiver(pre_save, sender=HolidaysRequest)
+def on_holidays_store_previous_status(sender, instance, **kwargs):
+    if instance.pk:
+        instance.previous_status = HolidaysRequest.objects.get(pk=instance.pk).status
+
+@receiver(post_save, sender=HolidaysRequest)
+def on_holidays_request_notification(sender, instance, **kwargs):
+    if not hasattr(instance, 'previous_status'):
+        return
+    if instance.status == instance.previous_status:
+        return
+    if instance.status in [STATE_ACCEPTED, STATE_REJECTED]:
+        send_holidays_approved_email(instance, STATE_ACCEPTED, STATE_REJECTED)
+
+########################################################################
+# Talks
+########################################################################
+
 class Talk(models.Model):
     name = models.CharField(max_length=250)
     created_date = models.DateTimeField(null=False, blank=False, auto_now_add=True)
@@ -444,16 +462,29 @@ class Talk(models.Model):
     def __unicode__(self):
         return u"%s" % (self.name,)
 
-@receiver(pre_save, sender=HolidaysRequest)
-def on_holidays_store_previous_status(sender, instance, **kwargs):
-    if instance.pk:
-        instance.previous_status = HolidaysRequest.objects.get(pk=instance.pk).status
 
-@receiver(post_save, sender=HolidaysRequest)
-def on_holidays_request_notification(sender, instance, **kwargs):
-    if not hasattr(instance, 'previous_status'):
-        return
-    if instance.status == instance.previous_status:
-        return
-    if instance.status in [STATE_ACCEPTED, STATE_REJECTED]:
-        send_holidays_approved_email(instance, STATE_ACCEPTED, STATE_REJECTED)
+########################################################################
+# Quotes
+########################################################################
+
+class Quote(models.Model):
+    quote = models.TextField(null=False, blank=False, verbose_name=_(u"quote"))
+    explanation = models.TextField(null=False, blank=True, verbose_name=_(u"explanation"))
+    employee = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,
+                                 related_name="quotes",
+                                 verbose_name=_(u"employee"))
+    external_author = models.CharField(max_length=256, null=False, blank=True,
+                                       verbose_name=_(u"external author"))
+    created_date = models.DateTimeField(null=False, blank=False, auto_now_add=True,
+                                        verbose_name=_(u"created date"))
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,
+                                related_name="quotes_created",
+                                verbose_name=_(u"author"))
+
+    class Meta:
+        verbose_name = _(u"Quote")
+        verbose_name_plural = _(u"Quotes")
+        ordering = ["-created_date"]
+
+    def __unicode__(self):
+        return self.quote

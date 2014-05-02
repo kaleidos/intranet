@@ -35,6 +35,19 @@ class Command(BaseCommand):
             talk.obsolete = self.sd.boolean()
             talk.save()
 
+    def create_quotes(self):
+        max_quotes = 30
+        for t in range(0, max_quotes):
+            quote = Quote()
+            quote.quote = self.sd.paragraph()
+            quote.explanation = self.sd.paragraph()
+            if self.sd.boolean():
+                quote.employee = User.objects.order_by("?")[0]
+            else:
+                quote.external_author = self.sd.words(2, 3)
+            quote.creator = User.objects.order_by("?")[0]
+            quote.save()
+
     def create_holidays_years(self):
         max_holidays_years = 3
         for x in range(max_holidays_years, -1, -1):
@@ -137,3 +150,6 @@ class Command(BaseCommand):
 
         print "Creating talks"
         self.create_talks()
+
+        print "Creating quotes"
+        self.create_quotes()
