@@ -26,7 +26,7 @@ from dateutil.relativedelta import relativedelta
 
 from intranet.models import (Assignation, Invoice, Project,
                              Part, SpecialDay, Client, Sector, HolidaysRequest,
-                             HolidaysYear, User, Talk)
+                             HolidaysYear, User, Talk, Quote)
 from intranet.forms import (UserCreationForm, UserChangeForm)
 
 
@@ -355,3 +355,11 @@ class TalkAdmin(admin.ModelAdmin):
     count_talkers.short_description = "Count talkers"
 
 admin.site.register(Talk, TalkAdmin)
+
+
+class QuoteAdmin(admin.ModelAdmin):
+    list_display = ("quote", "employee", "external_author", "created_date")
+    list_filter = ("created_date", "employee")
+    date_hierarchy = "created_date"
+
+admin.site.register(Quote, QuoteAdmin)
