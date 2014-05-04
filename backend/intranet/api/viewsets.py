@@ -204,3 +204,19 @@ class TalkViewSet(ModelViewSet):
             talk.save(update_fields=["talkers_are_ready"])
             return Response({"detail": u"Talkers aren't ready."})
         raise api_exceptions.YouAreNotATalker()
+
+
+class QuotesViewSet(ModelViewSet):
+    model = models.Quote
+    serializer_class = serializers.QuoteSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+    paginate_by = settings.API_DEFAULT_PAGE_SIZE
+    paginate_by_param = "page_size"
+
+    def pre_save(self, obj):
+        super(QuotesViewSet, self).pre_save(obj)
+
+        obj.creator = self.request.user
+
+        if obj.employee and obj.external_author:
+            obj.external_author = ""

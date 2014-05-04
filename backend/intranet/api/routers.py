@@ -8,6 +8,7 @@ router.register("holidays", viewsets.HolidaysViewSet, base_name="holidays")
 router.register("parts", viewsets.PartViewSet, base_name="parts")
 router.register("projects", viewsets.ProjectViewSet, base_name="projects")
 router.register("talks", viewsets.TalkViewSet, base_name="talks")
+router.register("quotes", viewsets.QuotesViewSet, base_name="quotes")
 
 auth_router = SimpleRouter()
 auth_router.register("auth", viewsets.AuthViewSet, base_name="auth")

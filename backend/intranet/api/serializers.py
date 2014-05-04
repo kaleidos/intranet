@@ -208,3 +208,9 @@ class TalkSerializer(serializers.ModelSerializer):
 
     def get_talkers(self, obj):
         return [{'name': talker.get_full_name() or talker.username, 'id': talker.id} for talker in obj.talkers.all()] if obj else []
+
+
+class QuoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Quote
+        read_only_fields = ("created_date", "creator")
