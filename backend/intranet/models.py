@@ -56,6 +56,7 @@ PERCEPTION_STATE_CHOICES = (
     (PERCEPTION_STATE_CANCELLED, _(u'Payment cancelled')),
 )
 
+
 #######################################################################
 # Slug stuff
 #######################################################################
@@ -81,6 +82,7 @@ def slugify_uniquely(value, model, slugfield="slug"):
 #######################################################################
 # Models
 #######################################################################
+
 class User(AbstractUser):
     """
     Users within the Django authentication system are represented by this
@@ -96,6 +98,20 @@ class User(AbstractUser):
     reset_password_token = models.CharField(max_length=40, null=False, blank=True,
                                             verbose_name=_(u"reset password token"),
                                             default=u"")
+
+    @property
+    def full_name(self):
+        """
+        Returns the first_name plus the last_name, with a space in between if both exist,
+        or one of them or the username instead.
+        """
+        if self.first_name and self.last_name:
+            return u"{} {}".format(self.first_name, self.last_name)
+        elif self.first_name:
+            return first_name
+        elif self.last_name:
+            return self.last_name
+        return self.username
 
 
 class Assignation(models.Model):
@@ -249,10 +265,10 @@ class SpecialDay(models.Model):
     day.admin_order_field = 'date__day'
     day.short_description = _(u'Day')
 
+
 ########################################################################
 #Clients
 ########################################################################
-
 
 class Sector(models.Model):
     name = models.CharField(max_length=255)
@@ -278,10 +294,10 @@ class Client(models.Model):
     class Meta:
         ordering = ['name']
 
+
 ########################################################################
 #Invoices
 ########################################################################
-
 
 class Invoice(models.Model):
     number = models.CharField(max_length=255, verbose_name=u'invoice number', unique=True)

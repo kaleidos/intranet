@@ -25,11 +25,32 @@ class PickleField(serializers.WritableField):
         return data
 
 
+########################################################################
+# Auth & Users
+########################################################################
+
+class UserSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField('get_full_name')
+
+    class Meta:
+        model = models.User
+
+    def get_full_name(self, obj):
+        return obj.full_name if obj else ""
+
+
+class UserReadOnlySerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        fields = ("id", "username", "email", "first_name", "last_name", "full_name")
+        read_only_fields = ("id", "username", "email", "first_name", "last_name")
+
+
 class UserLogged(object):
     """
     An object represent a logged user.
     """
-    def __init__(self, token, id, username, email, first_name, last_name, is_staff, is_superuser, date_joined, last_login):
+    def __init__(self, token, id, username, email, first_name, last_name, is_staff, is_superuser,
+                 date_joined, last_login):
         self.token = token
         self.id = id
         self.username = username
@@ -82,10 +103,18 @@ class LoginSerializer(serializers.Serializer):
         return UserLogged(**attrs)
 
 
+########################################################################
+# Projects
+########################################################################
+
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Project
 
+
+########################################################################
+# Parts
+########################################################################
 
 class PartSerializer(serializers.ModelSerializer):
     data = PickleField()
@@ -122,6 +151,10 @@ class PartSerializer(serializers.ModelSerializer):
         return [SpecialDaySerializer(d).data for d in special_days]
 
 
+########################################################################
+# Holidays
+########################################################################
+
 class HolidaysYearSerializer(serializers.ModelSerializer):
     consumed_days = serializers.SerializerMethodField('get_consumed_days')
     requested_days = serializers.SerializerMethodField('get_requested_days')
@@ -141,7 +174,8 @@ class HolidaysYearSerializer(serializers.ModelSerializer):
         return settings.HOLIDAYS_PER_YEAR
 
     def get_special_days(self, obj):
-        return models.SpecialDay.objects.filter(date__year=obj.year).order_by('date').values() if obj else None
+        return (models.SpecialDay.objects.filter(date__year=obj.year).order_by('date').values()
+                if obj else None)
 
 
 class HolidaysRequestSerializer(serializers.ModelSerializer):
@@ -187,6 +221,10 @@ class SpecialDaySerializer(serializers.ModelSerializer):
         fields = ('date', 'description')
 
 
+########################################################################
+# Talks
+########################################################################
+
 class TalkSerializer(serializers.ModelSerializer):
     wanters_count = serializers.SerializerMethodField('count_wanters')
     talkers_count = serializers.SerializerMethodField('count_talkers')
@@ -204,13 +242,21 @@ class TalkSerializer(serializers.ModelSerializer):
         return obj.talkers.count() if obj else None
 
     def get_wanters(self, obj):
-        return [{'name': wanter.get_full_name() or wanter.username, 'id': wanter.id} for wanter in obj.wanters.all()] if obj else []
+        return [{'name': wanter.get_full_name() or wanter.username, 'id': wanter.id}
+                for wanter in obj.wanters.all()] if obj else []
 
     def get_talkers(self, obj):
-        return [{'name': talker.get_full_name() or talker.username, 'id': talker.id} for talker in obj.talkers.all()] if obj else []
+        return [{'name': talker.get_full_name() or talker.username, 'id': talker.id}
+                for talker in obj.talkers.all()] if obj else []
 
+
+########################################################################
+# Quotes
+########################################################################
 
 class QuoteSerializer(serializers.ModelSerializer):
+    employee = UserReadOnlySerializer()
+
     class Meta:
         model = models.Quote
         read_only_fields = ("created_date", "creator")
