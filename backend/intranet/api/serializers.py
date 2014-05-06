@@ -34,9 +34,19 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
+        fields = ("id", "username", "email", "first_name", "last_name", "full_name",
+                  "is_active", "is_superuser", "is_staff", "is_company_team",
+                  "date_joined", "last_login")
+        read_only_fields = ("is_active", "is_superuser", "is_staff", "is_company_team",
+                            "date_joined", "last_login")
 
     def get_full_name(self, obj):
         return obj.full_name if obj else ""
+
+
+class AdminUserSerializer(UserSerializer):
+    class Meta(UserSerializer.Meta):
+        read_only_fields = ("date_joined", "last_login")
 
 
 class UserReadOnlySerializer(UserSerializer):
@@ -255,7 +265,7 @@ class TalkSerializer(serializers.ModelSerializer):
 ########################################################################
 
 class QuoteSerializer(serializers.ModelSerializer):
-    employee = UserReadOnlySerializer()
+    employee_user = UserReadOnlySerializer(required=False, source="employee")
 
     class Meta:
         model = models.Quote

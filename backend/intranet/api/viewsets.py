@@ -92,6 +92,16 @@ class AuthViewSet(ViewSet):
         return Response({"detail": "The password has beeen changed successfully."})
 
 
+class UserViewSet(ModelViewSet):
+    model = models.User
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_serializer_class(self):
+        if self.request.user.is_active and (self.request.user.is_superuser or self.request.user.is_staff):
+            return serializers.AdminUserSerializer
+        return serializers.UserSerializer
+
+
 class HolidaysYearsViewSet(ModelViewSet):
     queryset = models.HolidaysYear.objects.filter(active=True)
     serializer_class = serializers.HolidaysYearSerializer

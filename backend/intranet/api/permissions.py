@@ -15,3 +15,21 @@ class HolidaysPermission(permissions.BasePermission):
             return False
 
         return obj.employee == request.user
+
+
+class UsersPermission(permissions.BasePermission):
+    """
+    Permissisons for UserViewSet
+    """
+    def has_object_permission(self, request, view, obj):
+        if request.user.is_anonymous():
+            return False
+
+        if not request.user.is_superuser and not request.user.is_staff:
+            if request.method == 'DELETE':
+                return False
+
+            if request.method in ["POST", "PUT", "PATCH"] and request.user != obj:
+                return False
+
+        return True
