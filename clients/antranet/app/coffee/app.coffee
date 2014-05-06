@@ -4,12 +4,13 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
     $routeProvider.when('/login', {templateUrl: 'partials/login.html', controller: LoginCtrl})
     $routeProvider.when('/logout', {templateUrl: 'partials/logout.html', controller: LogoutCtrl})
     $routeProvider.when('/reset/:token', {templateUrl: 'partials/reset.html', controller: ResetCtrl})
-    $routeProvider.when('/preferences', {templateUrl: 'partials/preferences.html', controller: PreferencesCtrl})
     $routeProvider.when('/home', {templateUrl: 'partials/home.html', controller: HomeCtrl})
     $routeProvider.when('/parts', {templateUrl: 'partials/parts.html', controller: PartsCtrl})
     $routeProvider.when('/parts/:id', {templateUrl: 'partials/part.html', controller: PartCtrl})
-    $routeProvider.when('/talks', {templateUrl: 'partials/talks.html', controller: TalksCtrl})
     $routeProvider.when('/holidays', {templateUrl: 'partials/holidays.html', controller: HolidaysCtrl})
+    $routeProvider.when('/talks', {templateUrl: 'partials/talks.html', controller: TalksCtrl})
+    $routeProvider.when('/quotes', {templateUrl: 'partials/quotes.html', controller: QuotesCtrl})
+    $routeProvider.when('/preferences', {templateUrl: 'partials/preferences.html', controller: PreferencesCtrl})
     $routeProvider.otherwise({redirectTo: '/login'})
 
     defaultHeaders =

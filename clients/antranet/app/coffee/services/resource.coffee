@@ -150,6 +150,9 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
     service.setUserPassword = (data) ->
         return makeAction("change-password", null, "POST", null, data)
 
+    service.listUsers = () ->
+        return queryMany("users")
+
 
     # Parts
 
@@ -203,6 +206,12 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
 
     service.setTalkersAreNotReady = (id) ->
         return makeAction("talks", "i_talkers_are_not_ready", "POST", id)
+
+
+    # Quotes
+
+    service.listPaginatedQuotes = (params={}) ->
+        return queryPaginatedMany("quotes", params)
 
 
     return service

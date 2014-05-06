@@ -1,0 +1,76 @@
+<section class="quotes-wrapper wrapper">
+
+    <h2>What people say?...</h2>
+
+    <a href="" class="add-quote" title="I want to add a quote" ng-click="newQuoteForm=true">
+        No! I want add a quote
+    </a>
+
+    <form class="new-quote clearfix" ng-submit="addQuote()" ng-show="newQuoteForm">
+        <h3>What quote you want to add?</h3>
+        <fieldset>
+            <textarea id="quote-quote" ng-model="newQuote.quote" placeholder="Quote">
+            </textarea>
+        </fieldset>
+        <fieldset>
+            <select id="quote-employee" ng-model="newQuote.employee"
+                ng-options="employee.id as employee.full_name for employee in employees">
+                <option value="">By external author</option>
+            <select>
+            <input id="quote-external-author" type="text" ng-model="newQuote.external_author"
+                   ng-show="!newQuote.employee" placeholder="Set his or her name">
+        </fieldset>
+        <fieldset>
+            <textarea id="quote-explanation" ng-model="newQuote.explanation" placeholder="Some explanation?">
+            </textarea>
+        </fieldset>
+        <input type="button" value="Add New Quote" ng-click="addQuote()" />
+        <a href="" class="cocoroco" title="Cocorococo" ng-click="newQuoteForm=false"></a>
+    </form>
+
+    <article class="quote-container" ng-repeat="quote in quotes">
+        <div class="top clearfix">
+
+            <div class="quote-data">
+                <h3>{{ quote.quote }}</h3>
+                <ul class="quote-owners clearfix">
+                    <li class="quote-owners-title">Owner:</li>
+                    <li ng-show="quote.employee_user">{{ quote.employee_user.full_name }}</li>
+                    <li ng-hide="quote.employee_user">{{ quote.external_author }}</li>
+                </ul>
+                <ul class="quote-created-date clearfix">
+                    <li class="quote-created-date-title">Created</li>
+                    <li>{{ quote.created_date|mfromNow }}</li>
+                </ul>
+            </div>
+
+            <div class="actions">
+                <!--
+                <a href="" class="edit-action" ng-click="" data-hover="Let's go!"
+                   title="Edit this quote">
+                    <span>Edit</span>
+                </a>
+                -->
+                <a href="" class="delete-action" ng-click="deleteQuote(quote)" data-hover="Sure?"
+                   title="Delete this quote">
+                    <span>Delete</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="bottom explanation" ng-show="quote.explanation">
+            <div class="explanation-text">
+                <p>{{ quote.explanation }}</p>
+            </div>
+        </div>
+
+    </article>
+
+    <div class="pagination clearfix">
+        <a ng-click="prevPage()" class="link" ng-show="hasPrev">Prev Page</a>
+        <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link"
+           ng-click="selectPage(page)">{{ page }}</a>
+        <a ng-click="nextPage()" class="link" ng-show="hasNext">Next Page</a>
+    </div>
+
+</section>

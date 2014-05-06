@@ -1052,3 +1052,240 @@ fieldset {
         }
     }
 }
+
+.quotes-wrapper {
+    position: relative;
+    h2 {
+        font-size: 34px;
+        color: #666;
+        font-family: 'Roboto', sans-serif;
+    }
+    .add-quote {
+        display: block;
+        text-transform: uppercase;
+        background: #247DD6;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 12px;
+        color: #FFF;
+        font-size: 14px;
+        transition: all 0.3s ease-in;
+        position: absolute;
+        top: 10px;
+        right: 0;
+        &:hover {
+            background: #669933;
+        }
+    }
+}
+.new-quote {
+    margin: 10px 0 20px;
+    background: red;
+    padding: 15px;
+    background: whiteSmoke;
+    border: 1px solid #CCC;
+    font-family: 'Roboto',sans-serif;
+    transition: all .3s ease-in;
+    position: relative;
+    display: block;
+    h3 {
+        font-size: 20px;
+        font-weight: bold;
+        color: #4d4d4d;
+    }
+    fieldset {
+        margin-bottom: 10px;
+        &:last-child {
+            margin: 0;
+        }
+    }
+    input[type="text"], textarea, select {
+        padding: 10px 15px;
+        border: none;
+        font-family: 'Roboto',sans-serif;
+        box-shadow:inset 0 0 10px #cdcdcd;
+        background: #FFF;
+        font-size: 13px;
+    }
+    input[type="text"] {
+        width: 47%;
+        display: block;
+        float: right;
+        margin-right: 7px;
+    }
+    select {
+        width: 47%;
+        display: block;
+        float: left;
+        margin-right: 7px;
+    }
+    textarea {
+        width: 96%;
+        max-width: 96%;
+        min-width: 96%;
+        min-height: 140px;
+    }
+    input[type="button"] {
+        display: block;
+        text-transform: uppercase;
+        background: #247dd6;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        padding: 8px 12px;
+        color: #FFF;
+        font-size: 14px;
+        transition: all .3s ease-in;
+        float: right;
+        border: none;
+        &:hover {
+            background: #669933;
+        }
+    }
+    .cocoroco {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: url('/img/chicken.png') no-repeat center left;
+    }
+}
+.quote-container {
+    width: 960px;
+    background: whiteSmoke;
+    border: 1px solid #CCC;
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease-in;
+    position: relative;
+    &:hover {
+        background: darken(#FCFCFC,7%);
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+    .top {
+        display: flex;
+        min-height: 150px;
+    }
+    .quote-data {
+        padding: 20px 15px 10px;
+        width: 70%;
+        min-width: 70%;
+        float: left;
+        h3 {
+            font-size: 16px;
+            font-weight:bold;
+            color: darken(#ccc, 50%);
+            margin: 0;
+            line-height: 20px;
+        }
+        .quote-created-date {
+            background: url('/img/born.png') no-repeat center left;
+            font-size: 12px;
+            color: darken(#ccc, 30%);
+            padding: 5px 0 5px 20px;
+            margin: 14px 14px 0 0;
+            li {
+                color: darken(#ccc, 20%);
+                float: left;
+                display: block;
+                padding: 0 10px 0 0;
+            }
+            .quote-created-date-title {
+                font-weight: bold;
+                color: darken(#ccc, 50%);
+                border-right: 1px solid darken(#eaeaea, 5%);
+            }
+        }
+        .quote-owners {
+            background: url('/img/microphone.png') no-repeat center left;
+            padding: 5px 0 5px 20px ;
+            margin: 14px 14px 0 0;
+            li {
+                color: darken(#ccc, 20%);
+                float: left;
+                display: block;
+                padding: 0 10px 0 0;
+            }
+            .quote-owners-title {
+                font-weight: bold;
+                color: darken(#ccc, 50%);
+                border-right: 1px solid darken(#eaeaea, 5%);
+            }
+        }
+    }
+    .explanation {
+        padding: 10px 20px;
+        background: darken(#eaeaea, 1%);
+        border-top: 1px solid darken(#eaeaea, 10%);
+        .explanation-text{
+            font-weight: bold;
+            color: darken(#ccc, 50%);
+            font-size: 14px;
+            padding: 0 10px;
+        }
+        p {
+            color: darken(#ccc, 20%);
+            padding: 0 10px;
+        }
+    }
+    .actions {
+        float: right;
+        padding: 0 15px;
+        width: 15%;
+        position: absolute;
+        top: 30px;
+        right: 0;
+        a{
+            display: block;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            background: white;
+            text-align: center;
+            font-weight: bold;
+            text-decoration: none;
+            overflow: hidden;
+            padding: 8px 0 12px;
+            height: 1em;
+            text-align: center;
+            position: relative;
+            color: #FFF;
+            font-size: 14px;
+            transition: all 0.3s ease-in;
+            span {
+                transition: all 0.3s ease-in;
+            }
+            &:hover {
+                background: #669933;
+                span {
+                    opacity: 0;
+                }
+                &:before {
+                    top: 6px;
+                    opacity: 1;
+                }
+            }
+            &:before {
+                opacity: 0;
+                content: attr(data-hover);
+                transition: all 0.3s ease-in;
+                position: absolute;
+                color: rgba(255,255,255, 1);
+                font-size: 16px;
+                top: -100%;
+                right: 28%;
+            }
+        }
+        .delete-action {
+            background: darken(#FF0000, 10%);
+        }
+        .edit-action {
+            background: #3f4c6b;
+        }
+    }
+}
