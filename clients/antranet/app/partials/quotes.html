@@ -29,7 +29,30 @@
     </form>
 
     <article class="quote-container" ng-repeat="quote in quotes">
-        <div class="top clearfix">
+
+        <form class="new-quote clearfix" ng-submit="editQuote(quote)" ng-show="quote.editQuoteForm">
+            <h3>Edit this quote</h3>
+            <fieldset>
+                <textarea id="quote-quote" ng-model="quote.quote" placeholder="Quote">
+                </textarea>
+            </fieldset>
+            <fieldset>
+                <select id="quote-employee" ng-model="quote.employee"
+                    ng-options="employee.id as employee.full_name for employee in employees">
+                    <option value="">By external author</option>
+                <select>
+                <input id="quote-external-author" type="text" ng-model="quote.external_author"
+                       ng-show="!quote.employee" placeholder="Set his or her name">
+            </fieldset>
+            <fieldset>
+                <textarea id="quote-explanation" ng-model="quote.explanation" placeholder="Some explanation?">
+                </textarea>
+            </fieldset>
+            <input type="button" value="Apply changes" ng-click="editQuote(quote)" />
+            <a href="" class="cocoroco" title="Cocorococo" ng-click="quote.editQuoteForm=false"></a>
+        </form>
+
+        <div class="top clearfix" ng-show="!quote.editQuoteForm">
 
             <div class="quote-data">
                 <h3>{{ quote.quote }}</h3>
@@ -45,12 +68,10 @@
             </div>
 
             <div class="actions">
-                <!--
-                <a href="" class="edit-action" ng-click="" data-hover="Let's go!"
+                <a href="" class="edit-action" ng-click="quote.editQuoteForm=true" data-hover="Let's go!"
                    title="Edit this quote">
                     <span>Edit</span>
                 </a>
-                -->
                 <a href="" class="delete-action" ng-click="deleteQuote(quote)" data-hover="Sure?"
                    title="Delete this quote">
                     <span>Delete</span>
@@ -58,7 +79,7 @@
             </div>
         </div>
 
-        <div class="bottom explanation" ng-show="quote.explanation">
+        <div class="bottom explanation" ng-show="quote.explanation && !quote.editQuoteForm">
             <div class="explanation-text">
                 <p>{{ quote.explanation }}</p>
             </div>

@@ -29,8 +29,13 @@
 
         $model.create("quotes", $scope.newQuote).then(success)
 
+    $scope.editQuote = (quote) ->
+        if $window.confirm("Are you sure you want to apply this changes?")
+            quote.save().then ->
+                loadQuotes()
+
     $scope.deleteQuote = (quote) ->
-        if $window.confirm("Are you sure you want delete it?")
+        if $window.confirm("Are you sure you want to delete it?")
             quote.delete().then ->
                 loadQuotes()
 
