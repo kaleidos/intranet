@@ -28,6 +28,7 @@
     "backbone": "~1.1.2",
     "angular": "1.0.6",
     "angular-ui": "~0.4.0",
+    "angular-sanitize": "1.0.6",
     "jquery-ui": "1.10.2",
     "d3": "2.10.3"
   }

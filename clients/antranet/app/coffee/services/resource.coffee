@@ -106,11 +106,15 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
         defaultHttpParams = {method: type, headers: headers()}
 
         if id
-            url = "#{apiUrl(name)}#{id}"
+            if action
+                url = "#{apiUrl(name)}#{id}/#{action}/"
+            else
+                url = "#{apiUrl(name)}#{id}"
         else
-            url = "#{apiUrl(name)}"
-        if action
-            url = "#{url}/#{action}/"
+            if action
+                url = "#{apiUrl(name)}#{action}/"
+            else
+                url = "#{apiUrl(name)}"
 
         defaultHttpParams.url = url
 
@@ -212,6 +216,9 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
 
     service.listPaginatedQuotes = (params={}) ->
         return queryPaginatedMany("quotes", params)
+
+    service.getRandomQuote = () ->
+        return makeAction("quotes", "random", "GET")
 
 
     return service

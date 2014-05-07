@@ -1,7 +1,15 @@
-@HomeCtrl = ($rootScope) ->
+@HomeCtrl = ($scope, $rootScope, rs) ->
     $rootScope.selectedMenu = "home"
 
-@HomeCtrl.$inject = ['$rootScope']
+    loadQuote = ->
+        success = (data) ->
+            $scope.quoteMsg = data.quote
+            $scope.quoteAuth = if data.employee_user then data.employee_user.full_name else data.external_author
+        rs.getRandomQuote().then(success)
+
+    loadQuote()
+
+@HomeCtrl.$inject = ['$scope', '$rootScope', 'resource']
 
 
 @LoginCtrl = ($scope, $location, $rootScope, flash, config, rs, storage) ->

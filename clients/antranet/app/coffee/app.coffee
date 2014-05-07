@@ -44,6 +44,7 @@ init = ($rootScope, $location, storage) ->
     $rootScope._ = _
 
 modules = [
+    'ngSanitize'
     'antranet.filters'
     'antranet.services.common'
     'antranet.services.storage'

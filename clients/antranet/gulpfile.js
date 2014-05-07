@@ -9,6 +9,7 @@ var recess = require('gulp-recess');
 var jshint = require('gulp-jshint');
 var gutil = require('gulp-util');
 
+
 librariesSources = [
     "app/components/jquery/jquery.js",
     "app/components/jquery-ui/ui/jquery.ui.core.js",
@@ -23,7 +24,8 @@ librariesSources = [
     "app/components/angular/angular.js",
     "app/lib/angular-flash.js",
     "app/components/angular-ui/build/angular-ui.js",
-    "app/components/angular-ui/build/angular-ui-ieshiv.js"
+    "app/components/angular-ui/build/angular-ui-ieshiv.js",
+    "app/components/angular-sanitize/angular-sanitize.js"
 ]
 
 applicationSources = [
