@@ -230,3 +230,12 @@ class QuotesViewSet(ModelViewSet):
 
         if obj.employee and obj.external_author:
             obj.external_author = ""
+
+    @list_route(methods=["get"])
+    def random(self, request, format=None):
+        quote = self.get_queryset().order_by("?")[0]
+
+        if quote:
+            return Response(self.get_serializer_class()(quote).data)
+        return Response(None)
+
