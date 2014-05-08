@@ -55,7 +55,7 @@ gulp.task('pro', ['less'], function() {
     gulp.src(applicationSources)
         .pipe(coffee().on('error', gutil.log))
         .pipe(concat('app.js'))
-        .pipe(uglify())
+        //.pipe(uglify())       # FIX ME: Error with the inversion of control
         .pipe(gulp.dest('app/dist/'));
     gulp.src(librariesSources)
         .pipe(concat('libs.js'))
