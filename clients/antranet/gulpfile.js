@@ -59,7 +59,7 @@ gulp.task('pro', ['less'], function() {
         .pipe(gulp.dest('app/dist/'));
     gulp.src(librariesSources)
         .pipe(concat('libs.js'))
-        .pipe(uglify())
+        //.pipe(uglify())       # FIX ME: Error with the inversion of control
         .pipe(gulp.dest('app/dist/'));
 });
 
