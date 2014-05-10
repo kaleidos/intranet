@@ -13,7 +13,7 @@
         }
 
         rs.listUsers().then (data) ->
-            $scope.employees = data
+            $scope.employees = _.sortBy(data, "full_name")
 
             rs.listPaginatedQuotes(params).then (data) ->
                 $scope.quotes = data.models
