@@ -11,6 +11,7 @@ Feature list
 * Hours imputation.
 * Holidays request and contabilization.
 * Internal formation management (Talks system).
+* Quotes.
 * Projects costs calculation.
 * Projects bills generation.
 * RESTful API.
