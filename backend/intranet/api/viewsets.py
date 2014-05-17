@@ -226,7 +226,8 @@ class QuotesViewSet(ModelViewSet):
     def pre_save(self, obj):
         super(QuotesViewSet, self).pre_save(obj)
 
-        obj.creator = self.request.user
+        if not obj.creator:
+            obj.creator = self.request.user
 
         if obj.employee and obj.external_author:
             obj.external_author = ""
