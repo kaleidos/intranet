@@ -220,6 +220,9 @@ ResourceProvider = ($http, apiUrl, $q, $model, $rootScope) ->
     service.getRandomQuote = () ->
         return makeAction("quotes", "random", "GET")
 
+    service.setQuoteScore = (id, data) ->
+        return makeAction("quotes", "rate", "PUT", id, data)
+
 
     return service
 

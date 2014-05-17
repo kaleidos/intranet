@@ -240,3 +240,21 @@ class QuotesViewSet(ModelViewSet):
             return Response(self.get_serializer_class()(quote).data)
         return Response(None)
 
+    @detail_route(methods=["put", "delete"])
+    def rate(self, request, pk=None, format=None):
+        if request.method == "PUT":
+            quote = self.get_object()
+            score = request.DATA.get("score", None)
+            if score:
+                try:
+                    quote_score = quote.scores.get(user=request.user)
+                    quote_score.score = score
+                    quote_score.save()
+                except models.QuoteScore.DoesNotExist:
+                    quote_score = quote.scores.create(user=request.user, score=score)
+
+                return Response({"detail": u"Rate quote."})
+        else:
+            quote = self.get_object()
+            quote.scores.remove(user=request.user)
+            return Response({"detail": u"Delete quote score"})

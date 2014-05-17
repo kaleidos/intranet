@@ -266,7 +266,11 @@ class TalkSerializer(serializers.ModelSerializer):
 
 class QuoteSerializer(serializers.ModelSerializer):
     employee_user = UserReadOnlySerializer(required=False, source="employee")
+    score = serializers.SerializerMethodField('get_score')
 
     class Meta:
         model = models.Quote
         read_only_fields = ("created_date", "creator")
+
+    def get_score(self, obj):
+        return sum(obj.scores.values_list("score", flat=True)) if obj else 0

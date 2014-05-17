@@ -39,6 +39,10 @@
             quote.delete().then ->
                 loadQuotes()
 
+    $scope.rateQuote = (quote, score) ->
+        rs.setQuoteScore(quote.id, {score: score}).then ->
+            loadQuotes()
+
     $scope.setOrder = (order) ->
         $scope.currentPage = 1
         $scope.ordering = order

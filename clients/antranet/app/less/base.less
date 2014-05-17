@@ -1184,6 +1184,42 @@ fieldset {
         display: flex;
         min-height: 195px;
     }
+    .quote-rating {
+        float: left;
+        width: 10%;
+        text-align: center;
+        padding-top: 10px;
+        position: relative;
+        .quote-score-count {
+            font-size: 64px;
+            font-weight:bold;
+            position: relative;
+            margin-left: 5px;
+            color: #c1dad7;
+            display: block;
+            margin-bottom: -10px;
+            transition: all 0.3s ease-in;
+        }
+        .quote-score-title {
+            color: darken(#c1dad7, 30%);
+        }
+        .quote-score-points {
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            color: #335551;
+            font-size: 15px;
+            span {
+                display: inline-block;
+                position: relative;
+                width: 1.1em;
+            }
+            span:hover:before,
+            span:hover ~ span:before {
+                content: "\2605";
+                position: absolute;
+            }
+        }
+    }
     .quote-data {
         padding: 20px 15px 10px;
         width: 70%;

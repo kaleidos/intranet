@@ -8,6 +8,7 @@ from django.utils.dates import MONTHS
 from django.utils.safestring import mark_safe
 from django.template.defaultfilters import slugify
 from django.core import urlresolvers
+from django.core import validators
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
@@ -483,6 +484,18 @@ class Talk(models.Model):
 # Quotes
 ########################################################################
 
+class QuoteScore(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="quote_scores")
+    quote = models.ForeignKey("Quote", related_name="scores")
+    score = models.IntegerField(default=0, validators=[validators.MinValueValidator(0),
+                                                       validators.MaxValueValidator(5)])
+
+    class Meta:
+        verbose_name = _(u"Quote score")
+        verbose_name_plural = _(u"Quote scores")
+        unique_together = ("user", "quote")
+
+
 class Quote(models.Model):
     quote = models.TextField(null=False, blank=False, verbose_name=_(u"quote"))
     explanation = models.TextField(null=False, blank=True, verbose_name=_(u"explanation"))
@@ -496,6 +509,8 @@ class Quote(models.Model):
     creator = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,
                                 related_name="quotes_created",
                                 verbose_name=_(u"author"))
+    users_rates = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='quotes_rated',
+                                         null=True, blank=True, default=None, through="QuoteScore")
 
     class Meta:
         verbose_name = _(u"Quote")
