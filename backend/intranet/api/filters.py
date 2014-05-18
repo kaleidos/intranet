@@ -2,7 +2,7 @@ from rest_framework import filters
 
 from intranet import models, exceptions
 
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 
 class IsEmployeeFilterBackend(filters.BaseFilterBackend):
@@ -68,9 +68,6 @@ class ProjectTypeFilterBackend(filters.BaseFilterBackend):
         return queryset
 
 class OrderingTalksFilterBackend(filters.OrderingFilter):
-    """
-    Filter that only allows users to see their own objects.
-    """
     def filter_queryset(self, request, queryset, view):
         queryset = super(OrderingTalksFilterBackend, self).filter_queryset(request, queryset, view)
         ordering = request.QUERY_PARAMS.get("ordering")
@@ -89,4 +86,27 @@ class OrderingTalksFilterBackend(filters.OrderingFilter):
                                      agg_talkers_count=Count("talkers")).order_by("-talkers_are_ready",
                                                                                   "-agg_talkers_count",
                                                                                   "-agg_wanters_count",)
+        return queryset
+
+
+class OrderingQuotesFilterBackend(filters.OrderingFilter):
+    def filter_queryset(self, request, queryset, view):
+        queryset = super(OrderingQuotesFilterBackend, self).filter_queryset(request, queryset, view)
+        ordering = request.QUERY_PARAMS.get("ordering")
+        if ordering == "created_date":
+            return queryset.order_by("created_date", "id")
+        elif ordering == "-created_date":
+            return queryset.order_by("-created_date", "-id")
+        elif ordering == "score":
+            # TODO: FIXME: Make a extra call to order non rated quotes correctly
+            return (queryset.annotate(agg_score=Sum("scores__score"))
+                            .order_by("agg_score", "id"))
+        elif ordering == "-score":
+            # TODO: FIXME: Make a extra call to order non rated quotes correctly
+            return (queryset.annotate(agg_score=Sum("scores__score"))
+                            .order_by("-agg_score", "-id"))
+        elif ordering == "employee":
+            return queryset.order_by("employee", "external_author", "id")
+        elif ordering == "-employee":
+            return queryset.order_by("-employee", "-external_author", "-id")
         return queryset

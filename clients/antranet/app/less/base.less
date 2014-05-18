@@ -1164,6 +1164,42 @@ fieldset {
         background: url('/img/chicken.png') no-repeat center left;
     }
 }
+.quote-order {
+    margin:0;
+    padding: 0;
+    list-style: none;
+    background: darken(#FCFCFC,50%);
+    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    display: block;
+    margin-bottom: 10px;
+    li {
+        float: left;
+        display: block;
+        padding: 5px 15px;
+        border-right: 1px solid darken(#FCFCFC,70%);
+        border-left: 1px solid darken(#FCFCFC,40%);
+        transition: all .3s ease-in;
+        font-size: 13px;
+        &:first-child {
+            border-left: none;
+            font-weight: bold;
+            color: darken(#FCFCFC,70%);
+        }
+        &:last-child {
+            border-right: none;
+        }
+        &:not(:first-child) {
+            cursor: pointer;
+            &:hover {
+                background: darken(#FCFCFC,40%);
+            }
+        }
+        &.active {
+            background: darken(#FCFCFC,40%);
+        }
+    }
+}
 .quote-container {
     width: 960px;
     background: whiteSmoke;

@@ -28,6 +28,19 @@
         <a href="" class="cocoroco" title="Cocorococo" ng-click="newQuoteForm=false"></a>
     </form>
 
+    <ul class="quote-order clearfix">
+        <li><span class="title">Order</span></li>
+        <li ng-class="{'active': ordering=='-created_date'}" ng-click="setOrder('-created_date')">
+            <span>Creation</span>
+        </li>
+        <li ng-class="{'active': ordering=='-score'}" ng-click="setOrder('-score')">
+            <span>Ranking</span>
+        </li>
+        <li ng-class="{'active': ordering=='employee'}" ng-click="setOrder('employee')">
+            <span>Employee</span>
+        </li>
+    </ul>
+
     <article class="quote-container" ng-repeat="quote in quotes">
 
         <form class="new-quote clearfix" ng-submit="editQuote(quote)" ng-show="quote.editQuoteForm">
