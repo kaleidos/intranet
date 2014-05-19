@@ -99,12 +99,14 @@ class OrderingQuotesFilterBackend(filters.OrderingFilter):
             return queryset.order_by("-created_date", "-id")
         elif ordering == "score":
             # TODO: FIXME: Make a extra call to order non rated quotes correctly
-            return (queryset.annotate(agg_score=Sum("scores__score"))
-                            .order_by("agg_score", "id"))
+            extra_sql = ("select (sum(intranet_quotescore.score)) from intranet_quotescore "
+                         "where intranet_quotescore.quote_id = intranet_quote.id")
+            return queryset.extra(select={"score": extra_sql}, order_by=["score", "id"])
         elif ordering == "-score":
             # TODO: FIXME: Make a extra call to order non rated quotes correctly
-            return (queryset.annotate(agg_score=Sum("scores__score"))
-                            .order_by("-agg_score", "-id"))
+            extra_sql = ("select coalesce(sum(intranet_quotescore.score), 0) from intranet_quotescore "
+                         "where intranet_quotescore.quote_id = intranet_quote.id")
+            return queryset.extra(select={"score": extra_sql}, order_by=["-score", "id"])
         elif ordering == "employee":
             return queryset.order_by("employee", "external_author", "id")
         elif ordering == "-employee":
