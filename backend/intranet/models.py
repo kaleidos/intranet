@@ -463,18 +463,18 @@ def on_holidays_request_notification(sender, instance, **kwargs):
 ########################################################################
 
 class Talk(models.Model):
-    name = models.CharField(max_length=250)
-    created_date = models.DateTimeField(null=False, blank=False, auto_now_add=True)
-    description = models.CharField(max_length=500)
-    obsolete = models.BooleanField(default=False)
-    wanters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_wanted',
-                                       null=True, blank=True, default=None)
+    name = models.CharField(max_length=250, verbose_name=_("name"))
+    description = models.CharField(max_length=500, verbose_name=_("description"))
+    duration = models.IntegerField(null=True, blank=True, default=None, verbose_name=_("duration"))
+    event_date = models.DateTimeField(null=True, blank=True, default=None, verbose_name=_("date of event"))
+    place = models.CharField(max_length=150, null=True, blank=True, default=None, verbose_name=_("place"))
     talkers = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_offers',
-                                       null=True, blank=True, default=None)
-    talkers_are_ready = models.BooleanField(default=False)
-    duration = models.IntegerField(null=True, blank=True, default=None)
-    datetime = models.DateTimeField(null=True, blank=True, default=None)
-    place = models.CharField(max_length=150, null=True, blank=True, default=None)
+                                       null=True, blank=True, default=None, verbose_name=_("talkers"))
+    talkers_are_ready = models.BooleanField(default=False, verbose_name=_("talkers are ready"))
+    created_date = models.DateTimeField(null=False, blank=False, auto_now_add=True, verbose_name=_("date of creation"))
+    obsolete = models.BooleanField(default=False, verbose_name=_("is obsolete"))
+    wanters = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='talks_wanted',
+                                       null=True, blank=True, default=None, verbose_name=_("wanters"))
 
     def __unicode__(self):
         return u"%s" % (self.name,)
