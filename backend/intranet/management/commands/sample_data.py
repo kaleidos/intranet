@@ -32,8 +32,32 @@ class Command(BaseCommand):
             talk = Talk()
             talk.name = self.sd.words(1, 5)
             talk.description = self.sd.long_sentence()
-            talk.obsolete = self.sd.boolean()
+            talk.created_date = self.sd.date_between(
+                date(year=date.today().year - 1, month=1, day=1),
+                date(year=date.today().year, month=date.today().month, day=date.today().day),
+            )
+
+            if self.sd.boolean():
+                talk.duration = self.sd.choice((60, 90, 120))
+            if self.sd.boolean():
+                talk.event_date = self.sd.date_between(
+                    date(year=talk.created_date.year,
+                         month=talk.created_date.month,
+                         day=talk.created_date.day),
+                    date(year=date.today().year, month=12, day=31),
+                )
+                talk.talkers_are_ready = True
+            else:
+                talk.talkers_are_ready = self.sd.boolean()
+                talk.obsolete = self.sd.boolean()
             talk.save()
+
+            if self.sd.boolean():
+                talk.place = self.sd.words(1, 4)
+            if self.sd.boolean():
+                talk.talkers.add(User.objects.order_by("?")[0])
+            if self.sd.boolean():
+                talk.wanters = User.objects.order_by("?")[0:]
 
     def create_quotes(self):
         max_quotes = 30
