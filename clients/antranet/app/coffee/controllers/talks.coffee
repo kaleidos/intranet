@@ -1,6 +1,7 @@
-@TalksCtrl = ($scope, $rootScope, rs, $model) ->
+@TalksCtrl = ($scope, $rootScope, rs, $model, $window) ->
     $scope.currentPage = 1
     $scope.ordering = "-created_date"
+    $scope.obsolete = false
     $scope.newTalk = {}
 
     $rootScope.selectedMenu = "talks"
@@ -10,6 +11,7 @@
             page: $scope.currentPage
             page_size: 15
             ordering: $scope.ordering
+            obsolete: $scope.obsolete
         }
 
         success = (data) ->
@@ -27,6 +29,11 @@
             $scope.newTalkForm = false
 
         $model.create("talks", $scope.newTalk).then(success)
+
+    $scope.editTalk = (talk) ->
+        if $window.confirm("Are you sure you want to apply this changes?")
+            talk.save().then ->
+                loadTalks()
 
     $scope.iWant = (talk) ->
         rs.setTalkIWant(talk.id).then ->
@@ -67,6 +74,13 @@
     $scope.setOrder = (order) ->
         $scope.currentPage = 1
         $scope.ordering = order
+        $scope.obsolete = false
+        loadTalks()
+
+    $scope.showObsolete = () ->
+        $scope.currentPage = 1
+        $scope.ordering = "-created_date"
+        $scope.obsolete = true
         loadTalks()
 
     $scope.nextPage = () ->
@@ -83,4 +97,4 @@
 
     loadTalks()
 
-@TalksCtrl.$inject = ["$scope", "$rootScope", "resource", "$model"]
+@TalksCtrl.$inject = ["$scope", "$rootScope", "resource", "$model", "$window"]

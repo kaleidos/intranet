@@ -163,7 +163,7 @@ class ProjectViewSet(ModelViewSet):
 
 
 class TalkViewSet(ModelViewSet):
-    queryset = models.Talk.objects.filter(obsolete=False)
+    queryset = models.Talk.objects.all()
     serializer_class = serializers.TalkSerializer
     permission_classes = (permissions.IsAuthenticated,)
     filter_backends = (filters.OrderingTalksFilterBackend,)

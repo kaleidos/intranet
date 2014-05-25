@@ -7,10 +7,10 @@
     <form class="new-talk clearfix" ng-submit="addTalk()" ng-show="newTalkForm">
         <h3>What you want to talk about?</h3>
         <fieldset>
-            <input id="talk-name" type="text" ng-model="newTalk.name" placeholder="Title for the talk">
+            <input name="talk-name" type="text" ng-model="newTalk.name" placeholder="Title for the talk">
         </fieldset>
         <fieldset>
-            <textarea id="talk-description" ng-model="newTalk.description" placeholder="Description"></textarea>
+            <textarea name="talk-description" ng-model="newTalk.description" placeholder="Description"></textarea>
         </fieldset>
         <input type="button" value="Add New Talk" ng-click="addTalk()" />
         <a href="" class="cocoroco" title="Cocorococo" ng-click="newTalkForm=false"></a>
@@ -18,14 +18,56 @@
 
     <ul class="talk-order clearfix">
         <li><span class="title">Order</span></li>
-        <li ng-class="{'active': ordering=='-created_date'}" ng-click="setOrder('-created_date')"><span>Creation</span></li>
-        <li ng-class="{'active': ordering=='name'}" ng-click="setOrder('name')"><span>Name</span></li>
-        <li ng-class="{'active': ordering=='-wanters_count'}" ng-click="setOrder('-wanters_count')"><span>Wanters</span></li>
-        <li ng-class="{'active': ordering=='-wanters_count_talkers_ready'}" ng-click="setOrder('-wanters_count_talkers_ready')"><span>Wanters & Talkers ready</span></li>
+        <li ng-class="{'active': ordering=='-created_date' && !obsolete}" ng-click="setOrder('-created_date')">
+            <span>Creation</span>
+        </li>
+        <li ng-class="{'active': ordering=='name'}" ng-click="setOrder('name')">
+            <span>Name</span>
+        </li>
+        <li ng-class="{'active': ordering=='-wanters_count'}" ng-click="setOrder('-wanters_count')">
+            <span>Wanters</span>
+        </li>
+        <li ng-class="{'active': ordering=='-wanters_count_talkers_ready'}"
+            ng-click="setOrder('-wanters_count_talkers_ready')">
+            <span>Wanters & Talkers ready</span>
+        </li>
+        <li ng-class="{'active': ordering=='-calendar'}"
+            ng-click="setOrder('-calendar')">
+            <span>Calendar</span>
+        </li>
+        <li ng-class="{'active': obsolete}"
+            ng-click="showObsolete()">
+            <span>Obsolete</span>
+        </li>
     </ul>
 
     <article class="talk-container" ng-repeat="talk in talks">
-        <div class="top clearfix">
+        <form class="new-talk clearfix" ng-submit="editTalk(talk)" ng-show="talk.editTalkForm">
+            <h3>Edit this talk</h3>
+            <fieldset>
+                <input name="talk-name" type="text" ng-model="talk.name" placeholder="Title for the talk">
+            </fieldset>
+            <fieldset>
+                <input name="talk-event-date" type="datetime-local" ng-model="talk.event_date"
+                       placeholder="Date and time for the talk">
+                <input name="talk-duration" type="number" ng-model="talk.duration"
+                       placeholder="Duration (in mminutes) for the talk">
+            </fieldset>
+            <fieldset>
+                <input name="talk-place" type="text" ng-model="talk.place" placeholder="Place for the talk">
+            </fieldset>
+            <fieldset>
+                <textarea name="talk-description" ng-model="talk.description" placeholder="Description">
+                </textarea>
+            </fieldset>
+            <fieldset>
+                <input name="talk-obsolete" type="checkbox" ng-model="talk.obsolete"> Is obsolete
+            </fieldset>
+            <input type="button" value="Apply changes" ng-click="editTalk(talk)" />
+            <a href="" class="cocoroco" title="Cocorococo" ng-click="talk.editTalkForm=false"></a>
+        </form>
+
+        <div class="top clearfix" ng-show="!talk.editTalkForm">
             <div class="wanters-num">
                 <span class="wanters-num-count">{{ talk.wanters_count }}</span>
                 <span class="wanters-num-title">wanters</span>
@@ -58,29 +100,51 @@
                 </div>
             </div>
             <div class="actions">
-                <a ng-show="!_.any(talk.wanters, {'id': user_id})" href="" class="wanter-action" ng-click="iWant(talk)" data-hover="Yeah!" title="I want this talk"><span>I want</span></a>
-                <a ng-show="_.any(talk.wanters, {'id': user_id})" href="" class="yes-i-want" ng-click="iNotWant(talk)" data-hover="Nooo!"><span>Yes, I Want</span></a>
+                <a ng-show="!_.any(talk.wanters, {'id': user_id}) && !talk.obsolete"
+                   href="" class="wanter-action" ng-click="iWant(talk)"
+                   data-hover="Yeah!" title="I want this talk">
+                    <span>I want</span>
+                </a>
+                <a ng-show="_.any(talk.wanters, {'id': user_id}) && !talk.obsolete"
+                   href="" class="yes-i-want" ng-click="iNotWant(talk)"
+                   data-hover="Nooo!">
+                    <span>Yes, I Want</span>
+                </a>
 
-                <a ng-show="!_.any(talk.talkers, {'id': user_id})" href="" class="talker-action" ng-click="iTalk(talk)" data-hover="Sure?" title="I will talk"><span>I talk</span></a>
-                <a ng-show="_.any(talk.talkers, {'id': user_id})" href="" class="yes-i-talk" ng-click="iNotTalk(talk)" data-hover="Nooo!"><span>Yes, I Talk</span></a>
+                <a ng-show="!_.any(talk.talkers, {'id': user_id}) && !talk.obsolete"
+                   href="" class="talker-action" ng-click="iTalk(talk)"
+                   data-hover="Sure?" title="I will talk">
+                    <span>I talk</span>
+                </a>
+                <a ng-show="_.any(talk.talkers, {'id': user_id}) && !talk.obsolete"
+                   href="" class="yes-i-talk" ng-click="iNotTalk(talk)"
+                   data-hover="Nooo!" title="I will not talk">
+                    <span>Yes, I Talk</span>
+               </a>
+               <a ng-show="!_.size(talk.talkers) || _.any(talk.talkers, {'id': user_id})"
+                  href="" class="edit-action" ng-click="talk.editTalkForm=true"
+                  data-hover="Let's go!" title="Edit this talk">
+                    <span>Edit</span>
+                </a>
             </div>
         </div>
 
-        <div class="bottom wanters-count">
-            <ul class="wanters-name clearfix">
-                <li class="wanters-title" ng-show="talk.wanters">Wanters</li>
-                <li class="talk-wanters-empty" ng-hide="talk.wanters">No wanters yet</li>
-                <li ng-repeat="wanter in talk.wanters">{{ wanter.name }}</li>
-            </ul>
-        </div>
-        <div class="date-duration" ng-show="talk.datetime || talk.duration">
+        <div class="date-duration"
+             ng-show="(talk.event_date || talk.duration || talk.place) && !talk.editTalkForm">
             <ul class="date-duration-name clearfix">
-                <li class="date-duration-title" ng-show="talk.datetime">Date</li>
-                <li ng-show="talk.datetime">{{ talk.datetime|mdate:'DD, MMMM, YYYY hh:mm a' }}</li>
+                <li class="date-duration-title" ng-show="talk.event_date">Date</li>
+                <li ng-show="talk.event_date">{{ talk.event_date|mdate:'dddd, DD MMMM YYYY (hh:mm a)' }}</li>
                 <li class="date-duration-title" ng-show="talk.duration">Duration</li>
                 <li ng-show="talk.duration">{{ talk.duration }} min.</li>
                 <li class="date-duration-title" ng-show="talk.place">Place</li>
                 <li ng-show="talk.place">{{ talk.place }}</li>
+            </ul>
+        </div>
+        <div class="bottom wanters-count" ng-show="!talk.editTalkForm">
+            <ul class="wanters-name clearfix">
+                <li class="wanters-title" ng-show="talk.wanters">Wanters</li>
+                <li class="talk-wanters-empty" ng-hide="talk.wanters">No wanters yet</li>
+                <li ng-repeat="wanter in talk.wanters">{{ wanter.name }}</li>
             </ul>
         </div>
 
@@ -88,7 +152,10 @@
 
     <div class="pagination clearfix">
         <a ng-click="prevPage()" class="link" ng-show="hasPrev">Prev Page</a>
-        <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link" ng-click="selectPage(page)">{{ page }}</a>
+        <a ng-repeat="page in pages" ng-class="{active: page == currentPage}" class="link"
+           ng-click="selectPage(page)">
+            {{ page }}
+        </a>
         <a ng-click="nextPage()" class="link" ng-show="hasNext">Next Page</a>
     </div>
 

@@ -67,25 +67,35 @@ class ProjectTypeFilterBackend(filters.BaseFilterBackend):
             return queryset.filter(active=False)
         return queryset
 
+
 class OrderingTalksFilterBackend(filters.OrderingFilter):
     def filter_queryset(self, request, queryset, view):
         queryset = super(OrderingTalksFilterBackend, self).filter_queryset(request, queryset, view)
-        ordering = request.QUERY_PARAMS.get("ordering")
+
+        show_obsolete = request.QUERY_PARAMS.get("obsolete", False) == u"true"
+        queryset = queryset.filter(obsolete=show_obsolete)
+
+        ordering = request.QUERY_PARAMS.get("ordering", None)
         if ordering == "wanters_count":
-            return queryset.annotate(agg_wanters_count=Count("wanters")).order_by("agg_wanters_count")
+            queryset = queryset.annotate(agg_wanters_count=Count("wanters")).order_by("agg_wanters_count")
         elif ordering == "-wanters_count":
-            return queryset.annotate(agg_wanters_count=Count("wanters")).order_by("-agg_wanters_count")
+            queryset = queryset.annotate(agg_wanters_count=Count("wanters")).order_by("-agg_wanters_count")
         elif ordering == "talkers_count":
-            return queryset.annotate(agg_talkers_count=Count("talkers")).order_by("agg_talkers_count")
+            queryset = queryset.annotate(agg_talkers_count=Count("talkers")).order_by("agg_talkers_count")
         elif ordering == "-talkers_count":
-            return queryset.annotate(agg_talkers_count=Count("talkers")).order_by("-agg_talkers_count")
+            queryset = queryset.annotate(agg_talkers_count=Count("talkers")).order_by("-agg_talkers_count")
         elif ordering == "-created_date":
-            return queryset.order_by("-created_date", "-id")
-        if ordering == "-wanters_count_talkers_ready":
-            return queryset.annotate(agg_wanters_count=Count("wanters"),
-                                     agg_talkers_count=Count("talkers")).order_by("-talkers_are_ready",
-                                                                                  "-agg_talkers_count",
-                                                                                  "-agg_wanters_count",)
+            queryset = queryset.order_by("-created_date", "-id")
+        elif ordering == "-wanters_count_talkers_ready":
+            queryset = queryset.annotate(agg_wanters_count=Count("wanters"),
+                                         agg_talkers_count=Count("talkers")).order_by("-talkers_are_ready",
+                                                                                      "-agg_talkers_count",
+                                                                                      "-agg_wanters_count",)
+        if ordering == "-calendar":
+            queryset = queryset.filter(event_date__isnull=False).order_by("-event_date")
+        else:
+            queryset = queryset.filter(event_date__isnull=True)
+
         return queryset
 
 
@@ -98,12 +108,10 @@ class OrderingQuotesFilterBackend(filters.OrderingFilter):
         elif ordering == "-created_date":
             return queryset.order_by("-created_date", "-id")
         elif ordering == "score":
-            # TODO: FIXME: Make a extra call to order non rated quotes correctly
             extra_sql = ("select (sum(intranet_quotescore.score)) from intranet_quotescore "
                          "where intranet_quotescore.quote_id = intranet_quote.id")
             return queryset.extra(select={"score": extra_sql}, order_by=["score", "id"])
         elif ordering == "-score":
-            # TODO: FIXME: Make a extra call to order non rated quotes correctly
             extra_sql = ("select coalesce(sum(intranet_quotescore.score), 0) from intranet_quotescore "
                          "where intranet_quotescore.quote_id = intranet_quote.id")
             return queryset.extra(select={"score": extra_sql}, order_by=["-score", "id"])

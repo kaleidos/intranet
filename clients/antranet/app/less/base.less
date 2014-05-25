@@ -775,7 +775,7 @@ fieldset {
             margin: 0;
         }
     }
-    input[type="text"], textarea {
+    input[type="text"], input[type="datetime-local"], input[type="number"], input[type="checkbox"], textarea {
         padding: 10px 15px;
         border: none;
         font-family: 'Roboto',sans-serif;
@@ -785,6 +785,12 @@ fieldset {
     }
     input[type="text"] {
         width: 96%;
+    }
+    input[type="datetime-local"] {
+        width: 46%;
+    }
+    input[type="number"] {
+        width: 46%;
     }
     textarea {
         width: 96%;
@@ -873,7 +879,8 @@ fieldset {
         list-style-type: none;
     }
     .top {
-        display: block;
+        display: flex;
+        min-height: 150px;
     }
     .wanters-num{
         float: left;
@@ -1006,13 +1013,13 @@ fieldset {
     .actions {
         float: right;
         padding: 0 15px;
-        width: 10%;
+        width: 14%;
         position: absolute;
-        top: 15%;
+        top: 15px;
         right: 0;
         a{
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             background: white;
             text-align: center;
@@ -1057,10 +1064,13 @@ fieldset {
             }
         }
         .wanter-action {
-            background: #3f4c6b;
+            background: #247DD6;
         }
         .yes-i-want, .yes-i-talk {
             background: #669933;
+        }
+        .edit-action {
+            background: #3f4c6b;
         }
     }
 }
@@ -1218,7 +1228,7 @@ fieldset {
     }
     .top {
         display: flex;
-        min-height: 195px;
+        min-height: 150px;
     }
     .quote-rating {
         float: left;
@@ -1321,13 +1331,13 @@ fieldset {
     .actions {
         float: right;
         padding: 0 15px;
-        width: 15%;
+        width: 14%;
         position: absolute;
-        top: 30px;
+        top: 15px;
         right: 0;
         a{
             display: block;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             background: white;
             text-align: center;
@@ -1366,10 +1376,10 @@ fieldset {
             }
         }
         .share-twitter-action {
-            background: darken(#247DD6, 10%);
+            background: #247DD6;
         }
         .delete-action {
-            background: darken(#FF0000, 10%);
+            background: #FF0000;
         }
         .edit-action {
             background: #3f4c6b;
