@@ -50,14 +50,14 @@ class Command(BaseCommand):
             else:
                 talk.talkers_are_ready = self.sd.boolean()
                 talk.obsolete = self.sd.boolean()
+            if self.sd.boolean():
+                talk.place = self.sd.words(1, 4)
             talk.save()
 
             if self.sd.boolean():
-                talk.place = self.sd.words(1, 4)
-            if self.sd.boolean():
                 talk.talkers.add(User.objects.order_by("?")[0])
             if self.sd.boolean():
-                talk.wanters = User.objects.order_by("?")[0:]
+                talk.wanters = User.objects.order_by("?")[0:self.sd.choice(range(1, User.objects.all().count()))]
 
     def create_quotes(self):
         max_quotes = 30
