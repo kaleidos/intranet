@@ -49,6 +49,7 @@
             </fieldset>
             <fieldset>
                 <input name="talk-event-date" type="datetime-local" ng-model="talk.event_date"
+                       ng-change="talk.obsolete = talk.datetime == ''"
                        placeholder="Date and time for the talk">
                 <input name="talk-duration" type="number" ng-model="talk.duration"
                        placeholder="Duration (in mminutes) for the talk">
@@ -61,7 +62,11 @@
                 </textarea>
             </fieldset>
             <fieldset>
-                <input name="talk-obsolete" type="checkbox" ng-model="talk.obsolete"> Is obsolete
+                <input name="talk-obsolete" type="checkbox" id="talk-{{ talk.id }}-obsolete"
+                       ng-model="talk.obsolete" ng-disabled="talk.event_date">
+                <label for="talk-{{ talk.id }}-obsolete" ng-class="{disabled: talk.event_date}">
+                    Is obsolete
+                </label>
             </fieldset>
             <input type="button" value="Apply changes" ng-click="editTalk(talk)" />
             <a href="" class="cocoroco" title="Cocorococo" ng-click="talk.editTalkForm=false"></a>

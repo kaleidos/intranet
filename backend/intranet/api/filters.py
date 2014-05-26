@@ -72,27 +72,34 @@ class OrderingTalksFilterBackend(filters.OrderingFilter):
     def filter_queryset(self, request, queryset, view):
         queryset = super(OrderingTalksFilterBackend, self).filter_queryset(request, queryset, view)
 
-        show_obsolete = request.QUERY_PARAMS.get("obsolete", False) == u"true"
-        queryset = queryset.filter(obsolete=show_obsolete)
+        if "obsolete" in request.QUERY_PARAMS:
+            show_obsolete = request.QUERY_PARAMS.get("obsolete", False) == u"true"
+            queryset = queryset.filter(obsolete=show_obsolete)
 
         ordering = request.QUERY_PARAMS.get("ordering", None)
-        if ordering == "wanters_count":
-            queryset = queryset.annotate(agg_wanters_count=Count("wanters")).order_by("agg_wanters_count")
+        if ordering == "-created_date":
+            queryset = queryset.order_by("-created_date")
+        elif ordering == "wanters_count":
+            queryset = (queryset.annotate(agg_wanters_count=Count("wanters"))
+                                .order_by("agg_wanters_count", "created_date" ))
         elif ordering == "-wanters_count":
-            queryset = queryset.annotate(agg_wanters_count=Count("wanters")).order_by("-agg_wanters_count")
+            queryset = (queryset.annotate(agg_wanters_count=Count("wanters"))
+                                .order_by("-agg_wanters_count", "-created_date"))
         elif ordering == "talkers_count":
-            queryset = queryset.annotate(agg_talkers_count=Count("talkers")).order_by("agg_talkers_count")
+            queryset = (queryset.annotate(agg_talkers_count=Count("talkers"))
+                                .order_by("agg_talkers_count", "created_date"))
         elif ordering == "-talkers_count":
-            queryset = queryset.annotate(agg_talkers_count=Count("talkers")).order_by("-agg_talkers_count")
-        elif ordering == "-created_date":
-            queryset = queryset.order_by("-created_date", "-id")
+            queryset = (queryset.annotate(agg_talkers_count=Count("talkers"))
+                                .order_by("-agg_talkers_count", "-created_date"))
         elif ordering == "-wanters_count_talkers_ready":
-            queryset = queryset.annotate(agg_wanters_count=Count("wanters"),
-                                         agg_talkers_count=Count("talkers")).order_by("-talkers_are_ready",
-                                                                                      "-agg_talkers_count",
-                                                                                      "-agg_wanters_count",)
+            queryset = (queryset.annotate(agg_wanters_count=Count("wanters"))
+                                .order_by("-talkers_are_ready",
+                                          "-agg_wanters_count",
+                                          "-created_date"))
+
         if ordering == "-calendar":
-            queryset = queryset.filter(event_date__isnull=False).order_by("-event_date")
+            queryset = (queryset.filter(event_date__isnull=False)
+                                .order_by("-event_date"))
         else:
             queryset = queryset.filter(event_date__isnull=True)
 

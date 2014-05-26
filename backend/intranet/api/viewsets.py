@@ -170,6 +170,11 @@ class TalkViewSet(ModelViewSet):
     paginate_by = settings.API_DEFAULT_PAGE_SIZE
     paginate_by_param = "page_size"
 
+    def pre_save(self, obj):
+        super(TalkViewSet, self).pre_save(obj)
+        if obj.event_date:
+            obj.obsolete = False
+
     @detail_route(methods=["post", "delete"])
     def i_want(self, request, pk=None, format=None):
         if request.method == "POST":
