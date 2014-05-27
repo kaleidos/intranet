@@ -267,6 +267,7 @@ class TalkSerializer(serializers.ModelSerializer):
 class QuoteSerializer(serializers.ModelSerializer):
     employee_user = UserReadOnlySerializer(required=False, source="employee")
     score = serializers.SerializerMethodField('get_score')
+    my_rating = serializers.SerializerMethodField('get_my_rating')
 
     class Meta:
         model = models.Quote
@@ -274,3 +275,11 @@ class QuoteSerializer(serializers.ModelSerializer):
 
     def get_score(self, obj):
         return sum(obj.scores.values_list("score", flat=True)) if obj else 0
+
+    def get_my_rating(self, obj):
+        if 'request' in self.context:
+            try:
+                return obj.scores.get(user=self.context["request"].user).score
+            except models.QuoteScore.DoesNotExist:
+                pass
+        return 0

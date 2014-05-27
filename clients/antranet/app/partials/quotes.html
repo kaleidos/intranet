@@ -72,6 +72,7 @@
                 <div class="quote-score-points">
                     <span ng-click="rateQuote(quote, 5)">☆</span><span ng-click="rateQuote(quote, 4)">☆</span><span ng-click="rateQuote(quote, 3)">☆</span><span ng-click="rateQuote(quote, 2)">☆</span><span ng-click="rateQuote(quote, 1)">☆</span>
                 </div>
+                <span class="my-rating" ng-show="quote.my_rating">My rating: {{ quote.my_rating }}</span>
             </div>
 
             <div class="quote-data">
