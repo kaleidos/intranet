@@ -72,6 +72,9 @@ class OrderingTalksFilterBackend(filters.OrderingFilter):
     def filter_queryset(self, request, queryset, view):
         queryset = super(OrderingTalksFilterBackend, self).filter_queryset(request, queryset, view)
 
+        if request.method  != "GET":
+            return queryset
+
         if "obsolete" in request.QUERY_PARAMS:
             show_obsolete = request.QUERY_PARAMS.get("obsolete", False) == u"true"
             queryset = queryset.filter(obsolete=show_obsolete)
