@@ -1255,25 +1255,6 @@ label {
         .quote-score-title {
             color: darken(#c1dad7, 30%);
         }
-        .quote-score-points {
-            unicode-bidi: bidi-override;
-            direction: rtl;
-            color: #335551;
-            font-size: 15px;
-            span {
-                display: inline-block;
-                position: relative;
-                width: 1.1em;
-            }
-            span:hover:before,
-            span:hover ~ span:before {
-                content: "\2605";
-                position: absolute;
-            }
-        }
-        .my-rating {
-            color: #999999;
-        }
     }
     .quote-data {
         padding: 20px 15px 10px;
@@ -1393,5 +1374,27 @@ label {
         .edit-action {
             background: #3f4c6b;
         }
+    }
+}
+
+/* Rating directive */
+
+.rating {
+    cursor: pointer;
+    font-size: 13px;
+    padding: 0 0.5em;
+
+    & > a {
+        text-decoration: none;
+    }
+
+    .rating-highlight,
+    .rating-highlight:hover {
+        color: #61a199;
+    }
+
+    .rating-normal,
+    .rating-normal:hover {
+       color: #adc4c1;
     }
 }

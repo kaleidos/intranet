@@ -39,7 +39,7 @@
             quote.delete().then ->
                 loadQuotes()
 
-    $scope.rateQuote = (quote, score) ->
+    $scope.$on "update-rate", (event, quote, score) ->
         rs.setQuoteScore(quote.id, {score: score}).then ->
             loadQuotes()
 

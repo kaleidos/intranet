@@ -54,6 +54,7 @@ modules = [
     'antranet.directives.holidays'
     'antranet.directives.vimdings'
     'antranet.directives.autofill'
+    'antranet.directives.ui'
     'flash'
     'ui'
 ]

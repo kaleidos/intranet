@@ -41,7 +41,8 @@ styleSources = [
     "app/less/base.less",
     "app/less/login.less",
     "app/components/angular-ui/build/angular-ui.css",
-    "app/css/jquery-ui/jquery-ui.css"
+    "app/css/jquery-ui/jquery-ui.css",
+    "app/css/font-awesome.css"
 ]
 
 gulp.task('less', function() {
