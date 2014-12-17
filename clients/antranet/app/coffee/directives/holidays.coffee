@@ -15,6 +15,7 @@ angular.module('antranet.directives.holidays', []).
                         id: item.id
                         y: counter
                         selected: scope.year.id == item.id
+                        color: if item.consumed_days + item.requested_days < item.total_days then "#a2bf2f" else "#ffffff"
                     }
 
                 data = [
@@ -96,6 +97,16 @@ angular.module('antranet.directives.holidays', []).
                     .attr('x', 0)
                     .attr('y', (d) -> return d.y)
                     .text((d) -> return d.year)
+
+                svg.select('g#g2').selectAll("circle")
+                    .data(years)
+                    .enter()
+                    .append('circle')
+                    .attr('fill', (d) -> return d.color)
+                    .attr('r', (d) -> return if d.selected then 6 else 5)
+                    .attr('cx', (d) -> return if d.selected then 54 else 50)
+                    .attr('cy', (d) -> return d.y - 6)
+                    .attr('stroke', 'white')
 
                 element.on('click', 'svg g#g2 text', (event) ->
                     target = angular.element(event.currentTarget)
