@@ -79,7 +79,7 @@
             </div>
 
             <div class="quote-data">
-                <h3>{{ quote.quote }}</h3>
+                <h3 ng-bind-html="quote.quote|nl2br"></h3>
                 <ul class="quote-owners clearfix">
                     <li class="quote-owners-title">Owner:</li>
                     <li ng-show="quote.employee_user">{{ quote.employee_user.full_name }}</li>
@@ -110,7 +110,7 @@
 
         <div class="bottom explanation" ng-show="quote.explanation && !quote.editQuoteForm">
             <div class="explanation-text">
-                <p>{{ quote.explanation }}</p>
+                <p ng-bind-html="quote.explanation|nl2br"></p>
             </div>
         </div>
 

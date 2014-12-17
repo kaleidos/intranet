@@ -43,3 +43,10 @@ angular.module('antranet.filters', [])
             else
                return ""
     ])
+    .filter('nl2br', ['version', (msg, is_xhtml) =>
+        return (msg, is_xhtml) =>
+            breakTag = if is_xhtml? then '<br />' else '<br>'
+
+            msg = "#{msg}".replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, "$1#{breakTag}$2")
+            return msg
+    ])
