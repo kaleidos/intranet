@@ -36,10 +36,16 @@
         <li ng-class="{'active': ordering=='-score'}" ng-click="setOrder('-score')">
             <span>Ranking</span>
         </li>
-        <li ng-class="{'active': ordering=='employee'}" ng-click="setOrder('employee')">
-            <span>Employee</span>
-        </li>
     </ul>
+
+    <div class="quote-filters-employee">
+        <label>Filter by employee</label>
+        <select name="quote-employee" ng-model="filters.employee"
+            ng-options="employee.id as employee.full_name for employee in employees"
+            ng-click="filterQuotes()">
+            <option value="">All</option>
+        <select>
+    </div>
 
     <article class="quote-container" ng-repeat="quote in quotes">
 

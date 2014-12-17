@@ -225,7 +225,7 @@ class QuotesViewSet(ModelViewSet):
     model = models.Quote
     serializer_class = serializers.QuoteSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    filter_backends = (filters.OrderingQuotesFilterBackend,)
+    filter_backends = (filters.QuotesByEmployeeFilterBackend, filters.OrderingQuotesFilterBackend,)
     paginate_by = settings.API_DEFAULT_PAGE_SIZE
     paginate_by_param = "page_size"
 

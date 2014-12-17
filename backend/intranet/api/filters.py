@@ -109,6 +109,16 @@ class OrderingTalksFilterBackend(filters.OrderingFilter):
         return queryset
 
 
+class QuotesByEmployeeFilterBackend(filters.BaseFilterBackend):
+    """
+    Filter quotes by employee.
+    """
+    def filter_queryset(self, request, queryset, view):
+        if "employee" in request.QUERY_PARAMS:
+            return queryset.filter(employee=request.QUERY_PARAMS["employee"])
+        return queryset
+
+
 class OrderingQuotesFilterBackend(filters.OrderingFilter):
     def filter_queryset(self, request, queryset, view):
         queryset = super(OrderingQuotesFilterBackend, self).filter_queryset(request, queryset, view)

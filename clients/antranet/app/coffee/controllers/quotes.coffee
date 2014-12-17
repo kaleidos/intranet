@@ -1,6 +1,7 @@
 @QuotesCtrl = ($scope, $rootScope, rs, $model, $window) ->
     $scope.currentPage = 1
     $scope.ordering = "-created_date"
+    $scope.filters = {employee: null}
     $scope.newQuote = {}
 
     $rootScope.selectedMenu = "quotes"
@@ -8,9 +9,11 @@
     loadQuotes = () ->
         params = {
             page: $scope.currentPage
-            page_size: 15
+            page_size: 20
             ordering: $scope.ordering
         }
+        if $scope.filters.employee
+            params.employee = $scope.filters.employee
 
         rs.listUsers().then (data) ->
             $scope.employees = _.sortBy(data, "full_name")
@@ -46,6 +49,9 @@
     $scope.setOrder = (order) ->
         $scope.currentPage = 1
         $scope.ordering = order
+        loadQuotes()
+
+    $scope.filterQuotes = ->
         loadQuotes()
 
     $scope.nextPage = () ->
