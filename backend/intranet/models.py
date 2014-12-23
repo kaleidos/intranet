@@ -91,6 +91,15 @@ class User(AbstractUser):
 
     Username, password and email are required. Other fields are optional.
     """
+    id_card = models.CharField(null=False, blank=True, max_length=256, verbose_name=_("Id card"),
+                               help_text=_("DNI, passport,..."))
+    color = models.CharField(null=False, blank=True, max_length=7, verbose_name=_("color"),
+                             help_text=_("in HEX mode (ej. #FFF8E7"))
+    twitter_account = models.CharField(null=False, blank=True, max_length=256, verbose_name=_("Twitter account"),
+                                       help_text=_("with @ (ej. @bameda"))
+    mobile = models.CharField(null=False, blank=True, max_length=12, verbose_name=_("movile"))
+    phone = models.CharField(null=False, blank=True, max_length=12, verbose_name=_("phone"))
+
     is_company_team = models.BooleanField(default=True, verbose_name=_(u"is a company member"))
     raw_cost = models.FloatField(default=10)
     chargeability_cost = models.FloatField(default=11)

@@ -35,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ("id", "username", "email", "first_name", "last_name", "full_name",
+                  "id_card", "color", "twitter_account", "mobile", "phone",
                   "is_active", "is_superuser", "is_staff", "is_company_team",
                   "date_joined", "last_login")
         read_only_fields = ("is_active", "is_superuser", "is_staff", "is_company_team",
