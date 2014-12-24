@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "homepage": "https://github.com/kaleidos/intranet",
   "authors": [
-    "Jesús Espino <jesus.espino@kaleidos.net>"
+    "Jesús Espino <jesus.espino@kaleidos.net>",
+    "David Barragan <david.barragan@kaleidos.net>"
   ],
   "description": "Angular client for the Kaleidos intranet",
   "main": "app/index.html",
@@ -21,15 +22,16 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "1.9.1",
-    "lodash": "1.3.1",
-    "momentjs": "2.1.0",
-    "underscore.string": "2.3.0",
-    "backbone": "~1.1.2",
-    "angular": "1.0.6",
+    "jquery": "~2.1.3",
+    "jquery-ui": "~1.11.2",
+    "lodash": "~2.4.1",
+    "momentjs": "~2.8.4",
+    "underscore.string": "~2.4.0",
+    "angular": "1.3.8",
+    "angular-route": "~1.3.8",
+    "angular-sanitize": "~1.3.8",
     "angular-ui": "~0.4.0",
-    "angular-sanitize": "1.0.6",
-    "jquery-ui": "1.10.2",
-    "d3": "2.10.3"
+    "d3": "~2.10.3",
+    "backbone": "~1.1.2"
   }
 }

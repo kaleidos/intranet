@@ -35,8 +35,8 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
                 return $q.reject(response)
     ])
 
-    $compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob):/)
-    $httpProvider.responseInterceptors.push('authHttpIntercept')
+    #$compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob):/)
+    $httpProvider.interceptors.push('authHttpIntercept')
 
 init = ($rootScope, $location, storage) ->
     $rootScope.token_auth = storage.get('token_auth')
@@ -44,6 +44,7 @@ init = ($rootScope, $location, storage) ->
     $rootScope._ = _
 
 modules = [
+    'ngRoute'
     'ngSanitize'
     'antranet.filters'
     'antranet.services.common'
@@ -60,11 +61,23 @@ modules = [
 ]
 
 # Declare app level module which depends on filters, and services
-angular.module('antranet', modules)
-    .config(['$routeProvider', '$httpProvider', '$provide', '$compileProvider', configCallback])
-    .run(['$rootScope', '$location', 'storage', init])
-    .value('ui.config', {
-        date: {
-            firstDay: 1
-        }
-    })
+module = angular.module('antranet', modules)
+
+module.config([
+    '$routeProvider',
+    '$httpProvider',
+    '$provide',
+    '$compileProvider',
+    configCallback
+])
+module.run([
+    '$rootScope',
+    '$location',
+    'storage',
+    init
+])
+module.value('ui.config', {
+    date: {
+        firstDay: 1
+    }
+})

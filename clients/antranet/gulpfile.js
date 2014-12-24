@@ -11,20 +11,21 @@ var gutil = require('gulp-util');
 
 
 librariesSources = [
-    "app/components/jquery/jquery.js",
-    "app/components/jquery-ui/ui/jquery.ui.core.js",
-    "app/components/jquery-ui/ui/jquery.ui.widget.js",
-    "app/components/jquery-ui/ui/jquery.ui.datepicker.js",
-    "app/components/lodash/lodash.js",
+    "app/components/jquery/dist/jquery.js",
+    "app/components/jquery-ui/ui/core.js",
+    "app/components/jquery-ui/ui/widget.js",
+    "app/components/jquery-ui/ui/datepicker.js",
+    "app/components/lodash/dist/lodash.js",
     "app/components/underscore.string/lib/underscore.string.js",
     "app/components/backbone/backbone.js",
-    "app/components/d3/d3.v2.js",
     "app/lib/lightbox.js",
+    "app/components/d3/d3.v2.js",
     "app/components/momentjs/moment.js",
     "app/components/angular/angular.js",
     "app/lib/angular-flash.js",
     "app/components/angular-ui/build/angular-ui.js",
     "app/components/angular-ui/build/angular-ui-ieshiv.js",
+    "app/components/angular-route/angular-route.js",
     "app/components/angular-sanitize/angular-sanitize.js"
 ]
 
