@@ -13,71 +13,69 @@ configCallback = ($routeProvider, $httpProvider, $provide, $compileProvider) ->
     $routeProvider.when('/preferences', {templateUrl: 'partials/preferences.html', controller: PreferencesCtrl})
     $routeProvider.otherwise({redirectTo: '/login'})
 
-    defaultHeaders =
-        "Content-Type": "application/json"
+    $locationProvider.html5Mode({enabled: true, requireBase: false})
 
+    defaultHeaders = {
+        "Content-Type": "application/json"
+        "Accept-Language": "en"
+    }
     $httpProvider.defaults.headers.delete = defaultHeaders
     $httpProvider.defaults.headers.patch = defaultHeaders
     $httpProvider.defaults.headers.post = defaultHeaders
     $httpProvider.defaults.headers.put = defaultHeaders
 
-    $provide.factory("authHttpIntercept", ["$q", "$location", "$rootScope", "storage", ($q, $location, $rootScope, storage) ->
-        return (promise) ->
-            return promise.then null, (response) ->
-                if (response.status == 401)
-                    $location.url("/login")
-                    $rootScope.token_auth = ''
-                    storage.set('token_auth', '')
-                else if (response.status == 403)
-                    $location.url("/login")
-                    $rootScope.token_auth = ''
-                    storage.set('token_auth', '')
-                return $q.reject(response)
-    ])
+    authHttpIntercept =  ($q, $location, $rootScope, storage) ->
+        responseError = (response) ->
+            if (response.status == 401 or response.status == 403)
+                $location.url("/login")
+                $rootScope.token_auth = ""
+                storage.set("token_auth", "")
+            return $q.reject(response)
 
-    #$compileProvider.urlSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|blob):/)
-    $httpProvider.interceptors.push('authHttpIntercept')
+        return {responseError: responseError}
+
+    $provide.factory("authHttpIntercept", ["$q", "$location", "$rootScope", "storage", authHttpIntercept])
+    $httpProvider.interceptors.push("authHttpIntercept")
+
 
 init = ($rootScope, $location, storage) ->
-    $rootScope.token_auth = storage.get('token_auth')
-    $rootScope.user_id = storage.get('user_id')
+    $rootScope.token_auth = storage.get("token_auth")
+    $rootScope.user_id = storage.get("user_id")
     $rootScope._ = _
 
 modules = [
-    'ngRoute'
-    'ngSanitize'
-    'antranet.filters'
-    'antranet.services.common'
-    'antranet.services.storage'
-    'antranet.services.apiurl'
-    'antranet.services.model'
-    'antranet.services.resource'
-    'antranet.directives.holidays'
-    'antranet.directives.vimdings'
-    'antranet.directives.autofill'
-    'antranet.directives.ui'
-    'flash'
-    'ui'
+    "ngRoute"
+    "ngSanitize"
+    "antranet.filters"
+    "antranet.services.common"
+    "antranet.services.storage"
+    "antranet.services.apiurl"
+    "antranet.services.model"
+    "antranet.services.resource"
+    "antranet.directives.holidays"
+    "antranet.directives.vimdings"
+    "antranet.directives.autofill"
+    "antranet.directives.ui"
+    "flash"
+    "ui"
 ]
 
 # Declare app level module which depends on filters, and services
-module = angular.module('antranet', modules)
+module = angular.module("antranet", modules)
 
 module.config([
-    '$routeProvider',
-    '$httpProvider',
-    '$provide',
-    '$compileProvider',
+    "$routeProvider",
+    "$locationProvider",
+    "$httpProvider",
+    "$provide",
     configCallback
 ])
 module.run([
-    '$rootScope',
-    '$location',
-    'storage',
+    "$rootScope",
+    "$location",
+    "storage",
     init
 ])
-module.value('ui.config', {
-    date: {
-        firstDay: 1
-    }
+module.value("ui.config", {
+    date: { firstDay: 1 }
 })
