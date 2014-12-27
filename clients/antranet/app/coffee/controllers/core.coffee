@@ -1,4 +1,6 @@
-@HomeCtrl = ($scope, $rootScope, rs) ->
+module = angular.module("antranet.controllers.core", [])
+
+HomeCtrl = ($scope, $rootScope, rs) ->
     $rootScope.selectedMenu = "home"
 
     loadQuote = ->
@@ -9,10 +11,10 @@
 
     loadQuote()
 
-@HomeCtrl.$inject = ['$scope', '$rootScope', 'resource']
+HomeCtrl.$inject = ['$scope', '$rootScope', 'resource']
 
 
-@LoginCtrl = ($scope, $location, $rootScope, flash, config, rs, storage) ->
+LoginCtrl = ($scope, $location, $rootScope, flash, config, rs, storage) ->
     if $rootScope.token_auth
         $location.url('/home')
 
@@ -53,10 +55,10 @@
 
         rs.resetPassword(data).then(success, error)
 
-@LoginCtrl.$inject = ['$scope', '$location', '$rootScope', 'flash', 'antranet.config', 'resource', 'storage']
+LoginCtrl.$inject = ['$scope', '$location', '$rootScope', 'flash', 'antranet.config', 'resource', 'storage']
 
 
-@LogoutCtrl = ($scope, $location, $rootScope, rs, storage) ->
+LogoutCtrl = ($scope, $location, $rootScope, rs, storage) ->
     $scope.selectedMenu = ""
 
     success = ->
@@ -66,10 +68,10 @@
 
     rs.logout().then(success)
 
-@LogoutCtrl.$inject = ['$scope', '$location', '$rootScope', 'resource', 'storage']
+LogoutCtrl.$inject = ['$scope', '$location', '$rootScope', 'resource', 'storage']
 
 
-@ResetCtrl = ($rootScope, $scope, $location, $routeParams, flash, rs) ->
+ResetCtrl = ($rootScope, $scope, $location, $routeParams, flash, rs) ->
     $scope.selectedMenu = ""
 
     $scope.changePassword = () ->
@@ -88,4 +90,10 @@
 
         rs.setUserPassword(data).then(success, error)
 
-@ResetCtrl.$inject = ['$rootScope', '$scope', '$location', '$routeParams', 'flash', 'resource']
+ResetCtrl.$inject = ['$rootScope', '$scope', '$location', '$routeParams', 'flash', 'resource']
+
+
+module.controller("HomeCtrl", HomeCtrl)
+module.controller("LoginCtrl", LoginCtrl)
+module.controller("LogoutCtrl", LogoutCtrl)
+module.controller("ResetCtrl", ResetCtrl)

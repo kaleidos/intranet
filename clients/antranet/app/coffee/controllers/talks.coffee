@@ -1,4 +1,6 @@
-@TalksCtrl = ($scope, $rootScope, rs, $model, $window) ->
+module = angular.module("antranet.controllers.talks", [])
+
+TalksCtrl = ($scope, $rootScope, rs, $model, $window) ->
     $scope.currentPage = 1
     $scope.ordering = "-created_date"
     $scope.obsolete = false
@@ -97,4 +99,7 @@
 
     loadTalks()
 
-@TalksCtrl.$inject = ["$scope", "$rootScope", "resource", "$model", "$window"]
+TalksCtrl.$inject = ["$scope", "$rootScope", "resource", "$model", "$window"]
+
+
+module.controller("TalksCtrl", TalksCtrl)

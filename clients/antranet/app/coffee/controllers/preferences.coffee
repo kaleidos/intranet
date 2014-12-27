@@ -1,4 +1,7 @@
-@PreferencesCtrl = ($rootScope, $scope, rs, flash) ->
+module = angular.module("antranet.controllers.preferences", [])
+
+
+PreferencesCtrl = ($rootScope, $scope, rs, flash) ->
     $rootScope.selectedMenu = "preferences"
 
     $scope.changePassword = () ->
@@ -14,4 +17,7 @@
 
         rs.setUserPassword(data).then(success, error)
 
-@PreferencesCtrl.$inject = ['$rootScope', '$scope', 'resource', 'flash']
+PreferencesCtrl.$inject = ['$rootScope', '$scope', 'resource', 'flash']
+
+
+module.controller("PreferencesCtrl", PreferencesCtrl)

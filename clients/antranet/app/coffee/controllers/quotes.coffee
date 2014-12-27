@@ -1,4 +1,7 @@
-@QuotesCtrl = ($scope, $rootScope, rs, $model, $window) ->
+module = angular.module("antranet.controllers.quotes", [])
+
+
+QuotesCtrl = ($scope, $rootScope, rs, $model, $window) ->
     $scope.currentPage = 1
     $scope.ordering = "-created_date"
     $scope.filters = {employee: null}
@@ -68,4 +71,7 @@
 
     loadQuotes()
 
-@QuotesCtrl.$inject = ["$scope", "$rootScope", "resource", "$model", "$window"]
+QuotesCtrl.$inject = ["$scope", "$rootScope", "resource", "$model", "$window"]
+
+
+module.controller("QuotesCtrl", QuotesCtrl)

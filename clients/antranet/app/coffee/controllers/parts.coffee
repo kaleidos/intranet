@@ -1,4 +1,7 @@
-@PartsCtrl = ($scope, $rootScope, rs) ->
+module = angular.module("antranet.controllers.parts", [])
+
+
+PartsCtrl = ($scope, $rootScope, rs) ->
     $scope.currentPage = 1
 
     $rootScope.selectedMenu = "parts"
@@ -35,10 +38,10 @@
 
     loadParts()
 
-@PartsCtrl.$inject = ['$scope', '$rootScope', 'resource']
+PartsCtrl.$inject = ['$scope', '$rootScope', 'resource']
 
 
-@PartCtrl = ($scope, $rootScope, $routeParams, $location, rs, storage) ->
+PartCtrl = ($scope, $rootScope, $routeParams, $location, rs, storage) ->
     $rootScope.selectedMenu = "parts"
     $scope.imputations = {}
     $scope.holidays = {}
@@ -180,4 +183,8 @@
 
     loadProjects()
 
-@PartCtrl.$inject = ['$scope', '$rootScope', '$routeParams', '$location', 'resource', 'storage']
+PartCtrl.$inject = ['$scope', '$rootScope', '$routeParams', '$location', 'resource', 'storage']
+
+
+module.controller("PartsCtrl", PartsCtrl)
+module.controller("PartCtrl", PartCtrl)

@@ -1,4 +1,7 @@
-@HolidaysCtrl = ($scope, $rootScope, rs, $model) ->
+module = angular.module("antranet.controllers.holidays", [])
+
+
+HolidaysCtrl = ($scope, $rootScope, rs, $model) ->
     $rootScope.selectedMenu = "holidays"
     $scope.dateOptions = {
         changeYear: true
@@ -70,4 +73,7 @@
 
     _getHolidaysYears()
 
-@HolidaysCtrl.$inject = ["$scope", "$rootScope", "resource", "$model"]
+HolidaysCtrl.$inject = ["$scope", "$rootScope", "resource", "$model"]
+
+module.controller("HolidaysCtrl", HolidaysCtrl)
+

@@ -1,4 +1,4 @@
-<div id="part-list-block">
+<div id="part-list-block" ng-controller="PartsCtrl as ctrl">
     <table id="part-list" cellspacing="0" summary="Part list">
         <tbody>
             <tr>
@@ -12,7 +12,7 @@
                 <td class="alt">{{ part.month }}.{{ part.year }}</td>
                 <td class="alt">{{ part.state_name }}</td>
                 <td class="alt">
-                    <a class="view" href="#/parts/{{part.id}}">View</a>
+                    <a class="view" href="/parts/{{part.id}}">View</a>
                     <a ng-show="part.state == 0 || part.state == 30" ng-click="sendPart(part)" class="send-part send link">Send</a>
                 </td>
             </tr>
