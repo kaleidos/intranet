@@ -1,4 +1,4 @@
-@antranet = {} if not @antranet
+@.antranet = {} if not @.antranet
 
 configCallback = ($routeProvider, $locationProvider, $httpProvider, $provide) ->
     $routeProvider.when("/login", {templateUrl: "/partials/login.html"})
@@ -46,8 +46,9 @@ init = ($rootScope, $location, storage) ->
 modules = [
     "ngRoute"
     "ngSanitize"
-    "antranet.controllers.core"
+    "antranet.controllers.auth"
     "antranet.controllers.holidays"
+    "antranet.controllers.home"
     "antranet.controllers.parts"
     "antranet.controllers.preferences"
     "antranet.controllers.quotes"

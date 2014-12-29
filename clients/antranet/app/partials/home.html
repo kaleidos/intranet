@@ -1,10 +1,10 @@
 <div id="main-block" ng-controller="HomeCtrl as ctrl">
     <h1>Welcome to kaleidos intranet!</h1>
 
-    <div class="quote" ng-show="quoteMsg">
+    <div class="quote" ng-show="quote.msg">
         <pre>  /--------------------------------------------\</pre>
-        <p class="quote-msg">{{ quoteMsg }}</p>
-        <p class="quote-auth">{{ quoteAuth }}</p>
+        <p class="quote-msg">{{ quote.msg }}</p>
+        <p class="quote-auth">{{ quote.auth }}</p>
         <pre>  \--------------------------------------------/
       \     .,,.
        \ ,;;*;;;;,
@@ -27,7 +27,7 @@
         </pre>
     </div>
 
-    <div class="no-quote" ng-hide="quoteMsg">
+    <div class="no-quote" ng-hide="quote.msg">
         <pre>
             .,,.
          ,;;*;;;;,

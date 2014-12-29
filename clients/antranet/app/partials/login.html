@@ -1,33 +1,40 @@
 <div id="login-block" ng-controller="LoginCtrl as ctrl">
     <div class="login">
         <flash-messages></flash-messages>
-        <form ng-show="status == 'login'">
+
+        <form ng-show="status == 'login'" ng-submit="ctrl.login()">
             <div class="field">
                 <label for="username">Username</label>
-                <input type="text" name="username" placeholder="username" id="username" ng-model="username" autofocus autofill>
+                <input type="text" name="username" id="username" ng-model="username"
+                       placeholder="username" autofocus autofill>
             </div>
             <div class="field">
                 <label for="password">Password</label>
-                <input type="password" name="password" placeholder="password" id="password" ng-model="password" autofill>
+                <input type="password" name="password" id="password" ng-model="password"
+                       placeholder="password" autofill>
             </div>
             <div class="field">
-                <input type="submit" value="login" ng-click="login()">
+                <input type="submit" value="login" ng-click="ctrl.login()">
             </div>
         </form>
-        <form ng-show="status == 'recoverPassword'">
+
+        <form ng-show="status == 'recoverPassword'" ng-submit="ctrl.recoverPassword()">
             <div class="field">
                 <label for="username">Username</label>
-                <input type="text" name="username" placeholder="username" id="username" ng-model="username">
+                <input type="text" name="username" id="username" ng-model="username"
+                       placeholder="username">
             </div>
             <div class="field">
-                <input type="submit" value="recover" ng-click="recoverPassword()">
+                <input type="submit" value="recover" ng-click="ctrl.recoverPassword()">
             </div>
         </form>
+
         <div class="login-recover-link" ng-show="status == 'login'">
-            <a ng-click="status = 'recoverPassword'" class="link">Recover password</a>
+            <a class="link" ng-click="status = 'recoverPassword'">Recover password</a>
         </div>
+
         <div class="login-recover-link" ng-show="status == 'recoverPassword' || status == 'recoveredPassword'">
-            <a ng-click="status = 'login'" class="link">Login</a>
+            <a class="link" ng-click="status = 'login'">Login</a>
         </div>
     </div>
 </div>

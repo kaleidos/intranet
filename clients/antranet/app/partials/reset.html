@@ -1,17 +1,20 @@
 <div id="login-block" ng-controller="ResetCtrl as ctrl">
     <div class="login">
         <flash-messages></flash-messages>
-        <form>
+
+        <form ng-submit="ctrl.changePassword()">
             <div class="field">
                 <label for="password1">Password</label>
-                <input type="password" id="password1" ng-model="password1" />
+                <input type="password" name="password1" id="password1" ng-model="password1"
+                       placeholder="Type the new password" />
             </div>
             <div class="field">
                 <label for="password2">Repeat password</label>
-                <input type="password" id="password2" ng-model="password2" />
+                <input type="password" name="password2" id="password2" ng-model="password2"
+                       placeholder="Type the password again" />
             </div>
             <div class="field">
-                <input type="submit" value="reset password" ng-click="changePassword()">
+                <input type="submit" value="reset-password" ng-click="ctrl.changePassword()">
             </div>
         </form>
     </div>
